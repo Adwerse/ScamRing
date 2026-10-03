@@ -20,7 +20,7 @@ Every source below was opened and read in full (fetched 3 October 2026). Scripts
 | figure | period | source |
 |---|---|---|
 | Over 230 reports of rental and reservation scams, over 400,000 euro lost | 1 Jan to 31 Jul 2026 | [Garda press release, 25 Aug 2026](https://www.garda.ie/en/about-us/our-departments/office-of-corporate-communications/press-releases/2026/august/25-08-2026-an-garda-siochana-issues-student-fraud-warning-ahead-of-cao-offers-25th-august-2026.html) |
-| 399 accommodation fraud reports in 2025, up 14% on 2024 | 2025 | [Irish Examiner, quoting Det Insp Alan Govern (GNECB)](https://www.irishexaminer.com/news/arid-41901439.html) |
+| 399 accommodation fraud reports in 2025, up 14% on 2024 | 2025 | [Irish Examiner, quoting a Garda detective inspector (GNECB)](https://www.irishexaminer.com/news/arid-41901439.html) |
 | Losses rose from about 550,000 euro (2023) to 680,000 euro (2025) | 2023 to 2025 | [Irish Examiner (GNECB)](https://www.irishexaminer.com/news/arid-41901439.html) |
 | 103 suspects identified; only 12% of reported incidents have a suspect | to Aug 2026 | [Irish Examiner (GNECB)](https://www.irishexaminer.com/news/arid-41901439.html) |
 | Around 160 cases in H1 2025 (up 22%), 385,000 euro lost | Jan to Jun 2025 | [Garda press release, 24 Aug 2025](https://www.garda.ie/en/about-us/our-departments/office-of-corporate-communications/press-releases/2025/august/an-garda-siochana-student-accommodation-fraud-warning-august-2025.html) |

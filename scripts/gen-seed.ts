@@ -14,6 +14,7 @@ import { getClient, getDb } from '../lib/db';
 import type { RentBaseline, ReportStatus, Source } from '../lib/types';
 
 const OUTPUT_FILE = 'seed/listings.json';
+const RENTS_COLLECTION = 'rent_baseline';
 const PATTERNS_FILE = 'seed/patterns.json';
 const RANDOM_SEED = 20261003;
 const LEGIT_COUNT = 150;
@@ -167,9 +168,9 @@ function price(area: Area, kind: 'room' | 'whole', bedrooms: number | null, rang
 }
 
 async function loadAreas(): Promise<Area[]> {
-  const db = await getDb();
-  const rows = await db
-    .collection<RentBaseline>('rent_baseline')
+  const database = await getDb();
+  const rows = await database
+    .collection<RentBaseline>(RENTS_COLLECTION)
     .find({ propertyType: ALL_TYPES, location: /Dublin/, bedrooms: { $in: Object.values(BEDROOM_BANDS) } })
     .toArray();
   const byLocation = new Map<string, Record<number, number>>();
@@ -180,8 +181,8 @@ async function loadAreas(): Promise<Area[]> {
   const areas = [...byLocation]
     .filter(([, rents]) => rents[1] && rents[2] && rents[3])
     .map(([location, rents]) => ({ location, rents }))
-    .sort((a, b) => a.location.localeCompare(b.location));
-  if (areas.length === 0) throw new Error(`No Dublin rents with 1, 2 and 3 bed averages in ${db.databaseName}. Run load-rents first.`);
+    .sort((left, right) => left.location.localeCompare(right.location));
+  if (areas.length === 0) throw new Error(`No Dublin rents with 1, 2 and 3 bed averages in ${database.databaseName}. Run load-rents first.`);
   return areas;
 }
 

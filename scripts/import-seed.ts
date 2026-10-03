@@ -14,6 +14,7 @@ import type { Verdict } from '../lib/types';
 import type { SeedListing } from './gen-seed';
 
 const SHARED_DB = 'scamring';
+const SHARED_FLAG = '--shared';
 const LISTINGS_FILE = 'seed/listings.json';
 const PHOTOS_DIRECTORY = 'seed/photos';
 const PHOTOS_MODULE = '../lib/photos';
@@ -24,8 +25,8 @@ const LEGIT = 'legit';
 
 function refuseSharedWithoutFlag(): void {
   const database = process.env.DB_NAME || SHARED_DB;
-  if (database === SHARED_DB && !process.argv.includes('--shared')) {
-    console.error(`Refusing to reset the shared database "${SHARED_DB}". Post RESETTING SHARED DB in 2 min, then re-run with --shared.`);
+  if (database === SHARED_DB && !process.argv.includes(SHARED_FLAG)) {
+    console.error(`Refusing to reset the shared database "${SHARED_DB}". Post RESETTING SHARED DB in 2 min, then re-run with ${SHARED_FLAG}.`);
     process.exit(1);
   }
 }
@@ -100,7 +101,7 @@ async function printCalibration(byId: Map<string, SeedListing>): Promise<void> {
     row[level] += 1;
     counts.set(group, row);
   }
-  console.table([...counts].sort(([a], [b]) => a.localeCompare(b)).map(([group, row]) => ({ group, ...row })));
+  console.table([...counts].sort(([left], [right]) => left.localeCompare(right)).map(([group, row]) => ({ group, ...row })));
   const legit = counts.get(LEGIT);
   if (legit) {
     const total = LEVELS.reduce((sum, level) => sum + legit[level], 0);
@@ -117,13 +118,13 @@ async function printCalibration(byId: Map<string, SeedListing>): Promise<void> {
 async function main(): Promise<void> {
   refuseSharedWithoutFlag();
   const listings = JSON.parse(await readFile(LISTINGS_FILE, 'utf8')) as SeedListing[];
-  const db = await getDb();
-  for (const name of RESET_COLLECTIONS) await db.collection(name).deleteMany({});
-  console.log(`Reset ${RESET_COLLECTIONS.join(', ')} in ${db.databaseName}`);
+  const database = await getDb();
+  for (const name of RESET_COLLECTIONS) await database.collection(name).deleteMany({});
+  console.log(`Reset ${RESET_COLLECTIONS.join(', ')} in ${database.databaseName}`);
   const byId = await importListings(listings);
   const ringsOk = await printRingCheck(byId);
   await printCalibration(byId);
-  console.log(`Imported ${byId.size} listings into ${db.databaseName}${ringsOk ? '' : ' (ring check not passed)'}`);
+  console.log(`Imported ${byId.size} listings into ${database.databaseName}${ringsOk ? '' : ' (ring check not passed)'}`);
   await (await getClient()).close();
 }
 

@@ -11,14 +11,16 @@ import { getClient, getDb } from '../lib/db';
 import type { ScamPattern } from '../lib/types';
 
 const SHARED_DB = 'scamring';
+const SHARED_FLAG = '--shared';
+const COLLECTION = 'scam_patterns';
 const PATTERNS_FILE = 'seed/patterns.json';
 
 type SeedPattern = Omit<ScamPattern, '_id'> & { keywords: string[] };
 
 function refuseSharedWithoutFlag(): void {
   const database = process.env.DB_NAME || SHARED_DB;
-  if (database === SHARED_DB && !process.argv.includes('--shared')) {
-    console.error(`Refusing to write scam_patterns in the shared database "${SHARED_DB}". Re-run with --shared.`);
+  if (database === SHARED_DB && !process.argv.includes(SHARED_FLAG)) {
+    console.error(`Refusing to write ${COLLECTION} in the shared database "${SHARED_DB}". Re-run with ${SHARED_FLAG}.`);
     process.exit(1);
   }
 }
@@ -26,8 +28,8 @@ function refuseSharedWithoutFlag(): void {
 async function main(): Promise<void> {
   refuseSharedWithoutFlag();
   const patterns = JSON.parse(await readFile(PATTERNS_FILE, 'utf8')) as SeedPattern[];
-  const db = await getDb();
-  const result = await db.collection<ScamPattern>('scam_patterns').bulkWrite(
+  const database = await getDb();
+  const result = await database.collection<ScamPattern>(COLLECTION).bulkWrite(
     patterns.map(({ keywords, ...pattern }) => {
       void keywords;
       return { updateOne: { filter: { code: pattern.code }, update: { $set: pattern }, upsert: true } };
@@ -35,7 +37,7 @@ async function main(): Promise<void> {
   );
   console.table(patterns.map(({ code, category, title }) => ({ code, category, title })));
   console.log(
-    `${patterns.length} patterns into ${db.databaseName}.scam_patterns (${result.upsertedCount} inserted, ${result.modifiedCount} updated)`,
+    `${patterns.length} patterns into ${database.databaseName}.${COLLECTION} (${result.upsertedCount} inserted, ${result.modifiedCount} updated)`,
   );
   await (await getClient()).close();
 }

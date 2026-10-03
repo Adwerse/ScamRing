@@ -11,6 +11,8 @@ import { getClient, getDb } from '../lib/db';
 import type { RentBaseline } from '../lib/types';
 
 const SHARED_DB = 'scamring';
+const SHARED_FLAG = '--shared';
+const COLLECTION = 'rent_baseline';
 const TABLE = 'RIQ02';
 const API = 'https://ws.cso.ie/public/api.jsonrpc';
 const METADATA_URL = `https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadMetadata/${TABLE}/JSON-stat/2.0/en`;
@@ -33,8 +35,8 @@ type Metadata = {
 
 function refuseSharedWithoutFlag(): void {
   const database = process.env.DB_NAME || SHARED_DB;
-  if (database === SHARED_DB && !process.argv.includes('--shared')) {
-    console.error(`Refusing to wipe rent_baseline in the shared database "${SHARED_DB}". Re-run with --shared.`);
+  if (database === SHARED_DB && !process.argv.includes(SHARED_FLAG)) {
+    console.error(`Refusing to wipe ${COLLECTION} in the shared database "${SHARED_DB}". Re-run with ${SHARED_FLAG}.`);
     process.exit(1);
   }
 }
@@ -103,7 +105,8 @@ function printAreaMap(rows: RentBaseline[]): void {
     districts.set(district, [...(districts.get(district) ?? []), row.avgRent]);
   }
   const sorted = [...districts].sort(
-    ([a], [b]) => Number(a.replace(/\D/g, '')) - Number(b.replace(/\D/g, '')) || a.localeCompare(b),
+    ([left], [right]) =>
+      Number(left.replace(/\D/g, '')) - Number(right.replace(/\D/g, '')) || left.localeCompare(right),
   );
   console.table(
     sorted.map(([district, rents]) => ({
@@ -118,12 +121,12 @@ function printAreaMap(rows: RentBaseline[]): void {
 async function main(): Promise<void> {
   refuseSharedWithoutFlag();
   const { rows, source } = await loadRents();
-  const db = await getDb();
-  const collection = db.collection<RentBaseline>('rent_baseline');
+  const database = await getDb();
+  const collection = database.collection<RentBaseline>(COLLECTION);
   await collection.deleteMany({});
   await collection.insertMany(rows.map((row) => ({ ...row })));
   printAreaMap(rows);
-  console.log(`Inserted ${rows.length} rows for ${rows[0].quarter} from ${source} into ${db.databaseName}.rent_baseline`);
+  console.log(`Inserted ${rows.length} rows for ${rows[0].quarter} from ${source} into ${database.databaseName}.${COLLECTION}`);
   await (await getClient()).close();
 }
 
