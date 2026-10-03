@@ -2,7 +2,7 @@ import { MongoClient, type Db } from 'mongodb';
 
 const g = globalThis as unknown as { _mongoClient?: Promise<MongoClient> };
 
-export function getClient(): Promise<MongoClient> {
+export async function getClient(): Promise<MongoClient> {
   if (!g._mongoClient) {
     const uri = process.env.MONGODB_URI;
     if (!uri) throw new Error('MONGODB_URI is not set');
@@ -11,6 +11,10 @@ export function getClient(): Promise<MongoClient> {
   return g._mongoClient;
 }
 
+export function getDbName(): string {
+  return process.env.DB_NAME || 'scamring';
+}
+
 export async function getDb(): Promise<Db> {
-  return (await getClient()).db(process.env.DB_NAME || 'scamring');
+  return (await getClient()).db(getDbName());
 }

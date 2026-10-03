@@ -123,12 +123,31 @@ Raw phone numbers, emails, payment handles and IBANs are **never stored**, logge
 | --- | --- |
 | `reports` | `Report`: one per checked or seeded listing |
 | `photos` | `Photo`: perceptual hash (`dhash`) + LSH bands `b0..b3` per photo, `clusterId` for near-duplicates |
+| `photos_blob` | Image bytes for photos, kept apart from `photos` so hash documents stay small |
 | `scam_patterns` | `ScamPattern`: known scam scripts, matched against listing text |
 | `rent_baseline` | `RentBaseline`: average rents per location / bedrooms / property type / quarter |
 | `checks` | `Check`: which session checked which report |
 | `alerts` | `Alert`: live alerts for sessions that checked a linked listing |
 | `moderation_events` | `ModerationEvent`: audit log of moderator actions |
 | `meta` | Key/value bookkeeping (e.g. worker resume tokens, seed version) |
+
+### Indexes (created by `npm run setup-db`, idempotent, on the database named by `DB_NAME`)
+
+- `reports`: `{ identifiers: 1 }` (`identifiers_1`, multikey), `{ status: 1, createdAt: -1 }`, `{ area: 1, kind: 1, bedrooms: 1 }`, TTL `{ expiresAt: 1 }` (`expireAfterSeconds: 0`)
+- `photos`: `{ b0: 1 }`, `{ b1: 1 }`, `{ b2: 1 }`, `{ b3: 1 }`, `{ clusterId: 1 }`, `{ reportId: 1 }`
+- `checks`: `{ reportId: 1 }`, `{ sessionId: 1 }`
+- `alerts`: `{ sessionId: 1, createdAt: -1 }`
+- `rent_baseline`: `{ location: 1, bedrooms: 1, propertyType: 1, quarter: -1 }`
+- `moderation_events`: `{ reportId: 1, at: -1 }`
+
+Vector search indexes (Automated Embedding, model `voyage-4`) exist **only in the shared database `scamring`**; sandboxes skip them. M0 allows 3 search indexes in total, so these are the only two:
+
+| Index | Collection | Fields |
+| --- | --- | --- |
+| `reports_text_vec` | `reports` | `autoEmbed` on `text`; filter on `status` |
+| `patterns_vec` | `scam_patterns` | `autoEmbed` on `text`; filter on `category` |
+
+Definitions live in [scripts/setup-db.ts](scripts/setup-db.ts). Query them only through `vectorSearchStage` (see below).
 
 ## API
 
@@ -183,6 +202,12 @@ export type IngestInput = {
   seed?: boolean; seedRing?: string; status?: ReportStatus;
 };
 export async function ingestReport(input: IngestInput): Promise<Report>;
+
+// lib/vector.ts
+export type VectorSearchOptions = {
+  index: string; path: string; text: string; limit: number; filter?: Document;
+};
+export function vectorSearchStage(opts: VectorSearchOptions): Document; // a $vectorSearch stage
 
 // lib/signals/{ringLink,photoReuse,textClone,scriptMatch,priceLow}.ts
 // each file exports one function named after the file:

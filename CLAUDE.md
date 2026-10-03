@@ -24,3 +24,4 @@ ScamRing is a hackathon project (MongoDB Builder Day Dublin, ~4h of coding).
 - Each signal catches its own errors and returns null.
 - DB_NAME selects the database.
 - Scripts that delete data must refuse DB_NAME=scamring unless run with --shared.
+- Vector search always goes through lib/vector.ts.
