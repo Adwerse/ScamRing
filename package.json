@@ -12,7 +12,8 @@
     "load-rents": "tsx scripts/load-rents.ts",
     "gen-seed": "tsx scripts/gen-seed.ts",
     "import-seed": "tsx scripts/import-seed.ts",
-    "dev:all": "concurrently \"npm:dev\" \"npm:worker\""
+    "dev:all": "concurrently \"npm:dev\" \"npm:worker\"",
+    "test": "tsx --test tests/*.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",

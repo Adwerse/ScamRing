@@ -115,7 +115,7 @@ interface ModerationEvent {
 - `phone:<hmac>`, `email:<hmac>`, `pay:<hmac>`, `iban:<hmac>`: `value` is the HMAC-SHA256 hex of the normalised raw value, keyed with `IDENTIFIER_SECRET`.
 - `img:<clusterId>`: the id of a photo cluster (near-duplicate images).
 
-Raw phone numbers, emails, payment handles and IBANs are **never stored**, logged or returned by any API. `identifierHints` carries only a masked, human-readable hint (e.g. `+353 ** *** 4821`).
+Raw phone numbers, emails, payment handles and IBANs are **never stored**, logged or returned by any API. This includes `Report.text`: `ingestReport` replaces them there with `[phone]`, `[email]`, `[pay]` and `[iban]`. `identifierHints` carries only a masked, human-readable hint (e.g. `+353 ** *** 4821`).
 
 ## Collections (database `scamring`)
 
@@ -216,6 +216,32 @@ export async function <fileName>(report: Report): Promise<Signal | null>;
 // lib/signals/index.ts
 export const signals = [ringLink, photoReuse, textClone, scriptMatch, priceLow];
 ```
+
+### Implemented libraries (additive, not part of the frozen set)
+
+```ts
+// lib/identifiers.ts: phones (Irish 08x, UK 07, +/00 international), emails, Revolut handles, IBANs
+export function extractIdentifiers(text: string):
+  { identifiers: string[]; hints: IdentifierHint[]; redactedText: string };
+// identifiers: 'kind:<hmac-sha256 hex>' (key IDENTIFIER_SECRET); hint = last 2 chars of the normalised value
+
+// lib/dhash.ts
+export async function dhash(buffer: Buffer): Promise<string>;               // 16 hex chars (64 bits)
+export function bands(hex: string): [string, string, string, string];
+export function hamming(a: string, b: string): number;
+
+// lib/photos.ts
+export const PHOTO_THRESHOLD = 10;                                            // max Hamming distance to join a cluster
+export async function clusterPhoto(buffer: Buffer, reportId: ObjectId):
+  Promise<{ photoId: ObjectId; clusterId: string; matchedDistance: number | null }>;
+```
+
+Behaviour worth knowing:
+
+- `ingestReport` inserts the report once, complete (identifiers include `img:<clusterId>` per photo, `identifierHints` include one `img` hint per cluster: `/api/photos/<photoId>/thumb`). Reports that are not seed and are `pending` get `expiresAt = now + 30 days`.
+- `photos_blob` documents: `{ _id: <photoId>, reportId, contentType: 'image/jpeg', data: BinData }`, JPEG 640 px wide, at most 300 KB.
+- `getRing` hops: `0` is the report itself, `1` shares an identifier with it, `2` shares one with a hop-1 report, and so on. The `$graphLookup` uses `maxDepth: 2`, so hops reach 3. Rejected reports are excluded, members are capped at 60.
+- `npm test` runs `tests/*.test.ts`. Tests that write to the database refuse `DB_NAME=scamring`.
 
 ### Rule
 
