@@ -2,8 +2,8 @@
 // Resets the report data and imports seed/listings.json through A's ingestReport, then prints
 // the ring check (getRing compared with the exact expected members) and the verdict calibration table.
 // Usage: npx tsx scripts/import-seed.ts [--shared] [--no-verdicts]
-// --no-verdicts skips computeVerdict, which on the shared database makes two embedding calls per
-// listing (textClone and scriptMatch vector search) and runs into the embedding rate limit.
+// --no-verdicts skips computeVerdict, which on the shared database makes an embedding call per
+// listing (scriptMatch's vector search) and can run into the embedding rate limit.
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 

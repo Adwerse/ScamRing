@@ -35,7 +35,7 @@ export async function GET() {
       const storedIds = returnedIds.filter(id => /^[a-f\d]{24}$/i.test(id));
       const { ObjectId } = await import('mongodb');
       const storedCount = storedIds.length ? await db.collection('reports').countDocuments({ _id: { $in: storedIds.map(id => new ObjectId(id)) } }, { maxTimeMS: 3000 }) : 0;
-      // The stub returns unrelated fixture ids. Do not present them as live proof.
+      // Only present the traversal as live proof when every returned report is in this database.
       if (storedCount !== returnedIds.length) ringPending = true;
       else ring = { reports: result.members.length, sharedIdentifiers: result.sharedIdentifiers.length, confirmed: result.members.filter(member => member.status === 'confirmed_scam').length, maxHops: Math.max(0, ...result.members.map(member => member.hops)) };
       if (Array.isArray(sample.identifiers) && sample.identifiers.length) {

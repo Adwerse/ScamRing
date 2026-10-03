@@ -78,7 +78,7 @@ export default function Page() {
       if (response.status === 401) setNotice({ text: 'That PIN is not correct.', error: true });
       else if (!response.ok) setNotice({ text: `The action failed (${body.error ?? response.status}).`, error: true });
       else {
-        const alerts = body.alerts === undefined ? '' : ` ${body.alerts} ${body.alerts === 1 ? 'alert was' : 'alerts were'} alerted.`;
+        const alerts = body.alerts === undefined ? '' : ` ${body.alerts} ${body.alerts === 1 ? 'alert was' : 'alerts were'} sent.`;
         setNotice({ text: `${DONE[action]}: ${report.area}.${alerts}`, error: false });
         await load();
       }
