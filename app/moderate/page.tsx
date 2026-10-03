@@ -80,8 +80,8 @@ export default function Page() {
       <section className="panel" aria-labelledby="queue-title">
         <div className="section-heading">
           <h2 id="queue-title">Pending reports</h2>
-          <label>
-            <span className="muted">Moderator PIN </span>
+          <label className="pin-field">
+            <span className="muted">Moderator PIN</span>
             <input id="moderator-pin" type="password" inputMode="numeric" autoComplete="off" value={pin} onChange={(event) => setPin(event.target.value)} />
           </label>
         </div>
@@ -101,7 +101,7 @@ export default function Page() {
                   {report.seed && <span className="chip">Demo data</span>}
                 </div>
                 <p className="muted">{report.text.length > 180 ? `${report.text.slice(0, 180)}…` : report.text}</p>
-                <div className="submit-row">
+                <div className="moderation-actions">
                   {ACTIONS.map(({ action, label, style }) => (
                     <button key={action} type="button" className={style} disabled={busy !== null || !pin} onClick={() => act(report, action)}>{label}</button>
                   ))}
@@ -111,6 +111,11 @@ export default function Page() {
           </ul>
         )}
       </section>
+      <style jsx>{`
+        .pin-field { display: inline-flex; align-items: center; gap: 10px; }
+        .pin-field input { width: 120px; padding: 8px 10px; border: 1px solid var(--control-border); border-radius: 6px; font: inherit; }
+        .moderation-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+      `}</style>
     </>
   );
 }

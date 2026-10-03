@@ -4,6 +4,8 @@ ScamRing helps students check suspicious rental listings against linked reports.
 
 Built for MongoDB Builder Day Dublin. One Next.js app and one worker use MongoDB Atlas as the database, search engine and event bus.
 
+![The ScamRing check page: paste a listing or try one of three demo listings.](docs/screenshots/home.png)
+
 ## Why this matters
 
 An Garda Síochána reported over 230 rental and reservation scam reports and losses above €400,000 from January through July 2026. Its warning identifies August to October as a seasonal peak for student accommodation fraud. [Garda warning, 25 August 2026](https://www.garda.ie/en/about-us/our-departments/office-of-corporate-communications/press-releases/2026/august/25-08-2026-an-garda-siochana-issues-student-fraud-warning-ahead-of-cao-offers-25th-august-2026.html).
@@ -26,6 +28,14 @@ A listing may look ordinary on its own. Shared contact identifiers, reused photo
 | Release scripts | Calibration targets and real HTTP smoke checks | Shared calibration and smoke still pending |
 
 The 24 repository tests, build, TypeScript and Lane D lint checks passed in the last verification. The full two-browser MEDIUM-to-HIGH demo is an acceptance gate, not a completed claim.
+
+## App screenshots
+
+| A verdict with its evidence | The ring behind it |
+| --- | --- |
+| ![A HIGH verdict with its warning signals.](docs/screenshots/verdict.png) | ![Reports connected through shared contacts and photos.](docs/screenshots/ring-graph.png) |
+
+![A moderator confirms a scam and a student receives a linked-listing alert.](docs/screenshots/moderation-alert.png)
 
 ## Signals and scoring
 
