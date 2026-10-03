@@ -1,0 +1,207 @@
+{
+  "license": "https://unsplash.com/license",
+  "selectedOn": "2026-10-03",
+  "note": "Fixed free Unsplash interior images from living room, bedroom, kitchen, dining room, bathroom and apartment galleries; excludes Unsplash+. Direct image CDN URLs avoid failures at the website download endpoint. Preserve file order for seed references.",
+  "photos": [
+    {
+      "file": "p01.jpg",
+      "page": "https://unsplash.com/photos/IH7wPsjwomc",
+      "download": "https://images.unsplash.com/photo-1618220179428-22790b461013?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p02.jpg",
+      "page": "https://unsplash.com/photos/zGKRmwzplVc",
+      "download": "https://images.unsplash.com/photo-1657524398377-567034729507?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p03.jpg",
+      "page": "https://unsplash.com/photos/aYjdg6wZrOU",
+      "download": "https://images.unsplash.com/photo-1723750290151-164cb19ebab7?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p04.jpg",
+      "page": "https://unsplash.com/photos/umAXneH4GhA",
+      "download": "https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p05.jpg",
+      "page": "https://unsplash.com/photos/rEJxpBskj3Q",
+      "download": "https://images.unsplash.com/photo-1564078516393-cf04bd966897?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p06.jpg",
+      "page": "https://unsplash.com/photos/urH155LONWs",
+      "download": "https://images.unsplash.com/photo-1745794621090-d856c53b0cc2?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p07.jpg",
+      "page": "https://unsplash.com/photos/9M66C_w_ToM",
+      "download": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p08.jpg",
+      "page": "https://unsplash.com/photos/b6kAwr1i0Iw",
+      "download": "https://images.unsplash.com/photo-1611596188718-840151555242?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p09.jpg",
+      "page": "https://unsplash.com/photos/wMzpa3WsDkI",
+      "download": "https://images.unsplash.com/photo-1656403002413-2ac6137237d6?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p10.jpg",
+      "page": "https://unsplash.com/photos/fE3kcMhB1oc",
+      "download": "https://images.unsplash.com/photo-1658280024253-34cafdfbb002?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p11.jpg",
+      "page": "https://unsplash.com/photos/qnSTxcs0EEs",
+      "download": "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p12.jpg",
+      "page": "https://unsplash.com/photos/HaU6PimvBQw",
+      "download": "https://images.unsplash.com/photo-1622653533660-a1538fe8424c?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p13.jpg",
+      "page": "https://unsplash.com/photos/O0vzxGRmjNs",
+      "download": "https://images.unsplash.com/photo-1593136596203-7212b076f4d2?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p14.jpg",
+      "page": "https://unsplash.com/photos/OPTtVaI8H2Q",
+      "download": "https://images.unsplash.com/photo-1629236714902-e1926e8ab314?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p15.jpg",
+      "page": "https://unsplash.com/photos/NTaF5rBmlyE",
+      "download": "https://images.unsplash.com/photo-1600494448850-6013c64ba722?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p16.jpg",
+      "page": "https://unsplash.com/photos/RUvW1KGD9a4",
+      "download": "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p17.jpg",
+      "page": "https://unsplash.com/photos/hCU4fimRW-c",
+      "download": "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p18.jpg",
+      "page": "https://unsplash.com/photos/yA_A_JkYh8w",
+      "download": "https://images.unsplash.com/photo-1713184355726-d3a31d822fcc?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p19.jpg",
+      "page": "https://unsplash.com/photos/XMXuiLoZlFY",
+      "download": "https://images.unsplash.com/photo-1634389312178-50613e56acda?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p20.jpg",
+      "page": "https://unsplash.com/photos/p3UWyaujtQo",
+      "download": "https://images.unsplash.com/photo-1629140727571-9b5c6f6267b4?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p21.jpg",
+      "page": "https://unsplash.com/photos/pl3sj3DigxM",
+      "download": "https://images.unsplash.com/photo-1601276174812-63280a55656e?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p22.jpg",
+      "page": "https://unsplash.com/photos/DE9MM2voqKc",
+      "download": "https://images.unsplash.com/photo-1552858725-2758b5fb1286?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p23.jpg",
+      "page": "https://unsplash.com/photos/jm7HYtcW2VM",
+      "download": "https://images.unsplash.com/photo-1631048499453-b1342a519efc?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p24.jpg",
+      "page": "https://unsplash.com/photos/mLx6oMw32PI",
+      "download": "https://images.unsplash.com/photo-1661107259637-4e1c55462428?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p25.jpg",
+      "page": "https://unsplash.com/photos/1AF5hP6F4tI",
+      "download": "https://images.unsplash.com/photo-1629079447777-1e605162dc8d?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p26.jpg",
+      "page": "https://unsplash.com/photos/ErDrzSvSNv4",
+      "download": "https://images.unsplash.com/photo-1696762932825-2737db830bbe?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p27.jpg",
+      "page": "https://unsplash.com/photos/U7PitHRnTNU",
+      "download": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p28.jpg",
+      "page": "https://unsplash.com/photos/EAri64dQlF4",
+      "download": "https://images.unsplash.com/photo-1616594092403-fb65629b0a46?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p29.jpg",
+      "page": "https://unsplash.com/photos/O7WjrXiKy_s",
+      "download": "https://images.unsplash.com/photo-1576698483491-8c43f0862543?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p30.jpg",
+      "page": "https://unsplash.com/photos/N03PjHWOEFA",
+      "download": "https://images.unsplash.com/photo-1733426107854-ee00a25d72a7?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p31.jpg",
+      "page": "https://unsplash.com/photos/vTj_dmFGB1Y",
+      "download": "https://images.unsplash.com/photo-1643949719317-4342d8d4031e?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p32.jpg",
+      "page": "https://unsplash.com/photos/VgyN_CWXQVM",
+      "download": "https://images.unsplash.com/photo-1617228069096-4638a7ffc906?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p33.jpg",
+      "page": "https://unsplash.com/photos/cc0Gg3BegjE",
+      "download": "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p34.jpg",
+      "page": "https://unsplash.com/photos/48mTwDzizqE",
+      "download": "https://images.unsplash.com/photo-1587527901949-ab0341697c1e?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p35.jpg",
+      "page": "https://unsplash.com/photos/530lZQXMKGw",
+      "download": "https://images.unsplash.com/photo-1595514535116-d0401260e7cf?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p36.jpg",
+      "page": "https://unsplash.com/photos/3hEGHI4b4gg",
+      "download": "https://images.unsplash.com/photo-1600684388091-627109f3cd60?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p37.jpg",
+      "page": "https://unsplash.com/photos/CX8ooha2yLA",
+      "download": "https://images.unsplash.com/photo-1556910096-6f5e72db6803?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p38.jpg",
+      "page": "https://unsplash.com/photos/ckdoA-tv9uw",
+      "download": "https://images.unsplash.com/photo-1696987007764-7f8b85dd3033?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p39.jpg",
+      "page": "https://unsplash.com/photos/1by_GbwEMwc",
+      "download": "https://images.unsplash.com/photo-1601760561441-16420502c7e0?w=1200&q=85&fm=jpg"
+    },
+    {
+      "file": "p40.jpg",
+      "page": "https://unsplash.com/photos/kSoe7EoxHIE",
+      "download": "https://images.unsplash.com/photo-1600488999585-e4364713b90a?w=1200&q=85&fm=jpg"
+    }
+  ]
+}

@@ -1,9 +1,13 @@
+import Link from 'next/link';
+import { ReportView } from '@/components/ReportView';
+
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   return (
     <>
-      <h1 className="text-2xl font-bold">Report</h1>
-      <p className="mt-2 font-mono text-sm text-neutral-500">{id}</p>
+      <Link className="back-link" href="/">← Check another listing</Link>
+      <div className="page-intro"><p className="eyebrow">Follow the evidence</p><h1>Your listing, connected.</h1><p>A report brings the warning signs and the shared trail together.</p></div>
+      <ReportView key={id} reportId={id} />
     </>
   );
 }

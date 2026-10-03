@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Nav } from "./nav";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { SiteHeader } from '@/components/SiteHeader';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: "ScamRing",
@@ -25,11 +15,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Nav />
-        <main className="mx-auto max-w-4xl p-6">{children}</main>
+      <body>
+        <a className="skip-link" href="#main-content">Skip to content</a>
+        <SiteHeader />
+        <main id="main-content" className="site-main">{children}</main>
+        {/* Lane D owns components/AlertToast.tsx. Mount its exported component here when delivered. */}
+        <footer className="site-footer"><div><Link href="/" className="brand">ScamRing<span className="brand-dot">.</span></Link><p>A little more evidence. A better next step.</p></div><div><p>Shared contact hints are masked. Your listing is submitted for analysis.</p><p>Rent data: CSO table RIQ02. <Link href="/under-the-hood">See how it works →</Link></p></div></footer>
       </body>
     </html>
   );
