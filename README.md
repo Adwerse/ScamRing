@@ -2,7 +2,7 @@
 
 **Before the deposit. Connect the dots.**
 
-ScamRing checks a rental listing against every scam students have already reported. Paste a post from Facebook, WhatsApp, Telegram or Daft, and it looks for reused photos, shared phone numbers, emails and payment handles, copied text, known scam scripts and prices far below market. You get a LOW, MEDIUM or HIGH verdict with the evidence behind it, and a graph of every listing it is connected to.
+ScamRing checks a rental listing against every scam students have already reported. Paste a post from Facebook, WhatsApp, Telegram or Daft. ScamRing looks for reused photos, shared phone numbers, emails and payment handles, copied text, known scam scripts, and prices far below market. You get a LOW, MEDIUM or HIGH verdict with the evidence behind it, and a graph of every listing it is connected to.
 
 Built in one day at MongoDB Builder Day Dublin, 3 October 2026, on MongoDB Atlas.
 
@@ -36,7 +36,7 @@ Built in one day at MongoDB Builder Day Dublin, 3 October 2026, on MongoDB Atlas
 
 ## The data
 
-Rents and scam scripts are real Irish sources. Contact details in the demo data are synthetic, so no real person's phone or email ends up in a scam ring.
+Rents and scam scripts come from real Irish sources. Contact details in the demo data are synthetic, so no real person's phone or email ends up in a scam ring.
 
 ![Data flow: each source, what we did to it, where it is stored, and what reads it.](seed/data-flow.png)
 
@@ -46,7 +46,7 @@ Rents and scam scripts are real Irish sources. Contact details in the demo data 
 
 ![Scam rings: ring A linked through phones, an email and reused photos; ring C linked to ring A through C4's phone; ring B sharing one Revolut handle.](seed/ring-network.png)
 
-Ring A shows photo reuse with confirmed scams (HIGH). Ring B shares only a Revolut handle and stays MEDIUM until a moderator confirms one listing live. Ring C links to ring A through a single shared phone. More detail in [`seed/README.md`](seed/README.md).
+Ring A combines reused photos with confirmed scams, so it scores HIGH. Ring B shares only a Revolut handle and stays MEDIUM until a moderator confirms one listing live. Ring C links to ring A through a single shared phone. More detail in [`seed/README.md`](seed/README.md).
 
 ## Run it
 
@@ -77,7 +77,7 @@ API contract: [`CONTRACT.md`](CONTRACT.md). Tests: `npm test`.
 
 - Raw phone numbers, emails, payment handles and IBANs are never stored, logged or returned. Only HMAC hashes and short masked hints are kept.
 - Sessions are anonymous: a random `sr_sid` cookie, no accounts.
-- Verdicts say "risk", never "scam": the summary is told to make no legal claims.
+- Verdicts say "risk", never "scam": the summary prompt rules out legal claims.
 - Demo data uses invented contacts; real scam reports often carry spoofed numbers that belong to innocent people.
 
 ## Team
