@@ -1,0 +1,178 @@
+[
+  {
+    "code": "owner_abroad_keys_by_post",
+    "category": "absent_landlord",
+    "title": "Landlord abroad, keys by courier",
+    "text": "Hello, thanks for your interest in my apartment. My husband and I moved back abroad for family reasons so I can't show it in person, but it's exactly like the pictures. Send the deposit and first month's rent and I'll have a courier deliver the keys to your home, shipping paid by me.",
+    "advice": "Never pay for a place you haven't viewed in person. A landlord who can't show it but will post the keys is the classic scam.",
+    "sourceUrl": "https://support.daft.ie/hc/en-ie/articles/360003988977-Safety-Online",
+    "keywords": [
+      "living abroad",
+      "out of the country",
+      "courier",
+      "send the keys",
+      "deliver the keys",
+      "cannot show",
+      "exactly like the pictures",
+      "deposit"
+    ]
+  },
+  {
+    "code": "mass_viewing_multiple_deposits",
+    "category": "mass_showing",
+    "title": "Mass viewing, first to pay wins",
+    "text": "I'm the one letting the room, come see it this evening. Loads of people are viewing today, so whoever pays the deposit first gets it. Transfer it tonight and I'll give you the keys and move-in date.",
+    "advice": "Don't pay a deposit at a crowded viewing. Check with the RTB or the Land Registry that the person letting it actually has the right to.",
+    "sourceUrl": "https://www.garda.ie/en/about-us/our-departments/office-of-corporate-communications/press-releases/2026/august/25-08-2026-an-garda-siochana-issues-student-fraud-warning-ahead-of-cao-offers-25th-august-2026.html",
+    "keywords": [
+      "first to pay",
+      "lots of interest",
+      "viewing today",
+      "pay the deposit tonight",
+      "keys on move-in",
+      "current tenant",
+      "holding deposit"
+    ]
+  },
+  {
+    "code": "pay_to_view_deposit",
+    "category": "advance_payment",
+    "title": "Deposit just to book a viewing",
+    "text": "Due to a high number of no-shows we ask for a small refundable deposit to book a viewing slot. Please enter your card details on the booking page to secure your time. You may get a call from your bank's security team to confirm it.",
+    "advice": "Real landlords don't charge to view. Never enter card details to book a viewing, and hang up on any 'bank' call that follows.",
+    "sourceUrl": "https://rte.ie/news/business/2026/0402/1566446-fraud-rental-text/",
+    "keywords": [
+      "deposit to view",
+      "secure a viewing",
+      "no-shows",
+      "viewing fee",
+      "refundable deposit",
+      "card details",
+      "call from your bank",
+      "authorise the payment"
+    ]
+  },
+  {
+    "code": "cloned_site_payment_link",
+    "category": "fake_agency",
+    "title": "Payment link on a copycat site",
+    "text": "Thanks for your email. To book your viewing please choose a date and time on this link and confirm your bank card with a 2 euro deposit, which is forfeited if you don't show. Revolut cards aren't accepted. Don't refresh or close the page while it processes.",
+    "advice": "Only pay through the real site you found the listing on. Check the web address carefully before entering card details.",
+    "sourceUrl": "https://www.limerickpost.ie/2026/02/12/limerick-td-warns-of-sophisticated-scam-targeting-limerick-renters",
+    "keywords": [
+      "follow this link",
+      "book your viewing",
+      "confirm your card",
+      "2 euro deposit",
+      "forfeited if you don't show",
+      "do not refresh",
+      "revolut not accepted"
+    ]
+  },
+  {
+    "code": "sob_story_whatsapp_only",
+    "category": "absent_landlord",
+    "title": "WhatsApp only, family emergency",
+    "text": "I'm hard of hearing so I can only talk on WhatsApp, sorry. I'm away helping my daughter who just had a baby, so I can't meet you, but here's a video of the apartment. If you send the deposit and first month's rent I'll have the contract signed by my solicitor.",
+    "advice": "Insist on a phone or video call and a viewing in person. A sad story plus 'WhatsApp only' is a common cover.",
+    "sourceUrl": "https://www.irishexaminer.com/news/spotlight/arid-41696012.html",
+    "keywords": [
+      "only whatsapp",
+      "can't talk on the phone",
+      "helping my daughter",
+      "can't meet",
+      "video of the apartment",
+      "solicitor",
+      "first month's rent",
+      "family emergency"
+    ]
+  },
+  {
+    "code": "id_documents_upfront",
+    "category": "identity_theft",
+    "title": "ID documents before any viewing",
+    "text": "Before we go any further please send me a copy of your passport or driving licence and tell me a bit about yourself. Once you transfer the deposit and a month's rent I'll arrange to send you the keys.",
+    "advice": "Don't send your passport or licence before you've viewed and agreed a lease. Scammers reuse them for fraud.",
+    "sourceUrl": "https://support.daft.ie/hc/en-ie/articles/360003988977-Safety-Online",
+    "keywords": [
+      "copy of your passport",
+      "photo id",
+      "driving licence",
+      "proof of identity",
+      "tell me about yourself",
+      "send you the keys",
+      "deposit and a month's rent"
+    ]
+  },
+  {
+    "code": "hijacked_listing_new_contact",
+    "category": "fake_agency",
+    "title": "Real listing, different contact details",
+    "text": "Yes the house on the listing is still available, but please contact me directly on this number rather than through the site. I can't do viewings at the moment, but I can send more photos, and once rent and deposit are paid I'll post the keys.",
+    "advice": "Contact the landlord only through the listing site. A request to move to a new number or email is a red flag.",
+    "sourceUrl": "https://bpfi.ie/students-warned-rental-accommodation-scams-ahead-leaving-cert-results/",
+    "keywords": [
+      "contact me directly",
+      "this number",
+      "not through the site",
+      "no viewings",
+      "send more photos",
+      "post the keys",
+      "rent and deposit"
+    ]
+  },
+  {
+    "code": "untraceable_payment_method",
+    "category": "advance_payment",
+    "title": "Untraceable payment requested",
+    "text": "I can't take card payments, please send the deposit by Revolut or crypto, or wire it to my account in another country. Cash is also fine if you prefer. Once it lands I'll confirm the room is yours.",
+    "advice": "Never pay rent or a deposit by crypto, gift cards, Western Union, cash or to a foreign account. Use a traceable bank transfer after you've viewed and signed.",
+    "sourceUrl": "https://www.garda.ie/en/about-us/our-departments/office-of-corporate-communications/press-releases/2025/august/an-garda-siochana-student-accommodation-fraud-warning-august-2025.html",
+    "keywords": [
+      "revolut",
+      "crypto",
+      "bitcoin",
+      "western union",
+      "wire transfer",
+      "foreign account",
+      "cash only",
+      "gift card"
+    ]
+  },
+  {
+    "code": "move_off_platform_discount",
+    "category": "too_good",
+    "title": "Discount to deal off the platform",
+    "text": "If you book with me directly instead of through the website I can give you a better price, as the site charges me fees. Just email me and I'll send my bank details for the deposit.",
+    "advice": "Stay on the platform. A discount for paying directly removes every protection you had.",
+    "sourceUrl": "https://www.travelextra.ie/dont-be-tempted-to-move-off-the-website-and-book-direct-increase-in-holiday-accommodation-fraud-noticed-by-bank/",
+    "keywords": [
+      "book directly",
+      "off the site",
+      "better price",
+      "avoid fees",
+      "discount",
+      "email me",
+      "bank details",
+      "outside the platform"
+    ]
+  },
+  {
+    "code": "urgency_deposit_before_lease",
+    "category": "advance_payment",
+    "title": "Pay today, lease later",
+    "text": "This is a one-time offer and I have lots of people asking, so I need the deposit and first month's rent today or it goes to the next person. No need for references, we can sort the lease out after you've paid.",
+    "advice": "Don't be rushed. Get a written lease and view the property before any money changes hands.",
+    "sourceUrl": "https://www.ccpc.ie/consumers/housing/rental-accommodation-scams/",
+    "keywords": [
+      "one-time offer",
+      "today or it goes",
+      "lots of people asking",
+      "no references needed",
+      "lease after payment",
+      "first month's rent",
+      "secure the room",
+      "act fast"
+    ]
+  }
+]
