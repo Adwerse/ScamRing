@@ -1,11 +1,18 @@
 // Owner: B
 // Returns a 'script_match' Signal when the listing text follows a known scam script.
-// Today: keyword fallback over seed/patterns.json (real scripts from Garda, CCPC, Daft and bank
-// warnings; sources in seed/patterns-sources.md). Atlas Vector Search on scam_patterns joins
-// once lane A's vector index lands; the keyword match stays as its fallback.
+// First Atlas Vector Search over scam_patterns (index patterns_vec, automated embedding), then a
+// keyword fallback over seed/patterns.json for sandboxes without the index or when the vector
+// match is weak. Scripts are real (Garda, CCPC, Daft and bank warnings; seed/patterns-sources.md).
 // Catches its own errors and returns null.
+import { getDb } from '@/lib/db';
 import patterns from '@/seed/patterns.json';
-import type { Report, Signal } from '@/lib/types';
+import type { Report, ScamPattern, Signal } from '@/lib/types';
+import { vectorSearchStage } from '@/lib/vector';
+
+/** Vector search score at or above which the listing counts as following a script. */
+export const SCRIPT_THRESHOLD = 0.88;
+/** Vector search score at which the match counts as strong. */
+export const SCRIPT_STRONG_THRESHOLD = 0.93;
 
 /** Distinct keywords of one pattern a listing must contain to count as a match. */
 export const SCRIPT_KEYWORD_MIN_HITS = 2;
@@ -22,7 +29,12 @@ const MAX_GAP = 2;
 /** How far back a negation reaches, within the same sentence. */
 const NEGATION_REACH = 5;
 
+const INDEX = 'patterns_vec';
+const COLLECTION = 'scam_patterns';
+
 type PatternMatch = { title: string; hits: string[] };
+
+type VectorMatch = { title: string; score: number };
 
 function words(text: string): string[] {
   return text
@@ -71,9 +83,36 @@ function bestKeywordMatch(text: string): PatternMatch | null {
   return best;
 }
 
+async function bestVectorMatch(text: string): Promise<VectorMatch | null> {
+  try {
+    const database = await getDb();
+    const [best] = await database
+      .collection<ScamPattern>(COLLECTION)
+      .aggregate<VectorMatch>([
+        vectorSearchStage({ index: INDEX, path: 'text', text, limit: 1 }),
+        { $project: { _id: 0, title: 1, score: { $meta: 'vectorSearchScore' } } },
+      ])
+      .toArray();
+    return best && best.score >= SCRIPT_THRESHOLD ? best : null;
+  } catch {
+    // No vector index (sandbox) or search unavailable: the keyword fallback decides.
+    return null;
+  }
+}
+
 export async function scriptMatch(report: Report): Promise<Signal | null> {
   try {
     if (!report.text) return null;
+    const vector = await bestVectorMatch(report.text);
+    if (vector) {
+      return {
+        code: 'script_match',
+        points: vector.score >= SCRIPT_STRONG_THRESHOLD ? SCRIPT_STRONG_POINTS : SCRIPT_POINTS,
+        title: 'Matches a known scam script',
+        evidence: `Reads like the "${vector.title}" script (${Math.round(vector.score * 100)}% similar).`,
+        refs: [],
+      };
+    }
     const match = bestKeywordMatch(report.text);
     if (!match) return null;
     const quoted = match.hits.slice(0, 3).map((hit) => `"${hit}"`).join(', ');
