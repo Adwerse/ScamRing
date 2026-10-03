@@ -5,7 +5,7 @@
 // Ring design: A reuses photos p01-p04 and has confirmed scams; B shares one Revolut handle and
 // never reuses photos (stays MEDIUM until confirmed); C shares an email and one C listing
 // carries ring A's phone, which connects A and C. Legit listings share nothing.
-// Usage: npx tsx scripts/gen-seed.ts
+// Usage: npx tsx scripts/gen-seed.ts (import-seed imports verify and reachable from here)
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 
@@ -18,6 +18,8 @@ const RENTS_COLLECTION = 'rent_baseline';
 const PATTERNS_FILE = 'seed/patterns.json';
 const RANDOM_SEED = 20261003;
 const LEGIT_COUNT = 150;
+/** Hops getRing follows (fixtures/ring.json: maxHops 2); the ring checks use the same depth. */
+export const MAX_HOPS = 2;
 const ALL_TYPES = 'All property types';
 const BEDROOM_BANDS: Record<number, string> = { 1: 'One bed', 2: 'Two bed', 3: 'Three bed' };
 /** A room in a shared house rents for roughly this share of a one-bed; priceLow uses the same factor. */
@@ -245,32 +247,58 @@ function linkKeys(listing: SeedListing): string[] {
   return [...contacts, ...listing.photos];
 }
 
-/** Groups listings that share a raw contact or a photo, mirroring what getRing will see after ingest. */
-function components(listings: SeedListing[]): SeedListing[][] {
-  const parent = listings.map((_, index) => index);
-  const find = (index: number): number => (parent[index] === index ? index : (parent[index] = find(parent[index])));
-  const owner = new Map<string, number>();
-  listings.forEach((listing, index) => {
-    for (const key of linkKeys(listing)) {
-      const first = owner.get(key);
-      if (first === undefined) owner.set(key, index);
-      else parent[find(index)] = find(first);
+/**
+ * Keys of every listing reachable from `fromKey` through shared raw contacts or photos, with
+ * hop counts, up to `maxHops` (unlimited by default). Mirrors what getRing sees after ingest.
+ */
+export function reachable(listings: SeedListing[], fromKey: string, maxHops = Infinity): Map<string, number> {
+  const byLink = new Map<string, SeedListing[]>();
+  for (const listing of listings) {
+    for (const key of linkKeys(listing)) byLink.set(key, [...(byLink.get(key) ?? []), listing]);
+  }
+  const hops = new Map([[fromKey, 0]]);
+  let frontier = listings.filter((listing) => listing.key === fromKey);
+  for (let hop = 1; hop <= maxHops && frontier.length > 0; hop++) {
+    const next: SeedListing[] = [];
+    for (const listing of frontier) {
+      for (const neighbour of linkKeys(listing).flatMap((key) => byLink.get(key) ?? [])) {
+        if (hops.has(neighbour.key)) continue;
+        hops.set(neighbour.key, hop);
+        next.push(neighbour);
+      }
     }
-  });
-  const groups = new Map<number, SeedListing[]>();
-  listings.forEach((listing, index) => groups.set(find(index), [...(groups.get(find(index)) ?? []), listing]));
-  return [...groups.values()].filter((group) => group.length > 1);
+    frontier = next;
+  }
+  return hops;
 }
 
-function verify(listings: SeedListing[]): void {
-  const groups = components(listings);
-  const ringOf = (group: SeedListing[]) => [...new Set(group.map((listing) => listing.seedRing ?? 'legit'))].sort().join('+');
-  const shapes = groups.map(ringOf).sort();
-  const expected = ['A+C', 'B'];
-  if (JSON.stringify(shapes) !== JSON.stringify(expected)) {
-    throw new Error(`Ring check failed: expected linked groups ${expected.join(', ')}, got ${shapes.join(', ')}`);
+function keysOf(listings: SeedListing[], ...rings: (Ring | undefined)[]): string[] {
+  return listings.filter((listing) => rings.includes(listing.seedRing)).map((listing) => listing.key).sort();
+}
+
+function sameKeys(actual: Iterable<string>, expected: string[]): boolean {
+  const sorted = [...actual].sort();
+  return sorted.length === expected.length && sorted.every((key, index) => key === expected[index]);
+}
+
+/** Throws unless every ring is complete and legit listings link to nothing. */
+export function verify(listings: SeedListing[]): void {
+  const failures: string[] = [];
+  const ringAC = keysOf(listings, 'A', 'C');
+  const ringB = keysOf(listings, 'B');
+  if (!sameKeys(reachable(listings, ringAC[0]).keys(), ringAC)) failures.push('A and C do not form exactly one linked group');
+  if (!sameKeys(reachable(listings, ringB[0]).keys(), ringB)) failures.push('B does not form exactly one linked group');
+  for (const key of keysOf(listings, undefined)) {
+    if (reachable(listings, key).size > 1) failures.push(`legit listing ${key} links to another listing`);
   }
-  console.log('Ring check: A and C connected, B separate, no legit listing linked to anything');
+  for (const ring of ['A', 'B', 'C'] as const) {
+    const members = keysOf(listings, ring);
+    const near = [...reachable(listings, members[0], MAX_HOPS).keys()];
+    const missing = members.filter((key) => !near.includes(key));
+    if (missing.length > 0) failures.push(`ring ${ring}: ${missing.join(', ')} not within ${MAX_HOPS} hops of ${members[0]}`);
+  }
+  if (failures.length > 0) throw new Error(`Ring check failed:\n- ${failures.join('\n- ')}`);
+  console.log(`Ring check: A and C form one group, B is separate, every ring is complete within ${MAX_HOPS} hops, no legit listing links to anything`);
 }
 
 function summarise(listings: SeedListing[], areas: Area[]): void {
@@ -302,7 +330,9 @@ async function main(): Promise<void> {
   await (await getClient()).close();
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+if (process.argv[1]?.endsWith('gen-seed.ts')) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}

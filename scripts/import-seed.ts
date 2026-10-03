@@ -1,6 +1,6 @@
 // Owner: B
 // Resets the report data and imports seed/listings.json through A's ingestReport, then prints
-// the ring check (getRing from one member of each ring) and the verdict calibration table.
+// the ring check (getRing compared with the exact expected members) and the verdict calibration table.
 // Usage: npx tsx scripts/import-seed.ts [--shared]
 import { config } from 'dotenv';
 config({ path: '.env.local' });
@@ -11,7 +11,7 @@ import { ingestReport } from '../lib/ingest';
 import { getRing } from '../lib/ring';
 import { computeVerdict } from '../lib/verdict';
 import type { Verdict } from '../lib/types';
-import type { SeedListing } from './gen-seed';
+import { MAX_HOPS, reachable, verify, type SeedListing } from './gen-seed';
 
 const SHARED_DB = 'scamring';
 const SHARED_FLAG = '--shared';
@@ -22,6 +22,7 @@ const BATCH_SIZE = 5;
 const RESET_COLLECTIONS = ['reports', 'photos', 'photos_blob', 'checks', 'alerts', 'moderation_events'];
 const LEVELS: Verdict['level'][] = ['LOW', 'MEDIUM', 'HIGH'];
 const LEGIT = 'legit';
+const LEGIT_SAMPLES = 3;
 
 function refuseSharedWithoutFlag(): void {
   const database = process.env.DB_NAME || SHARED_DB;
@@ -60,31 +61,40 @@ async function importListings(listings: SeedListing[]): Promise<Map<string, Seed
   return byId;
 }
 
-async function printRingCheck(byId: Map<string, SeedListing>): Promise<boolean> {
-  const firstOf = (ring: string) => [...byId].find(([, listing]) => listing.seedRing === ring)?.[0];
+/**
+ * Calls getRing from the first member of each ring and from a few legit listings, and compares
+ * the members it returns with the exact set seed/listings.json links within MAX_HOPS.
+ */
+async function printRingCheck(byId: Map<string, SeedListing>, listings: SeedListing[]): Promise<boolean> {
+  const idOf = new Map([...byId].map(([reportId, listing]) => [listing.key, reportId]));
+  const starts = [
+    ...['A', 'B', 'C'].map((ring) => listings.find((listing) => listing.seedRing === ring)?.key),
+    ...listings.filter((listing) => !listing.seedRing).slice(0, LEGIT_SAMPLES).map((listing) => listing.key),
+  ].filter((key): key is string => key !== undefined);
   const rows = [];
   let passed = true;
-  for (const ring of ['A', 'B', 'C']) {
-    const reportId = firstOf(ring);
-    if (!reportId) continue;
-    const { members, sharedIdentifiers } = await getRing(reportId);
+  for (const key of starts) {
+    const { members, sharedIdentifiers } = await getRing(idOf.get(key)!);
     const unknown = members.filter((member) => !byId.has(member._id)).length;
     if (unknown > 0) {
       console.warn(`getRing returned ${unknown} reports that were not imported: lib/ring.ts is still the stub, ring check skipped`);
       return false;
     }
-    const groups = new Set<string>(members.map((member) => byId.get(member._id)!.seedRing ?? LEGIT));
-    const expected = ring === 'B' ? ['B'] : ['A', 'C'];
-    const ok = groups.size === expected.length && expected.every((group) => groups.has(group));
+    const actual = new Set(members.map((member) => byId.get(member._id)!.key).filter((memberKey) => memberKey !== key));
+    const expected = new Set([...reachable(listings, key, MAX_HOPS).keys()].filter((memberKey) => memberKey !== key));
+    const missing = [...expected].filter((memberKey) => !actual.has(memberKey));
+    const extra = [...actual].filter((memberKey) => !expected.has(memberKey));
+    const ok = missing.length === 0 && extra.length === 0;
     passed &&= ok;
     if (!ok) process.exitCode = 1;
     rows.push({
-      from: byId.get(reportId)!.key,
-      members: members.length,
-      rings: [...groups].sort().join('+'),
+      from: key,
+      expected: expected.size,
+      returned: actual.size,
+      missing: missing.join(' ') || '-',
+      extra: extra.join(' ') || '-',
       maxHops: Math.max(0, ...members.map((member) => member.hops)),
       sharedIdentifiers: sharedIdentifiers.length,
-      expected: expected.join('+'),
       result: ok ? 'PASS' : 'FAIL',
     });
   }
@@ -118,11 +128,12 @@ async function printCalibration(byId: Map<string, SeedListing>): Promise<void> {
 async function main(): Promise<void> {
   refuseSharedWithoutFlag();
   const listings = JSON.parse(await readFile(LISTINGS_FILE, 'utf8')) as SeedListing[];
+  verify(listings);
   const database = await getDb();
   for (const name of RESET_COLLECTIONS) await database.collection(name).deleteMany({});
   console.log(`Reset ${RESET_COLLECTIONS.join(', ')} in ${database.databaseName}`);
   const byId = await importListings(listings);
-  const ringsOk = await printRingCheck(byId);
+  const ringsOk = await printRingCheck(byId, listings);
   await printCalibration(byId);
   console.log(`Imported ${byId.size} listings into ${database.databaseName}${ringsOk ? '' : ' (ring check not passed)'}`);
   await (await getClient()).close();
