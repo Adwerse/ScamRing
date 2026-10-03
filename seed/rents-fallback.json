@@ -1,0 +1,219 @@
+[
+  {
+    "location": "Rathmines, Dublin 6",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1650.55
+  },
+  {
+    "location": "Rathmines, Dublin 6",
+    "bedrooms": "One bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1418.26
+  },
+  {
+    "location": "Rathmines, Dublin 6",
+    "bedrooms": "Two bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1988.9
+  },
+  {
+    "location": "Rathmines, Dublin 6",
+    "bedrooms": "Three bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2666.45
+  },
+  {
+    "location": "Ranelagh, Dublin 6",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2117.55
+  },
+  {
+    "location": "Ranelagh, Dublin 6",
+    "bedrooms": "One bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1590.02
+  },
+  {
+    "location": "Ranelagh, Dublin 6",
+    "bedrooms": "Two bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2327.32
+  },
+  {
+    "location": "Ranelagh, Dublin 6",
+    "bedrooms": "Three bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 3374.48
+  },
+  {
+    "location": "Portobello, Dublin 8",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1899.09
+  },
+  {
+    "location": "Smithfield, Dublin 7",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2056.97
+  },
+  {
+    "location": "Smithfield, Dublin 7",
+    "bedrooms": "One bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1700.79
+  },
+  {
+    "location": "Smithfield, Dublin 7",
+    "bedrooms": "Two bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2198.86
+  },
+  {
+    "location": "Stoneybatter, Dublin 7",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1811.96
+  },
+  {
+    "location": "Stoneybatter, Dublin 7",
+    "bedrooms": "Two bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1926.2
+  },
+  {
+    "location": "Ballsbridge, Dublin 4",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2555.26
+  },
+  {
+    "location": "Ballsbridge, Dublin 4",
+    "bedrooms": "One bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1781.58
+  },
+  {
+    "location": "Ballsbridge, Dublin 4",
+    "bedrooms": "Two bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2794.55
+  },
+  {
+    "location": "Ballsbridge, Dublin 4",
+    "bedrooms": "Three bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 3852.78
+  },
+  {
+    "location": "Sandymount, Dublin 4",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2626.02
+  },
+  {
+    "location": "Sandymount, Dublin 4",
+    "bedrooms": "One bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1796.48
+  },
+  {
+    "location": "Sandymount, Dublin 4",
+    "bedrooms": "Two bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2358.41
+  },
+  {
+    "location": "Sandymount, Dublin 4",
+    "bedrooms": "Three bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 3518.86
+  },
+  {
+    "location": "Pearse Street, Dublin 2",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1953.71
+  },
+  {
+    "location": "Dun Laoghaire, Dublin",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2233.14
+  },
+  {
+    "location": "Dun Laoghaire, Dublin",
+    "bedrooms": "One bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1708.92
+  },
+  {
+    "location": "Dun Laoghaire, Dublin",
+    "bedrooms": "Two bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2264.82
+  },
+  {
+    "location": "Dun Laoghaire, Dublin",
+    "bedrooms": "Three bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2891.34
+  },
+  {
+    "location": "Tallaght, Dublin 24",
+    "bedrooms": "All bedrooms",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1852.01
+  },
+  {
+    "location": "Tallaght, Dublin 24",
+    "bedrooms": "One bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1431.91
+  },
+  {
+    "location": "Tallaght, Dublin 24",
+    "bedrooms": "Two bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 1807.47
+  },
+  {
+    "location": "Tallaght, Dublin 24",
+    "bedrooms": "Three bed",
+    "propertyType": "All property types",
+    "quarter": "2025Q4",
+    "avgRent": 2074.96
+  }
+]
