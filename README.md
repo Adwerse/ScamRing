@@ -31,9 +31,9 @@ The 24 repository tests, build, TypeScript and Lane D lint checks passed in the 
 
 ## App screenshots
 
-| A verdict with its evidence | The ring behind it |
+| A verdict with its evidence | How it connects to a confirmed scam |
 | --- | --- |
-| ![A HIGH verdict with its warning signals.](docs/screenshots/verdict.png) | ![Reports connected through shared contacts and photos.](docs/screenshots/ring-graph.png) |
+| ![A HIGH verdict with its warning signals.](docs/screenshots/verdict.png) | ![The evidence path, spelled out and highlighted: your listing, the same email, another listing, the same phone, a confirmed scam.](docs/screenshots/evidence-path.png) |
 
 ![A moderator confirms a scam and a student receives a linked-listing alert.](docs/screenshots/moderation-alert.png)
 
