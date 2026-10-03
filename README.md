@@ -45,11 +45,11 @@ The table reflects the current source, which differs from the initial prompt's f
 | --- | --- | --- |
 | `ring_link` | 45 with a confirmed linked scam; otherwise 20 for a cluster with at least two other reports | Shared phone, email, payment handle, bank identifier or photo cluster and hop count |
 | `photo_reuse` | 35 | A photo cluster appears in another listing with a different area or materially different price |
-| `text_clone` | 20; 25 when a matching report is confirmed | Vector similarity at least 0.92 for sufficiently long descriptions |
+| `text_clone` | 20; 25 when a matching report is confirmed | At least 60% overlap of unique 3-word phrases in the shorter text; both texts need at least 10 phrases |
 | `script_match` | 10; 20 for a strong match | Vector thresholds 0.88/0.93, or a keyword fallback using paraphrased scam patterns |
 | `price_low` | 15; 25 below half the reference price | At least 35% below the rent reference; current room reference is 55% of the relevant RTB average |
 
-Signal constants belong to A/B. `scripts/calibrate.ts` reads stored verdicts and prints exported thresholds, signal counts and the seed-ring versus risk-level table without recomputing verdicts or changing those constants. Missing groups or verdicts fail calibration. Targets: every ring listing at least MEDIUM, unconfirmed ring B MEDIUM, and at least 95% of legitimate seed listings LOW.
+Signal constants belong to A/B. `scripts/calibrate.ts` reads stored verdicts and prints exported thresholds, signal counts and the seed-ring versus risk-level table without recomputing verdicts or changing those constants. Missing groups or verdicts fail calibration. Targets: every ring listing at least MEDIUM, at least 95% of legitimate seed listings LOW.
 
 ## Architecture and MongoDB features
 
@@ -69,7 +69,7 @@ flowchart LR
 | --- | --- | --- |
 | Multikey index and `$graphLookup` | Traverse shared identifiers, with `maxDepth: 2` and a cap of 60 reports | `lib/ring.ts`, `reports.identifiers_1` |
 | Four indexed photo hash bands | Find candidates before checking 64-bit dHash distance | `lib/photos.ts`, `lib/dhash.ts`, `photos.b0` through `b3` |
-| Automated Embedding and `$vectorSearch` | Find copied descriptions and known scam scripts | `lib/vector.ts`, `reports_text_vec`, `patterns_vec` |
+| Automated Embedding and `$vectorSearch` | Find known scam scripts by meaning | `lib/vector.ts`, `patterns_vec` |
 | Aggregation over rent baselines | Select the RTB rent reference for the current price signal | `lib/signals/priceLow.ts`, `rent_baseline` |
 | Multi-document transaction | Commit the moderation decision and audit record together | `app/api/moderation/[id]/route.ts` |
 | Change streams | Drive confirmation fan-out and session alert delivery | `scripts/worker.ts`, `app/api/stream/route.ts` |
@@ -183,7 +183,7 @@ Rents and scam scripts come from real Irish sources. Contact details in the demo
 | Ring | Tactic | Linked by | Verdict |
 | --- | --- | --- | --- |
 | **Courier** (A), 8 listings | Landlord abroad, keys sent by courier after the deposit | Two phones, an email and reused photos; 2 listings already confirmed as scams | HIGH |
-| **Revolut** (B), 6 listings | Mass viewing, deposit by Revolut tonight | One Revolut handle, no reused photos | MEDIUM, then HIGH when a moderator confirms one live in the demo |
+| **Revolut** (B), 6 listings | Mass viewing, deposit by Revolut tonight | One Revolut handle and copied text, no reused photos | HIGH for copied seed listings; a new post sharing the handle starts MEDIUM and rises after confirmation |
 | **WhatsApp** (C), 5 listings | Sob story, talks only on WhatsApp, wants ID up front | One email, plus one listing sharing a Courier phone | HIGH, through its link to Courier |
 
 The 150 legit listings share nothing with anyone, so they never join a ring.

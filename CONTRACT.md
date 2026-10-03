@@ -144,7 +144,7 @@ Vector search indexes (Automated Embedding, model `voyage-4`) exist **only in th
 
 | Index | Collection | Fields |
 | --- | --- | --- |
-| `reports_text_vec` | `reports` | `autoEmbed` on `text`; filter on `status` |
+| `reports_text_vec` | `reports` | Legacy index; current text-clone detection uses 3-word phrase overlap, without embeddings |
 | `patterns_vec` | `scam_patterns` | `autoEmbed` on `text`; filter on `category` |
 
 Definitions live in [scripts/setup-db.ts](scripts/setup-db.ts). Query them only through `vectorSearchStage` (see below).
