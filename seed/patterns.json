@@ -14,7 +14,11 @@
       "deliver the keys",
       "cannot show",
       "exactly like the pictures",
-      "deposit"
+      "deposit",
+      "abroad",
+      "post keys",
+      "keys after deposit",
+      "cannot view"
     ]
   },
   {
@@ -49,7 +53,9 @@
       "refundable deposit",
       "card details",
       "call from your bank",
-      "authorise the payment"
+      "authorise the payment",
+      "pay to view",
+      "viewing deposit"
     ]
   },
   {
@@ -84,7 +90,9 @@
       "video of the apartment",
       "solicitor",
       "first month's rent",
-      "family emergency"
+      "family emergency",
+      "whatsapp me",
+      "message on whatsapp"
     ]
   },
   {
@@ -118,7 +126,9 @@
       "no viewings",
       "send more photos",
       "post the keys",
-      "rent and deposit"
+      "rent and deposit",
+      "text me on",
+      "contact me on"
     ]
   },
   {
@@ -136,7 +146,9 @@
       "wire transfer",
       "foreign account",
       "cash only",
-      "gift card"
+      "gift card",
+      "paypal friends",
+      "send money"
     ]
   },
   {
@@ -172,7 +184,10 @@
       "lease after payment",
       "first month's rent",
       "secure the room",
-      "act fast"
+      "act fast",
+      "deposit today",
+      "before someone else",
+      "no viewing"
     ]
   }
 ]
