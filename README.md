@@ -6,6 +6,8 @@ ScamRing checks a rental listing against every scam students have already report
 
 Built in one day at MongoDB Builder Day Dublin, 3 October 2026, on MongoDB Atlas.
 
+![The ScamRing check page: paste a listing or try one of three demo listings.](docs/screenshots/home.png)
+
 > Rental fraud in Ireland: 399 reports to Gardaí in 2025, up 14% on 2024, with about €680,000 lost. 34% of victims are under 25, and about a third of reports come in August and September, when students look for housing. Sources in [`seed/patterns-sources.md`](seed/patterns-sources.md).
 
 ## How a check works
@@ -14,7 +16,13 @@ Built in one day at MongoDB Builder Day Dublin, 3 October 2026, on MongoDB Atlas
 2. **Ring.** One `$graphLookup` walks every report that shares a hashed contact or a photo cluster, up to 3 hops away.
 3. **Signals.** Five independent checks run in parallel. Each one catches its own errors, so a slow service drops one signal instead of failing the check.
 4. **Verdict.** Points are summed and capped at 100: **70+ HIGH**, **30 to 69 MEDIUM**, below 30 LOW. An optional Claude summary explains it in plain words, using only the signals, never the listing text.
-5. **Alerts** (in progress). When a moderator confirms a scam, everyone who checked a linked listing gets a live alert through MongoDB change streams.
+5. **Alerts.** When a moderator confirms a scam, everyone who checked a linked listing gets a live alert within about 2 seconds, through MongoDB change streams, and their verdict updates on screen.
+
+| A verdict with its evidence | The ring behind it |
+| --- | --- |
+| ![A HIGH verdict of 80: linked to a confirmed scam and the same photo in other listings.](docs/screenshots/verdict.png) | ![The ring graph: 14 linked reports, 2 confirmed scams, connected through shared phones, emails and photos.](docs/screenshots/ring-graph.png) |
+
+![A moderator confirms a scam, and a student who checked a linked listing gets a live alert.](docs/screenshots/moderation-alert.png)
 
 | Signal | Points | Fires when |
 | --- | --- | --- |
@@ -75,7 +83,8 @@ Scripts that write or delete data refuse the shared database `scamring` unless r
 | `/` | Paste a listing, get a verdict with evidence |
 | `/report/[id]` | One report, its verdict and its ring graph |
 | `/under-the-hood` | Collection counts, real query plans and the ring traversal |
-| `/moderate`, `/live` | Moderation queue and live alerts (in progress) |
+| `/moderate` | Moderation queue: confirm, clear or reject reports (needs `MODERATOR_PIN`) |
+| `/live` | This browser's alerts, as they arrive |
 
 API contract: [`CONTRACT.md`](CONTRACT.md). Tests: `npm test`.
 
