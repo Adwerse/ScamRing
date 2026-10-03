@@ -151,12 +151,12 @@ Definitions live in [scripts/setup-db.ts](scripts/setup-db.ts). Query them only 
 
 ## API
 
-All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. `POST /api/check`, `GET /api/reports/[id]` and `GET /api/reports/[id]/ring` currently return fixtures (see below). The other routes are stubs returning HTTP 501 `{ "error": "not_implemented", "route": "<METHOD path>" }`.
+All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. `POST /api/check` and `GET /api/reports/[id]` are implemented and match their fixtures. `GET /api/reports/[id]/ring` still returns its fixture. The other routes are stubs returning HTTP 501 `{ "error": "not_implemented", "route": "<METHOD path>" }`.
 
 | Route | Purpose |
 | --- | --- |
-| `POST /api/check` | Submit a pasted listing (text, source, optional photos); stores a `Report` and a `Check`, returns the `Verdict` |
-| `GET /api/reports/[id]` | Fetch a report with its verdict and signals |
+| `POST /api/check` | Submit a pasted listing; stores a `Report` and a `Check`, returns `{ reportId, verdict, ring }` (see below) |
+| `GET /api/reports/[id]` | The report as in `fixtures/report.json`: no `identifiers` (only `identifierHints`), no `seedRing`/`expiresAt`, with its `verdict`. 404 for an unknown or malformed id |
 | `GET /api/reports/[id]/ring` | Graph (nodes/links) of reports linked to this one via shared identifiers, photo clusters |
 | `GET /api/moderation/queue` | Pending reports for moderators, highest score first |
 | `POST /api/moderation/[id]` | Moderator action `confirm` / `reject` / `legit`; writes a `ModerationEvent` and, on confirm, triggers alerts |
@@ -167,6 +167,26 @@ All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. `POST /
 ## Session
 
 Middleware sets cookie `sr_sid` (uuid v4, path `/`, 30 days, `SameSite=Lax`) when missing. It is the `sessionId` on `Check` and `Alert`.
+
+### `POST /api/check`
+
+- Body: `multipart/form-data` (fields below, plus up to 6 `photos` files of at most 5 MB each) or `application/json` (no photos). Anything else: 415.
+- Fields: `text` (required, at most 10,000 chars), `source` (default `other`), `area` (default `Unknown`), `kind` (`room`|`whole`, default `room`), `bedrooms`, `priceEur`. Missing `priceEur` is read from the first EUR amount in the text (`€650`, `1,200 €`, `650 euro`).
+- Flow: `ingestReport` → `computeVerdict` → insert a `Check` with `sessionId` from cookie `sr_sid` → `getRing`.
+- 200: exactly the shape of `fixtures/check-response.json`. `ring.size` counts all ring members including this report (capped at 60 by `getRing`); `ring.confirmedCount` counts members with status `confirmed_scam`.
+- 400 `{ error, issues? }` for invalid input or an unreadable image, 413 for a photo over 5 MB, 500 `{ error: 'internal_error' }` otherwise.
+
+### Verdict
+
+`computeVerdict` runs every function in `lib/signals/index.ts` with `Promise.allSettled`, sums the points (capped at 100) and maps the score: 70+ `HIGH`, 30 to 69 `MEDIUM`, below 30 `LOW`. Signals are sorted by points, highest first. The summary comes from `ANTHROPIC_MODEL` (at most 60 words, 3 second timeout, only signal titles and evidence are sent, never the listing text) when `ANTHROPIC_API_KEY` is set, otherwise from the signal titles. The verdict is saved on the report.
+
+| Signal | Points | When |
+| --- | --- | --- |
+| `ring_link` | 45 | Another ring member is `confirmed_scam`. Title "Linked to a confirmed scam"; `refs` are the confirmed members |
+| `ring_link` | 10 | No confirmed member, but 2+ other members. Title "Part of a cluster of N reports" (N includes this report); `refs` are the other members |
+| `photo_reuse` | 35 | An `img:` identifier is shared with a non-rejected report in a different area, or at a price more than 15% different (`|a-b| / max(a,b)`, `PRICE_DIFF` in the file) |
+
+Constants live at the top of each signal file.
 
 ## Frozen signatures
 

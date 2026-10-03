@@ -4,14 +4,12 @@ import { v4 as uuidv4 } from 'uuid';
 const THIRTY_DAYS = 60 * 60 * 24 * 30;
 
 export function middleware(req: NextRequest) {
-  const res = NextResponse.next();
-  if (!req.cookies.get('sr_sid')) {
-    res.cookies.set('sr_sid', uuidv4(), {
-      path: '/',
-      maxAge: THIRTY_DAYS,
-      sameSite: 'lax',
-    });
-  }
+  if (req.cookies.get('sr_sid')) return NextResponse.next();
+  const sid = uuidv4();
+  // Also set it on the request so route handlers see the id on the very first request.
+  req.cookies.set('sr_sid', sid);
+  const res = NextResponse.next({ request: { headers: req.headers } });
+  res.cookies.set('sr_sid', sid, { path: '/', maxAge: THIRTY_DAYS, sameSite: 'lax' });
   return res;
 }
 
