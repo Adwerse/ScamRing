@@ -28,7 +28,7 @@ Built in one day at MongoDB Builder Day Dublin, 3 October 2026, on MongoDB Atlas
 | --- | --- | --- |
 | `ring_link` | 45 / 10 | The listing shares a contact or photo with a confirmed scam (45), or with a cluster of 2+ other reports (10) |
 | `photo_reuse` | 35 | A photo matches one used in another area or at a price more than 15% different |
-| `text_clone` | 20 / 25 | The wording nearly copies other reported listings (Atlas Vector Search); 25 if one of them is a confirmed scam |
+| `text_clone` | 20 / 25 | 60%+ of the wording (3-word phrases) matches other reported listings; 25 if one of them is a confirmed scam |
 | `script_match` | 10 / 20 | The text follows one of 10 known scam scripts (vector search, with a keyword fallback) |
 | `price_low` | 15 / 25 | The price is 35%+ below the RTB average for the same area and bedrooms; 25 if more than 50% below |
 
@@ -36,7 +36,7 @@ Built in one day at MongoDB Builder Day Dublin, 3 October 2026, on MongoDB Atlas
 
 | Feature | Used for |
 | --- | --- |
-| Atlas Vector Search with automated embedding (Voyage `voyage-4`) | `text_clone` and `script_match` send plain text; Atlas embeds documents and queries itself |
+| Atlas Vector Search with automated embedding (Voyage `voyage-4`) | `script_match` finds the closest known scam script by meaning; Atlas embeds documents and queries itself |
 | `$graphLookup` on a multikey index | The ring: every report linked through shared hashed identifiers, in one query on `identifiers_1` |
 | Change streams | The worker turns a moderator's confirmation into alerts for every affected session |
 | Aggregation pipelines | Rent baselines by area and district, photo clusters, proof page statistics |
@@ -57,7 +57,7 @@ Rents and scam scripts come from real Irish sources. Contact details in the demo
 | Ring | Tactic | Linked by | Verdict |
 | --- | --- | --- | --- |
 | **Courier** (A), 8 listings | Landlord abroad, keys sent by courier after the deposit | Two phones, an email and reused photos; 2 listings already confirmed as scams | HIGH |
-| **Revolut** (B), 6 listings | Mass viewing, deposit by Revolut tonight | One Revolut handle, no reused photos | MEDIUM, then HIGH when a moderator confirms one live in the demo |
+| **Revolut** (B), 6 listings | Mass viewing, deposit by Revolut tonight | One Revolut handle and copied text, no reused photos | HIGH. A new post using the same handle starts at MEDIUM and rises when a moderator confirms one of these live in the demo |
 | **WhatsApp** (C), 5 listings | Sob story, talks only on WhatsApp, wants ID up front | One email, plus one listing sharing a Courier phone | HIGH, through its link to Courier |
 
 The 150 legit listings share nothing with anyone, so they never join a ring.

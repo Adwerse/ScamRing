@@ -10,7 +10,7 @@ import { getClient, getDb } from '../lib/db';
 import { PHOTO_THRESHOLD } from '../lib/photos';
 import { PRICE_LOW_THRESHOLD } from '../lib/signals/priceLow';
 import { SCRIPT_KEYWORD_MIN_HITS, SCRIPT_THRESHOLD } from '../lib/signals/scriptMatch';
-import { TEXT_CLONE_THRESHOLD } from '../lib/signals/textClone';
+import { TEXT_CLONE_MIN_SHINGLES, TEXT_CLONE_THRESHOLD } from '../lib/signals/textClone';
 import type { Report, SignalCode, Verdict } from '../lib/types';
 
 const RINGS: Record<string, string> = { A: 'Courier', B: 'Revolut', C: 'WhatsApp' };
@@ -22,7 +22,6 @@ type Seeded = Pick<Report, 'seedRing' | 'verdict'>;
 
 function target(group: string, levels: Record<Verdict['level'], number>, total: number): boolean {
   if (group === LEGIT) return levels.LOW / total >= LEGIT_LOW_TARGET;
-  if (group === 'B') return levels.MEDIUM === total;
   return levels.LOW === 0;
 }
 
@@ -47,12 +46,13 @@ async function main(): Promise<void> {
   });
   console.log(`Seed verdicts in ${database.databaseName}`);
   console.table(rows);
-  console.log('Targets: every ring listing MEDIUM or HIGH, Revolut ring MEDIUM (not HIGH) until confirmed, 95%+ of legit LOW');
+  console.log('Targets: every ring listing MEDIUM or HIGH, 95%+ of legit LOW');
   console.table([
     { constant: 'PRICE_LOW_THRESHOLD', value: PRICE_LOW_THRESHOLD, file: 'lib/signals/priceLow.ts' },
     { constant: 'SCRIPT_THRESHOLD', value: SCRIPT_THRESHOLD, file: 'lib/signals/scriptMatch.ts' },
     { constant: 'SCRIPT_KEYWORD_MIN_HITS', value: SCRIPT_KEYWORD_MIN_HITS, file: 'lib/signals/scriptMatch.ts' },
     { constant: 'TEXT_CLONE_THRESHOLD', value: TEXT_CLONE_THRESHOLD, file: 'lib/signals/textClone.ts' },
+    { constant: 'TEXT_CLONE_MIN_SHINGLES', value: TEXT_CLONE_MIN_SHINGLES, file: 'lib/signals/textClone.ts' },
     { constant: 'PHOTO_THRESHOLD', value: PHOTO_THRESHOLD, file: 'lib/photos.ts' },
   ]);
   await (await getClient()).close();
