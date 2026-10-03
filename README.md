@@ -38,15 +38,21 @@ Built in one day at MongoDB Builder Day Dublin, 3 October 2026, on MongoDB Atlas
 
 Rents and scam scripts come from real Irish sources. Contact details in the demo data are synthetic, so no real person's phone or email ends up in a scam ring.
 
-![Data flow: each source, what we did to it, where it is stored, and what reads it.](seed/data-flow.png)
+![Data flow: each source, what we did to it, where it is stored, and what reads it.](seed/data-sources.png)
 
 - **Rents:** the RTB Average Monthly Rent Report, CSO table [RIQ02](https://data.cso.ie/table/RIQ02), loaded live for the latest quarter (2025Q4: 3,199 values across 306 locations), with a 10-area offline backup.
 - **Scam scripts:** 10 tactics paraphrased from An Garda Síochána, the CCPC, Daft.ie, AIB, BPFI FraudSMART and Irish press, with names and numbers removed.
-- **Demo listings:** three scam rings and 150 legit listings generated from the real rents and scripts.
+- **Demo listings:** three scam rings (Courier, Revolut, WhatsApp) and 150 legit listings, generated from the real rents and scripts.
 
-![Scam rings: ring A linked through phones, an email and reused photos; ring C linked to ring A through C4's phone; ring B sharing one Revolut handle.](seed/ring-network.png)
+![Scam rings: the Courier ring linked through phones, an email and reused photos; the WhatsApp ring linked to it through C4's phone; the Revolut ring sharing one Revolut handle.](seed/rings.png)
 
-Ring A combines reused photos with confirmed scams, so it scores HIGH. Ring B shares only a Revolut handle and stays MEDIUM until a moderator confirms one listing live. Ring C links to ring A through a single shared phone. More detail in [`seed/README.md`](seed/README.md).
+| Ring | Tactic | Linked by | Verdict |
+| --- | --- | --- | --- |
+| **Courier** (A), 8 listings | Landlord abroad, keys sent by courier after the deposit | Two phones, an email and reused photos; 2 listings already confirmed as scams | HIGH |
+| **Revolut** (B), 6 listings | Mass viewing, deposit by Revolut tonight | One Revolut handle, no reused photos | MEDIUM, then HIGH when a moderator confirms one live in the demo |
+| **WhatsApp** (C), 5 listings | Sob story, talks only on WhatsApp, wants ID up front | One email, plus one listing sharing a Courier phone | HIGH, through its link to Courier |
+
+The 150 legit listings share nothing with anyone, so they never join a ring.
 
 ## Run it
 
