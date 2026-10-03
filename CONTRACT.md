@@ -158,9 +158,11 @@ All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. `POST /
 | `POST /api/check` | Submit a pasted listing; stores a `Report` and a `Check`, returns `{ reportId, verdict, ring }` (see below) |
 | `GET /api/reports/[id]` | The report as in `fixtures/report.json`: no `identifiers` (only `identifierHints`), no `seedRing`/`expiresAt`, with its `verdict`. 404 for an unknown or malformed id |
 | `GET /api/reports/[id]/ring` | Graph (nodes/links) of reports linked to this one via shared identifiers, photo clusters |
-| `GET /api/moderation/queue` | Pending reports for moderators, highest score first |
-| `POST /api/moderation/[id]` | Moderator action `confirm` / `reject` / `legit`; writes a `ModerationEvent` and, on confirm, triggers alerts |
-| `GET /api/stream` | Server-sent events: live alerts for the current session (`sr_sid` cookie) |
+| `GET /api/moderation/queue` | `{ reports }`: up to 50 pending reports for moderators, highest verdict score first, no identifiers |
+| `POST /api/moderation/[id]` | Body `{ action: 'confirm' \| 'reject' \| 'legit', pin, reason? }`. Sets the report status, writes a `ModerationEvent`; on confirm the worker (or the route, with `FANOUT_INLINE=1`) alerts every session that checked a report in the ring and recomputes the ring's verdicts. 200 `{ reportId, status, alerts? }`, 401 wrong PIN, 503 when `MODERATOR_PIN` is unset |
+| `GET /api/stream` | Server-sent events: an `alert` event (an `Alert`, ids as strings) for each alert created for the current session (`sr_sid` cookie) after the stream opened |
+| `GET /api/alerts` | `{ alerts }`: the current session's alerts, newest first, at most 50 |
+| `GET /api/photos/[id]`, `GET /api/photos/[id]/thumb` | The photo's JPEG from `photos_blob` (both paths serve the same image) |
 | `GET /api/under-the-hood` | Debug/explain data: counts, indexes and pipelines used by the checker |
 
 
@@ -183,7 +185,7 @@ Middleware sets cookie `sr_sid` (uuid v4, path `/`, 30 days, `SameSite=Lax`) whe
 | Signal | Points | When |
 | --- | --- | --- |
 | `ring_link` | 45 | Another ring member is `confirmed_scam`. Title "Linked to a confirmed scam"; `refs` are the confirmed members |
-| `ring_link` | 10 | No confirmed member, but 2+ other members. Title "Part of a cluster of N reports" (N includes this report); `refs` are the other members |
+| `ring_link` | 20 | No confirmed member, but 2+ other members. Title "Part of a cluster of N reports" (N includes this report); `refs` are the other members |
 | `photo_reuse` | 35 | An `img:` identifier is shared with a non-rejected report in a different area, or at a price more than 15% different (`|a-b| / max(a,b)`, `PRICE_DIFF` in the file) |
 
 Constants live at the top of each signal file.
@@ -243,7 +245,7 @@ export const signals = [ringLink, photoReuse, textClone, scriptMatch, priceLow];
 // lib/identifiers.ts: phones (Irish 08x, UK 07, +/00 international), emails, Revolut handles, IBANs
 export function extractIdentifiers(text: string):
   { identifiers: string[]; hints: IdentifierHint[]; redactedText: string };
-// identifiers: 'kind:<hmac-sha256 hex>' (key IDENTIFIER_SECRET); hint = last 2 chars of the normalised value
+// identifiers: 'kind:<hmac-sha256 hex>' (key IDENTIFIER_SECRET); hint = maskHint(kind, value): '+353 ** *** 0193', 'j***@e***.com', '@d***ow', 'IE** **** 5678'; never the raw value or the email domain
 
 // lib/dhash.ts
 export async function dhash(buffer: Buffer): Promise<string>;               // 16 hex chars (64 bits)
@@ -270,3 +272,5 @@ Changing a signature or a fixture shape needs an announcement in chat. A updates
 ## Environment
 
 `DB_NAME` selects the database (default `scamring`, the shared one). Personal sandboxes: `scamring_a`, `scamring_b`, `scamring_c`, `scamring_d`.
+
+`MODERATOR_PIN` enables moderation; share it privately. `FANOUT_INLINE=1` makes the moderation route fan out alerts itself instead of the change-stream worker (`npm run worker`).
