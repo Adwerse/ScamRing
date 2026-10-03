@@ -1,9 +1,10 @@
 // Owner: B
 // Generates seed/listings.json: three scam rings (A, B, C) and 150 legit listings.
 // Prices come from rent_baseline (run load-rents first), scam scripts from seed/patterns.json.
-// Contact details are synthetic and appear raw only in listing text; ingest HMACs them.
-// Ring design: A reuses photos p01-p04 and has confirmed scams; B shares one Revolut handle and
-// never reuses photos (stays MEDIUM until confirmed); C shares an email and one C listing
+// Contact details are synthetic (drama-range phones, example.com/.net/.org emails, an invented
+// Revolut handle) and appear raw only in listing text; ingest HMACs them.
+// Ring design: A (Courier) reuses photos p01-p04 and has confirmed scams; B (Revolut) shares one
+// Revolut handle and copied text but no photos; C (WhatsApp) shares an email and one C listing
 // carries ring A's phone, which connects A and C. Legit listings share nothing.
 // Usage: npx tsx scripts/gen-seed.ts (import-seed imports verify and reachable from here)
 import { config } from 'dotenv';
@@ -55,8 +56,9 @@ type RingMember = {
 
 type RingPlan = { ring: Ring; patterns: string[]; members: RingMember[] };
 
-const RING_A_PHONE = '087 412 0193';
-const RING_A_PHONE_2 = '085 377 2048';
+// Phones are in Ofcom's drama range (07700 900000-900999), reserved for fiction and never assigned.
+const RING_A_PHONE = '07700 900193';
+const RING_A_PHONE_2 = '07700 900248';
 const RING_A_EMAIL = 'keys.courier.lettings@example.com';
 const RING_B_REVOLUT = '@dublinroomsnow';
 const RING_C_EMAIL = 'maura.lettings.ie@example.net';
@@ -189,7 +191,9 @@ async function loadAreas(): Promise<Area[]> {
 }
 
 function legitContact(index: number): string {
-  const phone = `08${pick(['3', '5', '6', '7'])} ${String(100 + index).padStart(3, '0')} ${String(Math.floor(next() * 9000) + 1000)}`;
+  const separator = pick([' ', '', '-', ' ']);
+  const prefix = next() < 0.3 ? '+44 ' : '0';
+  const phone = `${prefix}7700${separator}900${String(300 + index).padStart(3, '0')}`;
   return pick([`Call ${phone}`, `Contact the agent on ${phone}`, `Email lettings${index}@example.org`, 'Reply through the listing.']);
 }
 
@@ -243,8 +247,9 @@ function buildRings(areas: Area[], scripts: Map<string, string>): SeedListing[] 
 }
 
 function linkKeys(listing: SeedListing): string[] {
-  const contacts = listing.text.match(/\b08\d \d{3} \d{4}\b|[\w.]+@example\.(?:com|net|org)|@\w+(?=\s|$)/g) ?? [];
-  return [...contacts, ...listing.photos];
+  const phones = (listing.text.match(/(?:\+44 ?|\b0)7700[ -]?900\d{3}\b/g) ?? []).map((phone) => `tel:${phone.replace(/\D/g, '').slice(-6)}`);
+  const contacts = listing.text.match(/[\w.]+@example\.(?:com|net|org)|@\w+(?=\s|$)/g) ?? [];
+  return [...phones, ...contacts, ...listing.photos];
 }
 
 /**
