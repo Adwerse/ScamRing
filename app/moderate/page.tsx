@@ -46,7 +46,8 @@ export default function Page() {
   const [pin, setPin] = useState('');
   const [busy, setBusy] = useState<string | null>(null);
   const [notice, setNotice] = useState<{ text: string; error: boolean } | null>(null);
-  const [aiBusy, setAiBusy] = useState(false);
+  const [aiBusy, setAiBusy] = useState<string | null>(null);
+  const [aiNotice, setAiNotice] = useState<{ text: string; error: boolean } | null>(null);
   const [ai, setAi] = useState<AiResult | null>(null);
 
   const load = useCallback(async () => {
@@ -89,12 +90,13 @@ export default function Page() {
   }
 
   async function runAi(reportId?: string) {
+    setAiNotice(null);
     if (!pin) {
-      setNotice({ text: 'Enter the moderator PIN first.', error: true });
+      setAiNotice({ text: 'Enter the moderator PIN first.', error: true });
+      document.getElementById('moderator-pin')?.focus();
       return;
     }
-    setAiBusy(true);
-    setNotice(null);
+    setAiBusy(reportId ?? 'top');
     setAi(null);
     try {
       const response = await fetch('/api/moderation/agent', {
@@ -102,18 +104,19 @@ export default function Page() {
         headers: { 'Content-Type': 'application/json', 'x-moderator-pin': pin },
         body: JSON.stringify(reportId ? { reportId } : {}),
       });
-      if (response.status === 401) setNotice({ text: 'That PIN is not correct.', error: true });
-      else if (response.status === 409) setNotice({ text: 'An AI review is already running. Try again in a moment.', error: true });
-      else if (!response.ok) setNotice({ text: `The AI review failed (${response.status}).`, error: true });
+      if (response.status === 401) setAiNotice({ text: 'That PIN is not correct.', error: true });
+      else if (response.status === 409) setAiNotice({ text: 'An AI review is already running. Try again in a moment.', error: true });
+      else if (!response.ok) setAiNotice({ text: `The AI review failed (${response.status}).`, error: true });
       else {
         setAi((await response.json()) as AiResult);
         await load();
       }
     } catch {
-      setNotice({ text: 'The AI review could not be completed. Refresh the queue before retrying.', error: true });
+      setAiNotice({ text: 'The AI review could not be completed. Refresh the queue before retrying.', error: true });
     } finally {
-      setAiBusy(false);
+      setAiBusy(null);
     }
+    document.getElementById('ai-panel')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   return (
@@ -124,18 +127,25 @@ export default function Page() {
         <p className="muted">Decisions by the AI moderator are logged with their reason and can be overturned by a human.</p>
         <p>Confirming a scam alerts everyone who checked a linked listing and updates their verdicts. A shared detail is evidence of reuse, not proof of guilt, so confirm only what you have verified.</p>
       </div>
-      <section className="panel" aria-labelledby="queue-title">
+      <div className="pin-row">
+        <label className="pin-field">
+          <span>Moderator PIN</span>
+          <input id="moderator-pin" type="password" inputMode="numeric" autoComplete="off" value={pin} onChange={(event) => setPin(event.target.value)} />
+        </label>
+        <span className="muted">Needed for every moderation action, including the AI moderator&apos;s.</span>
+      </div>
+      <section className="panel ai-panel" id="ai-panel" aria-labelledby="ai-title">
         <div className="section-heading">
-          <h2 id="queue-title">Pending reports</h2>
-          <button type="button" className="button secondary small" disabled={busy !== null || aiBusy || !pin} onClick={() => runAi()}>
-            {aiBusy ? 'AI review running…' : 'AI review top of queue'}
+          <div>
+            <h2 id="ai-title">AI moderator</h2>
+            <p className="muted">Reviews one pending report: reads it and its ring through a read-only database connection, then confirms, rejects, clears or skips it. Rule checks in code block anything unsafe.</p>
+          </div>
+          <button type="button" className="button primary" disabled={busy !== null || aiBusy !== null} onClick={() => runAi()}>
+            {aiBusy === 'top' ? 'Reviewing…' : 'Run AI review on the top of the queue'}
           </button>
-          <label className="pin-field">
-            <span className="muted">Moderator PIN</span>
-            <input id="moderator-pin" type="password" inputMode="numeric" autoComplete="off" value={pin} onChange={(event) => setPin(event.target.value)} />
-          </label>
         </div>
-        {notice && <p className={notice.error ? 'notice error' : 'notice'} role="status">{notice.text}</p>}
+        {aiBusy !== null && <p className="notice" role="status">The AI moderator is working. This can take up to 30 seconds.</p>}
+        {aiNotice && <p className="notice error" role="status">{aiNotice.text}</p>}
         {ai && (
           <div className="ai-card" aria-live="polite">
             <h3>AI review: {DECISIONS[ai.decision]}</h3>
@@ -155,6 +165,12 @@ export default function Page() {
             </details>
           </div>
         )}
+      </section>
+      <section className="panel" aria-labelledby="queue-title">
+        <div className="section-heading">
+          <h2 id="queue-title">Pending reports</h2>
+        </div>
+        {notice && <p className={notice.error ? 'notice error' : 'notice'} role="status">{notice.text}</p>}
         {reports === null ? (
           <p className="muted">Loading the queue…</p>
         ) : reports.length === 0 ? (
@@ -172,9 +188,9 @@ export default function Page() {
                 <p className="muted">{report.text.length > 180 ? `${report.text.slice(0, 180)}…` : report.text}</p>
                 <div className="moderation-actions">
                   {ACTIONS.map(({ action, label, style }) => (
-                    <button key={action} type="button" className={style} disabled={busy !== null || aiBusy || !pin} onClick={() => act(report, action)}>{label}</button>
+                    <button key={action} type="button" className={style} disabled={busy !== null || aiBusy !== null || !pin} onClick={() => act(report, action)}>{label}</button>
                   ))}
-                  <button type="button" className="button secondary small" disabled={busy !== null || aiBusy || !pin} onClick={() => runAi(report._id)}>AI review</button>
+                  <button type="button" className="button secondary small" disabled={busy !== null || aiBusy !== null} onClick={() => runAi(report._id)}>{aiBusy === report._id ? 'Reviewing…' : 'AI review'}</button>
                 </div>
               </li>
             ))}
@@ -182,7 +198,9 @@ export default function Page() {
         )}
       </section>
       <style jsx>{`
-        .pin-field { display: inline-flex; align-items: center; gap: 10px; }
+        .pin-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-bottom: 20px; }
+        .ai-panel { margin-bottom: 24px; scroll-margin-top: 16px; }
+        .pin-field { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; }
         .pin-field input { width: 120px; padding: 8px 10px; border: 1px solid var(--control-border); border-radius: 6px; font: inherit; }
         .ai-card { margin: 12px 0; padding: 12px 16px; border: 1px solid var(--control-border); border-radius: 8px; }
         .ai-card h3 { margin: 0 0 6px; }
