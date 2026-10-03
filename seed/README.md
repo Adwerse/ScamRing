@@ -19,7 +19,7 @@ Each source, what we did to it, where it is stored, and what reads it.
 
 Listings (circles) link through what they share (diamonds): a phone, an email, a Revolut handle or a reused photo. Ingest stores each of these only as an HMAC hash.
 
-![Scam rings: ring A (8 listings, 2 confirmed) linked through phones, an email and reused photos; ring C (5) linked to ring A through C4's phone; ring B (6) sharing one Revolut handle; 150 legit listings with no links.](scam-rings.png)
+![Scam rings: ring A (8 listings, 2 confirmed) linked through phones, an email and reused photos; ring C (5) linked to ring A through C4's phone; ring B (6) sharing one Revolut handle.](scam-rings.png)
 
 Orange circles are pending scam listings, red circles are confirmed scams, blue diamonds are shared contacts and green diamonds are reused photos.
 
