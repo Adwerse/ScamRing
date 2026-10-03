@@ -69,11 +69,12 @@ export default function RingCanvas({ data, path, selectedReport, onReportSelect 
     ctx.globalAlpha = 1;
   }, [theme, path, selectedReport]);
   const onPathLink = useCallback((link: GraphLink) => path?.linkKeys.has(linkKey(endpoint(link.source), endpoint(link.target))) ?? false, [path]);
+  const onSelectedLink = useCallback((link: GraphLink) => !!selectedReport && (endpoint(link.source) === selectedReport || endpoint(link.target) === selectedReport), [selectedReport]);
   return <div className="graph-wrap"><div ref={container} className="graph-canvas" role="img" aria-label="Map of reports and the identifiers connecting them. The complete accessible list follows below.">
     <ForceGraph2D<RingNode> ref={graph} width={width} height={420} graphData={graphData} backgroundColor={theme.canvas} nodeCanvasObject={draw} nodeLabel={node => {
       // String tooltips are interpreted as HTML. Escape all untrusted API text.
       const label = node.type === 'report' ? `${node.area || 'Area unspecified'} — ${priceLabel(node.priceEur)}` : `${kindLabel[node.kind]}: ${node.kind === 'img' ? 'Reused photo' : node.hint}`;
       return label.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    }} onNodeClick={node => { if (node.type === 'report') onReportSelect?.(node.id); }} linkColor={link => (onPathLink(link) ? theme.current : path ? `${theme.line}66` : theme.line)} linkWidth={link => (onPathLink(link) ? 4 : 1.5)} cooldownTicks={100} onEngineStop={() => { if (!fitted.current) { graph.current?.zoomToFit(400, path ? 120 : 45, path ? (node: GraphNode) => path.nodeIds.has(String(node.id)) : undefined); fitted.current = true; } }} />
+    }} onNodeClick={node => { if (node.type === 'report') onReportSelect?.(node.id); }} linkColor={link => (onPathLink(link) ? theme.current : onSelectedLink(link) ? theme.ink : path ? `${theme.line}66` : theme.line)} linkWidth={link => (onPathLink(link) ? 4 : onSelectedLink(link) ? 3 : 1.5)} cooldownTicks={100} onEngineStop={() => { if (!fitted.current) { graph.current?.zoomToFit(400, path ? 120 : 45, path ? (node: GraphNode) => path.nodeIds.has(String(node.id)) : undefined); fitted.current = true; } }} />
   </div><div className="graph-controls"><span>Drag to move · scroll to zoom</span><button type="button" className="button secondary small" onClick={() => graph.current?.zoomToFit(400, 45)}>Fit map</button></div></div>;
 }

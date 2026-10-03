@@ -257,11 +257,9 @@ Live database results and real street-tile availability remain unverified here.
 
 ## Public navigation
 
-Removed Live and Moderate from the header at the user's request. Both pages
-currently contain heading-only placeholders. Public navigation now focuses on
-checking a listing, the Ireland map and the under-the-hood evidence page.
-Lane D's routes and backend work remain available at their direct URLs so the
-team can finish the moderator confirmation/alert flow independently.
+The header links to checking a listing, the Ireland map, under-the-hood evidence
+and moderation. Moderation and the mounted alert toast are retained from the
+team's implementation. The Live page remains accessible at its direct URL.
 
 ## Mobile flow and evidence clarity
 
@@ -283,3 +281,19 @@ verify first-screen access, demo focus/announcement, verdict focus, result
 invalidation, scoring disclosure, visible masked details, keyboard highlighting,
 overflow and reduced motion. API requests used fixtures; this does not verify
 the shared database or Lane D's moderator/alert flow.
+
+## Integration after the team update
+
+Rebased the frontend onto the team's updates. Retained current proof-page text,
+refresh error handling, alert-triggered verdict refresh, visibility-aware polling,
+and the shortest connection path to a confirmed scam. Graph report selection
+works alongside that path. The backend moderation dependency
+`@modelcontextprotocol/sdk` is already declared in the team's package/lockfile;
+run `npm ci` after pulling so the installed dependencies match them.
+
+Rebase verification: no conflict markers remain; lint passes with one existing
+unused-variable warning in `scripts/moderator-agent.ts`. Browser checks confirm
+the confirmed-scam path, keyboard report selection and alert-triggered refresh
+on desktop with intercepted APIs. Production build and TypeScript checks were
+blocked by the missing MCP SDK; npm installation was blocked by this environment's
+network access. Reinstall dependencies and rerun the checks from a normal terminal.
