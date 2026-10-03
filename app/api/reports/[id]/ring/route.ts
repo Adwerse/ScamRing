@@ -30,6 +30,7 @@ type Link = { source: string; target: string; kind: Kind };
 type RingReport = Pick<Report, '_id' | 'area' | 'priceEur' | 'status' | 'identifiers' | 'identifierHints'>;
 
 const IMG = 'img';
+const OBJECT_ID = /^[0-9a-f]{24}$/i;
 const PROJECTION = { area: 1, priceEur: 1, status: 1, identifiers: 1, identifierHints: 1 } as const;
 
 function kindOf(identifier: string): Kind {
@@ -73,8 +74,10 @@ async function photoUrls(clusterIds: string[]): Promise<Map<string, string>> {
 }
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  if (!ObjectId.isValid(id)) return NextResponse.json({ error: 'invalid_id' }, { status: 400 });
+  const { id: requested } = await params;
+  if (!OBJECT_ID.test(requested)) return NextResponse.json({ error: 'invalid_id' }, { status: 400 });
+  // Canonical lowercase hex, so string comparisons with ids read back from MongoDB line up.
+  const id = new ObjectId(requested).toHexString();
   const database = await getDb();
   const reports = database.collection<Report>('reports');
   const current = await reports.findOne<RingReport>({ _id: new ObjectId(id) }, { projection: PROJECTION });
