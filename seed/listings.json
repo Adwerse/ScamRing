@@ -1,0 +1,2141 @@
+[
+  {
+    "key": "A1",
+    "source": "telegram",
+    "text": "Lovely 2-bed apartment in Sandymount, Dublin 4, exactly as in the photos. €1280 per month. Hello, thanks for your interest in my apartment. My husband and I moved back abroad for family reasons so I can't show it in person, but it's exactly like the pictures. Send the deposit and first month's rent and I'll have a courier deliver the keys to your home, shipping paid by me. I can't take card payments, please send the deposit by Revolut or crypto, or wire it to my account in another country. Cash is also fine if you prefer. Once it lands I'll confirm the room is yours. Call or text 087 412 0193",
+    "area": "Sandymount, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1280,
+    "photos": [
+      "p01.jpg",
+      "p02.jpg"
+    ],
+    "seed": true,
+    "seedRing": "A",
+    "status": "confirmed_scam"
+  },
+  {
+    "key": "A2",
+    "source": "daft",
+    "text": "Beautiful 1-bed apartment in Rathfarnham, Dublin 16, just like the pictures. €850 per month. Hello, thanks for your interest in my apartment. My husband and I moved back abroad for family reasons so I can't show it in person, but it's exactly like the pictures. Send the deposit and first month's rent and I'll have a courier deliver the keys to your home, shipping paid by me. I can't take card payments, please send the deposit by Revolut or crypto, or wire it to my account in another country. Cash is also fine if you prefer. Once it lands I'll confirm the room is yours. Email keys.courier.lettings@example.com",
+    "area": "Rathfarnham, Dublin 16",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 850,
+    "photos": [
+      "p02.jpg",
+      "p03.jpg"
+    ],
+    "seed": true,
+    "seedRing": "A",
+    "status": "confirmed_scam"
+  },
+  {
+    "key": "A3",
+    "source": "other",
+    "text": "Lovely 1-bed apartment in Clontarf, Dublin 3, exactly as in the photos. €950 per month. Hello, thanks for your interest in my apartment. My husband and I moved back abroad for family reasons so I can't show it in person, but it's exactly like the pictures. Send the deposit and first month's rent and I'll have a courier deliver the keys to your home, shipping paid by me. I can't take card payments, please send the deposit by Revolut or crypto, or wire it to my account in another country. Cash is also fine if you prefer. Once it lands I'll confirm the room is yours. Text 087 412 0193 or email keys.courier.lettings@example.com",
+    "area": "Clontarf, Dublin 3",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 950,
+    "photos": [
+      "p01.jpg"
+    ],
+    "seed": true,
+    "seedRing": "A",
+    "status": "pending"
+  },
+  {
+    "key": "A4",
+    "source": "facebook",
+    "text": "Beautiful 2-bed apartment in Lucan, Dublin, just like the pictures. €1000 per month. Hello, thanks for your interest in my apartment. My husband and I moved back abroad for family reasons so I can't show it in person, but it's exactly like the pictures. Send the deposit and first month's rent and I'll have a courier deliver the keys to your home, shipping paid by me. I can't take card payments, please send the deposit by Revolut or crypto, or wire it to my account in another country. Cash is also fine if you prefer. Once it lands I'll confirm the room is yours. WhatsApp 085 377 2048",
+    "area": "Lucan, Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1000,
+    "photos": [
+      "p03.jpg",
+      "p04.jpg"
+    ],
+    "seed": true,
+    "seedRing": "A",
+    "status": "pending"
+  },
+  {
+    "key": "A5",
+    "source": "facebook",
+    "text": "Lovely 1-bed apartment in Leopardstown, Dublin 18, exactly as in the photos. €940 per month. Hello, thanks for your interest in my apartment. My husband and I moved back abroad for family reasons so I can't show it in person, but it's exactly like the pictures. Send the deposit and first month's rent and I'll have a courier deliver the keys to your home, shipping paid by me. I can't take card payments, please send the deposit by Revolut or crypto, or wire it to my account in another country. Cash is also fine if you prefer. Once it lands I'll confirm the room is yours. WhatsApp 085 377 2048",
+    "area": "Leopardstown, Dublin 18",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 940,
+    "photos": [
+      "p04.jpg"
+    ],
+    "seed": true,
+    "seedRing": "A",
+    "status": "pending"
+  },
+  {
+    "key": "A6",
+    "source": "whatsapp",
+    "text": "Beautiful 1-bed apartment in Dublin, just like the pictures. €710 per month. Hello, thanks for your interest in my apartment. My husband and I moved back abroad for family reasons so I can't show it in person, but it's exactly like the pictures. Send the deposit and first month's rent and I'll have a courier deliver the keys to your home, shipping paid by me. I can't take card payments, please send the deposit by Revolut or crypto, or wire it to my account in another country. Cash is also fine if you prefer. Once it lands I'll confirm the room is yours. Contact keys.courier.lettings@example.com",
+    "area": "Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 710,
+    "photos": [
+      "p01.jpg",
+      "p04.jpg"
+    ],
+    "seed": true,
+    "seedRing": "A",
+    "status": "pending"
+  },
+  {
+    "key": "A7",
+    "source": "other",
+    "text": "Lovely 2-bed apartment in Crumlin, Dublin 12, exactly as in the photos. €1180 per month. Hello, thanks for your interest in my apartment. My husband and I moved back abroad for family reasons so I can't show it in person, but it's exactly like the pictures. Send the deposit and first month's rent and I'll have a courier deliver the keys to your home, shipping paid by me. I can't take card payments, please send the deposit by Revolut or crypto, or wire it to my account in another country. Cash is also fine if you prefer. Once it lands I'll confirm the room is yours. Ring 087 412 0193",
+    "area": "Crumlin, Dublin 12",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1180,
+    "photos": [
+      "p02.jpg"
+    ],
+    "seed": true,
+    "seedRing": "A",
+    "status": "pending"
+  },
+  {
+    "key": "A8",
+    "source": "facebook",
+    "text": "Beautiful 1-bed apartment in Dun Laoghaire, Dublin, just like the pictures. €940 per month. Hello, thanks for your interest in my apartment. My husband and I moved back abroad for family reasons so I can't show it in person, but it's exactly like the pictures. Send the deposit and first month's rent and I'll have a courier deliver the keys to your home, shipping paid by me. I can't take card payments, please send the deposit by Revolut or crypto, or wire it to my account in another country. Cash is also fine if you prefer. Once it lands I'll confirm the room is yours. Text 085 377 2048, email keys.courier.lettings@example.com",
+    "area": "Dun Laoghaire, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 940,
+    "photos": [
+      "p03.jpg"
+    ],
+    "seed": true,
+    "seedRing": "A",
+    "status": "pending"
+  },
+  {
+    "key": "B1",
+    "source": "facebook",
+    "text": "Double room going in Raheny, Dublin 5, viewing tonight. €390 per month. I'm the one letting the room, come see it this evening. Loads of people are viewing today, so whoever pays the deposit first gets it. Transfer it tonight and I'll give you the keys and move-in date. This is a one-time offer and I have lots of people asking, so I need the deposit and first month's rent today or it goes to the next person. No need for references, we can sort the lease out after you've paid. Deposit by Revolut to @dublinroomsnow",
+    "area": "Raheny, Dublin 5",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 390,
+    "photos": [
+      "p05.jpg"
+    ],
+    "seed": true,
+    "seedRing": "B",
+    "status": "pending"
+  },
+  {
+    "key": "B2",
+    "source": "other",
+    "text": "Great double room in Lucan, Dublin, loads of interest already. €540 per month. I'm the one letting the room, come see it this evening. Loads of people are viewing today, so whoever pays the deposit first gets it. Transfer it tonight and I'll give you the keys and move-in date. This is a one-time offer and I have lots of people asking, so I need the deposit and first month's rent today or it goes to the next person. No need for references, we can sort the lease out after you've paid. Deposit by Revolut to @dublinroomsnow",
+    "area": "Lucan, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 540,
+    "photos": [
+      "p06.jpg"
+    ],
+    "seed": true,
+    "seedRing": "B",
+    "status": "pending"
+  },
+  {
+    "key": "B3",
+    "source": "facebook",
+    "text": "Double room going in Malahide, Dublin, viewing tonight. €550 per month. I'm the one letting the room, come see it this evening. Loads of people are viewing today, so whoever pays the deposit first gets it. Transfer it tonight and I'll give you the keys and move-in date. This is a one-time offer and I have lots of people asking, so I need the deposit and first month's rent today or it goes to the next person. No need for references, we can sort the lease out after you've paid. Deposit by Revolut to @dublinroomsnow",
+    "area": "Malahide, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 550,
+    "photos": [
+      "p07.jpg"
+    ],
+    "seed": true,
+    "seedRing": "B",
+    "status": "pending"
+  },
+  {
+    "key": "B4",
+    "source": "telegram",
+    "text": "Great double room in Inchicore, Dublin 8, loads of interest already. €490 per month. I'm the one letting the room, come see it this evening. Loads of people are viewing today, so whoever pays the deposit first gets it. Transfer it tonight and I'll give you the keys and move-in date. This is a one-time offer and I have lots of people asking, so I need the deposit and first month's rent today or it goes to the next person. No need for references, we can sort the lease out after you've paid. Deposit by Revolut to @dublinroomsnow",
+    "area": "Inchicore, Dublin 8",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 490,
+    "photos": [
+      "p08.jpg"
+    ],
+    "seed": true,
+    "seedRing": "B",
+    "status": "pending"
+  },
+  {
+    "key": "B5",
+    "source": "daft",
+    "text": "Double room going in Blackrock, Dublin, viewing tonight. €590 per month. I'm the one letting the room, come see it this evening. Loads of people are viewing today, so whoever pays the deposit first gets it. Transfer it tonight and I'll give you the keys and move-in date. This is a one-time offer and I have lots of people asking, so I need the deposit and first month's rent today or it goes to the next person. No need for references, we can sort the lease out after you've paid. Deposit by Revolut to @dublinroomsnow",
+    "area": "Blackrock, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 590,
+    "photos": [
+      "p09.jpg"
+    ],
+    "seed": true,
+    "seedRing": "B",
+    "status": "pending"
+  },
+  {
+    "key": "B6",
+    "source": "whatsapp",
+    "text": "Great double room in Dun Laoghaire, Dublin, loads of interest already. €570 per month. I'm the one letting the room, come see it this evening. Loads of people are viewing today, so whoever pays the deposit first gets it. Transfer it tonight and I'll give you the keys and move-in date. This is a one-time offer and I have lots of people asking, so I need the deposit and first month's rent today or it goes to the next person. No need for references, we can sort the lease out after you've paid. Deposit by Revolut to @dublinroomsnow",
+    "area": "Dun Laoghaire, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 570,
+    "photos": [
+      "p10.jpg"
+    ],
+    "seed": true,
+    "seedRing": "B",
+    "status": "pending"
+  },
+  {
+    "key": "C1",
+    "source": "whatsapp",
+    "text": "Cosy 1-bed apartment in Malahide, Dublin, all bills included. €1090 per month. I'm hard of hearing so I can only talk on WhatsApp, sorry. I'm away helping my daughter who just had a baby, so I can't meet you, but here's a video of the apartment. If you send the deposit and first month's rent I'll have the contract signed by my solicitor. Before we go any further please send me a copy of your passport or driving licence and tell me a bit about yourself. Once you transfer the deposit and a month's rent I'll arrange to send you the keys. Email only maura.lettings.ie@example.net",
+    "area": "Malahide, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1090,
+    "photos": [
+      "p11.jpg"
+    ],
+    "seed": true,
+    "seedRing": "C",
+    "status": "pending"
+  },
+  {
+    "key": "C2",
+    "source": "whatsapp",
+    "text": "Quiet 1-bed apartment in Killiney, Dublin, ideal for students. €900 per month. I'm hard of hearing so I can only talk on WhatsApp, sorry. I'm away helping my daughter who just had a baby, so I can't meet you, but here's a video of the apartment. If you send the deposit and first month's rent I'll have the contract signed by my solicitor. Before we go any further please send me a copy of your passport or driving licence and tell me a bit about yourself. Once you transfer the deposit and a month's rent I'll arrange to send you the keys. Email maura.lettings.ie@example.net",
+    "area": "Killiney, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 900,
+    "photos": [
+      "p12.jpg"
+    ],
+    "seed": true,
+    "seedRing": "C",
+    "status": "pending"
+  },
+  {
+    "key": "C3",
+    "source": "other",
+    "text": "Cosy 1-bed apartment in Donnybrook, Dublin 4, all bills included. €810 per month. I'm hard of hearing so I can only talk on WhatsApp, sorry. I'm away helping my daughter who just had a baby, so I can't meet you, but here's a video of the apartment. If you send the deposit and first month's rent I'll have the contract signed by my solicitor. Before we go any further please send me a copy of your passport or driving licence and tell me a bit about yourself. Once you transfer the deposit and a month's rent I'll arrange to send you the keys. Message maura.lettings.ie@example.net",
+    "area": "Donnybrook, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 810,
+    "photos": [
+      "p13.jpg"
+    ],
+    "seed": true,
+    "seedRing": "C",
+    "status": "pending"
+  },
+  {
+    "key": "C4",
+    "source": "daft",
+    "text": "Quiet 1-bed apartment in Sandyford, Dublin 18, ideal for students. €960 per month. I'm hard of hearing so I can only talk on WhatsApp, sorry. I'm away helping my daughter who just had a baby, so I can't meet you, but here's a video of the apartment. If you send the deposit and first month's rent I'll have the contract signed by my solicitor. Before we go any further please send me a copy of your passport or driving licence and tell me a bit about yourself. Once you transfer the deposit and a month's rent I'll arrange to send you the keys. Email maura.lettings.ie@example.net or WhatsApp 087 412 0193",
+    "area": "Sandyford, Dublin 18",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 960,
+    "photos": [
+      "p14.jpg"
+    ],
+    "seed": true,
+    "seedRing": "C",
+    "status": "pending"
+  },
+  {
+    "key": "C5",
+    "source": "telegram",
+    "text": "Cosy 1-bed apartment in Balbriggan, Dublin, all bills included. €520 per month. I'm hard of hearing so I can only talk on WhatsApp, sorry. I'm away helping my daughter who just had a baby, so I can't meet you, but here's a video of the apartment. If you send the deposit and first month's rent I'll have the contract signed by my solicitor. Before we go any further please send me a copy of your passport or driving licence and tell me a bit about yourself. Once you transfer the deposit and a month's rent I'll arrange to send you the keys. Write to maura.lettings.ie@example.net",
+    "area": "Balbriggan, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 520,
+    "photos": [],
+    "seed": true,
+    "seedRing": "C",
+    "status": "pending"
+  },
+  {
+    "key": "L001",
+    "source": "other",
+    "text": "Bright 3-bed house available in Sandymount, Dublin 4. Washer dryer, dishwasher and plenty of storage. €3270 per month. Contract and inventory provided. Please bring references to the viewing. Call 087 100 1973",
+    "area": "Sandymount, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 3270,
+    "photos": [
+      "p15.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L002",
+    "source": "facebook",
+    "text": "Double room in a friendly house share in Dundrum, Dublin 16. Recently renovated bathroom, good broadband. €1190 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 083 101 3137",
+    "area": "Dundrum, Dublin 16",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1190,
+    "photos": [
+      "p16.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L003",
+    "source": "other",
+    "text": "Large double room with ensuite in Terenure, Dublin 6W. Recently renovated bathroom, good broadband. €970 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Contact the agent on 085 102 7813",
+    "area": "Terenure, Dublin 6W",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 970,
+    "photos": [
+      "p17.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L004",
+    "source": "telegram",
+    "text": "Spacious 2-bed apartment in a quiet development in Balbriggan, Dublin. Private balcony and allocated parking space. €1660 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 085 103 5454",
+    "area": "Balbriggan, Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1660,
+    "photos": [
+      "p18.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L005",
+    "source": "daft",
+    "text": "Bright 2-bed apartment available in Finglas, Dublin 11. Gas central heating, double glazing and a fully fitted kitchen. €2000 per month. Contract and inventory provided. Please bring references to the viewing. Call 086 104 2003",
+    "area": "Finglas, Dublin 11",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2000,
+    "photos": [
+      "p19.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L006",
+    "source": "facebook",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Clondalkin, Dublin 22. Furnished, with a south facing garden. €1730 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings5@example.org",
+    "area": "Clondalkin, Dublin 22",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1730,
+    "photos": [
+      "p20.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L007",
+    "source": "whatsapp",
+    "text": "Comfortable 2-bed apartment on a residential road in Terenure, Dublin 6W. Washer dryer, dishwasher and plenty of storage. €1990 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings6@example.org",
+    "area": "Terenure, Dublin 6W",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1990,
+    "photos": [
+      "p21.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L008",
+    "source": "other",
+    "text": "Large double room with ensuite in Tallaght, Dublin 24. Recently renovated bathroom, good broadband. €760 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 085 107 5133",
+    "area": "Tallaght, Dublin 24",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 760,
+    "photos": [
+      "p22.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L009",
+    "source": "facebook",
+    "text": "Bright 1-bed apartment available in Killiney, Dublin. Furnished, with a south facing garden. €2080 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Email lettings8@example.org",
+    "area": "Killiney, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 2080,
+    "photos": [
+      "p23.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L010",
+    "source": "other",
+    "text": "Spacious 2-bed apartment in a quiet development in Sandymount, Dublin 4. Recently renovated bathroom, good broadband. €2620 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Reply through the listing.",
+    "area": "Sandymount, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2620,
+    "photos": [
+      "p24.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L011",
+    "source": "whatsapp",
+    "text": "Bright 3-bed house available in Donnybrook, Dublin 4. Gas central heating, double glazing and a fully fitted kitchen. €3220 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings10@example.org",
+    "area": "Donnybrook, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 3220,
+    "photos": [
+      "p25.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L012",
+    "source": "whatsapp",
+    "text": "Bright 2-bed apartment available in Dundrum, Dublin 16. Washer dryer, dishwasher and plenty of storage. €2180 per month. Contract and inventory provided. Please bring references to the viewing. Contact the agent on 086 111 2784",
+    "area": "Dundrum, Dublin 16",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2180,
+    "photos": [
+      "p26.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L013",
+    "source": "other",
+    "text": "Large double room with ensuite in Lucan, Dublin. Gas central heating, double glazing and a fully fitted kitchen. €970 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 083 112 4674",
+    "area": "Lucan, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 970,
+    "photos": [
+      "p27.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L014",
+    "source": "telegram",
+    "text": "Bright 1-bed apartment available in Killiney, Dublin. Furnished, with a south facing garden. €1940 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Contact the agent on 087 113 3952",
+    "area": "Killiney, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1940,
+    "photos": [
+      "p28.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L015",
+    "source": "facebook",
+    "text": "Well kept 2-bed apartment to let in Terenure, Dublin 6W, available from the 1st. Walking distance to shops, buses and the park. €2310 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 085 114 8145",
+    "area": "Terenure, Dublin 6W",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2310,
+    "photos": [
+      "p29.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L016",
+    "source": "facebook",
+    "text": "Double room in a friendly house share in Sandyford, Dublin 18. Recently renovated bathroom, good broadband. €1210 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 085 115 4891",
+    "area": "Sandyford, Dublin 18",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1210,
+    "photos": [
+      "p30.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L017",
+    "source": "other",
+    "text": "Bright 1-bed apartment available in Crumlin, Dublin 12. Gas central heating, double glazing and a fully fitted kitchen. €1450 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings16@example.org",
+    "area": "Crumlin, Dublin 12",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1450,
+    "photos": [
+      "p31.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L018",
+    "source": "facebook",
+    "text": "Well kept 1-bed apartment to let in Blackrock, Dublin, available from the 1st. Private balcony and allocated parking space. €2360 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Reply through the listing.",
+    "area": "Blackrock, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 2360,
+    "photos": [
+      "p32.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L019",
+    "source": "whatsapp",
+    "text": "Double room in a friendly house share in Terenure, Dublin 6W. Recently renovated bathroom, good broadband. €910 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings18@example.org",
+    "area": "Terenure, Dublin 6W",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 910,
+    "photos": [
+      "p33.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L020",
+    "source": "daft",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Dublin. Walking distance to shops, buses and the park. €2470 per month. Contract and inventory provided. Please bring references to the viewing. Reply through the listing.",
+    "area": "Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2470,
+    "photos": [
+      "p34.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L021",
+    "source": "telegram",
+    "text": "Well kept 1-bed apartment to let in Crumlin, Dublin 12, available from the 1st. Walking distance to shops, buses and the park. €1360 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Call 086 120 1786",
+    "area": "Crumlin, Dublin 12",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1360,
+    "photos": [
+      "p35.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L022",
+    "source": "facebook",
+    "text": "Bright 3-bed house available in Leopardstown, Dublin 18. Recently renovated bathroom, good broadband. €2880 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Email lettings21@example.org",
+    "area": "Leopardstown, Dublin 18",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2880,
+    "photos": [
+      "p36.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L023",
+    "source": "facebook",
+    "text": "Newly decorated 1-bed apartment close to the Luas, Donnybrook, Dublin 4. Gas central heating, double glazing and a fully fitted kitchen. €1590 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Email lettings22@example.org",
+    "area": "Donnybrook, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1590,
+    "photos": [
+      "p37.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L024",
+    "source": "daft",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Drumcondra, Dublin 3. Private balcony and allocated parking space. €2080 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 085 123 1490",
+    "area": "Drumcondra, Dublin 3",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2080,
+    "photos": [
+      "p38.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L025",
+    "source": "facebook",
+    "text": "Bright 1-bed apartment available in Santry, Dublin 9. Washer dryer, dishwasher and plenty of storage. €1640 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings24@example.org",
+    "area": "Santry, Dublin 9",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1640,
+    "photos": [
+      "p39.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L026",
+    "source": "whatsapp",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Donnybrook, Dublin 4. Recently renovated bathroom, good broadband. €2230 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Contact the agent on 087 125 7080",
+    "area": "Donnybrook, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2230,
+    "photos": [
+      "p40.jpg"
+    ],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L027",
+    "source": "whatsapp",
+    "text": "Double room in a friendly house share in Finglas, Dublin 11. Furnished, with a south facing garden. €1000 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings26@example.org",
+    "area": "Finglas, Dublin 11",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1000,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L028",
+    "source": "whatsapp",
+    "text": "Spacious 3-bed house in a quiet development in Rathmines, Dublin 6. Private balcony and allocated parking space. €2560 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 085 127 7372",
+    "area": "Rathmines, Dublin 6",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2560,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L029",
+    "source": "daft",
+    "text": "Double room in a friendly house share in Stillorgan, Dublin. Recently renovated bathroom, good broadband. €1040 per month. Contract and inventory provided. Please bring references to the viewing. Contact the agent on 086 128 8112",
+    "area": "Stillorgan, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1040,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L030",
+    "source": "other",
+    "text": "Well kept 2-bed apartment to let in Clondalkin, Dublin 22, available from the 1st. Washer dryer, dishwasher and plenty of storage. €1990 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Email lettings29@example.org",
+    "area": "Clondalkin, Dublin 22",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1990,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L031",
+    "source": "daft",
+    "text": "Double room in a friendly house share in Blackrock, Dublin. Recently renovated bathroom, good broadband. €1120 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 086 130 2779",
+    "area": "Blackrock, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1120,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L032",
+    "source": "telegram",
+    "text": "Large double room with ensuite in Crumlin, Dublin 12. Washer dryer, dishwasher and plenty of storage. €750 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Reply through the listing.",
+    "area": "Crumlin, Dublin 12",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 750,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L033",
+    "source": "facebook",
+    "text": "Spacious 1-bed apartment in a quiet development in Ballsbridge, Dublin 4. Gas central heating, double glazing and a fully fitted kitchen. €1790 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 085 132 4117",
+    "area": "Ballsbridge, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1790,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L034",
+    "source": "other",
+    "text": "Bright 2-bed apartment available in Dundrum, Dublin 16. Washer dryer, dishwasher and plenty of storage. €2420 per month. Contract and inventory provided. Please bring references to the viewing. Reply through the listing.",
+    "area": "Dundrum, Dublin 16",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2420,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L035",
+    "source": "daft",
+    "text": "Newly decorated 3-bed house close to the Luas, Dublin. Walking distance to shops, buses and the park. €2610 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 083 134 9340",
+    "area": "Dublin",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2610,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L036",
+    "source": "daft",
+    "text": "Large double room with ensuite in Donnybrook, Dublin 4. Washer dryer, dishwasher and plenty of storage. €890 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 083 135 8186",
+    "area": "Donnybrook, Dublin 4",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 890,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L037",
+    "source": "facebook",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Ranelagh, Dublin 6. Private balcony and allocated parking space. €2550 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Contact the agent on 086 136 5280",
+    "area": "Ranelagh, Dublin 6",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2550,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L038",
+    "source": "other",
+    "text": "Single room available in Rathmines, Dublin 6, sharing with two professionals. Recently renovated bathroom, good broadband. €870 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings37@example.org",
+    "area": "Rathmines, Dublin 6",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 870,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L039",
+    "source": "other",
+    "text": "Single room available in Santry, Dublin 9, sharing with two professionals. Gas central heating, double glazing and a fully fitted kitchen. €1030 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings38@example.org",
+    "area": "Santry, Dublin 9",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1030,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L040",
+    "source": "whatsapp",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Lucan, Dublin. Gas central heating, double glazing and a fully fitted kitchen. €2220 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 085 139 8544",
+    "area": "Lucan, Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2220,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L041",
+    "source": "daft",
+    "text": "Well kept 3-bed house to let in Blackrock, Dublin, available from the 1st. Walking distance to shops, buses and the park. €3240 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Contact the agent on 087 140 5810",
+    "area": "Blackrock, Dublin",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 3240,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L042",
+    "source": "whatsapp",
+    "text": "Double room in a friendly house share in Malahide, Dublin. Gas central heating, double glazing and a fully fitted kitchen. €1080 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 085 141 1621",
+    "area": "Malahide, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1080,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L043",
+    "source": "telegram",
+    "text": "Single room available in Drumcondra, Dublin 3, sharing with two professionals. Washer dryer, dishwasher and plenty of storage. €790 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 087 142 2044",
+    "area": "Drumcondra, Dublin 3",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 790,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L044",
+    "source": "other",
+    "text": "Spacious 2-bed apartment in a quiet development in Swords, Dublin. Recently renovated bathroom, good broadband. €1690 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 087 143 3441",
+    "area": "Swords, Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1690,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L045",
+    "source": "daft",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Drumcondra, Dublin 3. Furnished, with a south facing garden. €2120 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Call 085 144 2554",
+    "area": "Drumcondra, Dublin 3",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2120,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L046",
+    "source": "telegram",
+    "text": "Spacious 1-bed apartment in a quiet development in Malahide, Dublin. Recently renovated bathroom, good broadband. €1830 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings45@example.org",
+    "area": "Malahide, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1830,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L047",
+    "source": "other",
+    "text": "Well kept 2-bed apartment to let in Leopardstown, Dublin 18, available from the 1st. Washer dryer, dishwasher and plenty of storage. €2310 per month. Contract and inventory provided. Please bring references to the viewing. Call 086 146 2706",
+    "area": "Leopardstown, Dublin 18",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2310,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L048",
+    "source": "facebook",
+    "text": "Single room available in Crumlin, Dublin 12, sharing with two professionals. Recently renovated bathroom, good broadband. €740 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Contact the agent on 085 147 6100",
+    "area": "Crumlin, Dublin 12",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 740,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L049",
+    "source": "other",
+    "text": "Bright 2-bed apartment available in Citywest, Dublin 24. Gas central heating, double glazing and a fully fitted kitchen. €2200 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 086 148 9359",
+    "area": "Citywest, Dublin 24",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2200,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L050",
+    "source": "whatsapp",
+    "text": "Comfortable 2-bed apartment on a residential road in Citywest, Dublin 24. Recently renovated bathroom, good broadband. €1980 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Citywest, Dublin 24",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1980,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L051",
+    "source": "telegram",
+    "text": "Double room in a friendly house share in Inchicore, Dublin 8. Walking distance to shops, buses and the park. €930 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 083 150 6205",
+    "area": "Inchicore, Dublin 8",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 930,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L052",
+    "source": "other",
+    "text": "Spacious 1-bed apartment in a quiet development in Ranelagh, Dublin 6. Furnished, with a south facing garden. €1690 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 086 151 6169",
+    "area": "Ranelagh, Dublin 6",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1690,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L053",
+    "source": "telegram",
+    "text": "Large double room with ensuite in Clondalkin, Dublin 22. Walking distance to shops, buses and the park. €700 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Email lettings52@example.org",
+    "area": "Clondalkin, Dublin 22",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 700,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L054",
+    "source": "facebook",
+    "text": "Double room in a friendly house share in Glasnevin, Dublin 9. Washer dryer, dishwasher and plenty of storage. €770 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings53@example.org",
+    "area": "Glasnevin, Dublin 9",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 770,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L055",
+    "source": "daft",
+    "text": "Single room available in Santry, Dublin 9, sharing with two professionals. Walking distance to shops, buses and the park. €880 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings54@example.org",
+    "area": "Santry, Dublin 9",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 880,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L056",
+    "source": "facebook",
+    "text": "Spacious 1-bed apartment in a quiet development in Tallaght, Dublin 24. Private balcony and allocated parking space. €1440 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Tallaght, Dublin 24",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1440,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L057",
+    "source": "whatsapp",
+    "text": "Well kept 2-bed apartment to let in Sandymount, Dublin 4, available from the 1st. Private balcony and allocated parking space. €2390 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Email lettings56@example.org",
+    "area": "Sandymount, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2390,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L058",
+    "source": "daft",
+    "text": "Comfortable 1-bed apartment on a residential road in Rathfarnham, Dublin 16. Recently renovated bathroom, good broadband. €1630 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Contact the agent on 086 157 1444",
+    "area": "Rathfarnham, Dublin 16",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1630,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L059",
+    "source": "daft",
+    "text": "Spacious 1-bed apartment in a quiet development in Citywest, Dublin 24. Walking distance to shops, buses and the park. €1770 per month. Contract and inventory provided. Please bring references to the viewing. Contact the agent on 086 158 1029",
+    "area": "Citywest, Dublin 24",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1770,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L060",
+    "source": "facebook",
+    "text": "Single room available in Lucan, Dublin, sharing with two professionals. Washer dryer, dishwasher and plenty of storage. €980 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 083 159 9332",
+    "area": "Lucan, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 980,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L061",
+    "source": "facebook",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Sandymount, Dublin 4. Walking distance to shops, buses and the park. €2130 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings60@example.org",
+    "area": "Sandymount, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2130,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L062",
+    "source": "facebook",
+    "text": "Newly decorated 3-bed house close to the Luas, Inchicore, Dublin 8. Furnished, with a south facing garden. €2610 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Call 086 161 7334",
+    "area": "Inchicore, Dublin 8",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2610,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L063",
+    "source": "facebook",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Terenure, Dublin 6W. Walking distance to shops, buses and the park. €2160 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Contact the agent on 087 162 2642",
+    "area": "Terenure, Dublin 6W",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2160,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L064",
+    "source": "telegram",
+    "text": "Bright 2-bed apartment available in Terenure, Dublin 6W. Furnished, with a south facing garden. €2260 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings63@example.org",
+    "area": "Terenure, Dublin 6W",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2260,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L065",
+    "source": "telegram",
+    "text": "Double room in a friendly house share in Crumlin, Dublin 12. Walking distance to shops, buses and the park. €800 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 085 164 1427",
+    "area": "Crumlin, Dublin 12",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 800,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L066",
+    "source": "whatsapp",
+    "text": "Newly decorated 3-bed house close to the Luas, Sandymount, Dublin 4. Private balcony and allocated parking space. €3530 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Contact the agent on 087 165 7952",
+    "area": "Sandymount, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 3530,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L067",
+    "source": "daft",
+    "text": "Well kept 1-bed apartment to let in Dun Laoghaire, Dublin, available from the 1st. Washer dryer, dishwasher and plenty of storage. €1640 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings66@example.org",
+    "area": "Dun Laoghaire, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1640,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L068",
+    "source": "other",
+    "text": "Spacious 1-bed apartment in a quiet development in Leopardstown, Dublin 18. Gas central heating, double glazing and a fully fitted kitchen. €1910 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings67@example.org",
+    "area": "Leopardstown, Dublin 18",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1910,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L069",
+    "source": "facebook",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Inchicore, Dublin 8. Gas central heating, double glazing and a fully fitted kitchen. €2150 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 083 168 9025",
+    "area": "Inchicore, Dublin 8",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2150,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L070",
+    "source": "telegram",
+    "text": "Spacious 2-bed apartment in a quiet development in Tallaght, Dublin 24. Gas central heating, double glazing and a fully fitted kitchen. €1980 per month. Contract and inventory provided. Please bring references to the viewing. Call 085 169 8264",
+    "area": "Tallaght, Dublin 24",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1980,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L071",
+    "source": "facebook",
+    "text": "Bright 3-bed house available in Terenure, Dublin 6W. Furnished, with a south facing garden. €2670 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 087 170 3141",
+    "area": "Terenure, Dublin 6W",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2670,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L072",
+    "source": "daft",
+    "text": "Double room in a friendly house share in Sandymount, Dublin 4. Furnished, with a south facing garden. €990 per month. Contract and inventory provided. Please bring references to the viewing. Contact the agent on 087 171 1997",
+    "area": "Sandymount, Dublin 4",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 990,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L073",
+    "source": "whatsapp",
+    "text": "Spacious 2-bed apartment in a quiet development in Dublin. Washer dryer, dishwasher and plenty of storage. €2360 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Contact the agent on 085 172 1751",
+    "area": "Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2360,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L074",
+    "source": "other",
+    "text": "Well kept 1-bed apartment to let in Rathfarnham, Dublin 16, available from the 1st. Walking distance to shops, buses and the park. €1760 per month. Contract and inventory provided. Please bring references to the viewing. Reply through the listing.",
+    "area": "Rathfarnham, Dublin 16",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1760,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L075",
+    "source": "daft",
+    "text": "Large double room with ensuite in Rathmines, Dublin 6. Private balcony and allocated parking space. €790 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 086 174 5343",
+    "area": "Rathmines, Dublin 6",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 790,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L076",
+    "source": "whatsapp",
+    "text": "Double room in a friendly house share in Dun Laoghaire, Dublin. Washer dryer, dishwasher and plenty of storage. €980 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Call 086 175 3575",
+    "area": "Dun Laoghaire, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 980,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L077",
+    "source": "whatsapp",
+    "text": "Bright 2-bed apartment available in Lucan, Dublin. Gas central heating, double glazing and a fully fitted kitchen. €2020 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Contact the agent on 083 176 9852",
+    "area": "Lucan, Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2020,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L078",
+    "source": "daft",
+    "text": "Large double room with ensuite in Finglas, Dublin 11. Gas central heating, double glazing and a fully fitted kitchen. €950 per month. Contract and inventory provided. Please bring references to the viewing. Call 083 177 4989",
+    "area": "Finglas, Dublin 11",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 950,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L079",
+    "source": "other",
+    "text": "Spacious 3-bed house in a quiet development in Stillorgan, Dublin. Private balcony and allocated parking space. €2870 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Call 086 178 4512",
+    "area": "Stillorgan, Dublin",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2870,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L080",
+    "source": "whatsapp",
+    "text": "Double room in a friendly house share in Killiney, Dublin. Washer dryer, dishwasher and plenty of storage. €1250 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Reply through the listing.",
+    "area": "Killiney, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1250,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L081",
+    "source": "whatsapp",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Drumcondra, Dublin 3. Private balcony and allocated parking space. €2150 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Drumcondra, Dublin 3",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2150,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L082",
+    "source": "whatsapp",
+    "text": "Single room available in Balbriggan, Dublin, sharing with two professionals. Furnished, with a south facing garden. €750 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Email lettings81@example.org",
+    "area": "Balbriggan, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 750,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L083",
+    "source": "telegram",
+    "text": "Newly decorated 1-bed apartment close to the Luas, Finglas, Dublin 11. Furnished, with a south facing garden. €1470 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 083 182 9624",
+    "area": "Finglas, Dublin 11",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1470,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L084",
+    "source": "telegram",
+    "text": "Bright 3-bed house available in Leopardstown, Dublin 18. Gas central heating, double glazing and a fully fitted kitchen. €2980 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings83@example.org",
+    "area": "Leopardstown, Dublin 18",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2980,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L085",
+    "source": "telegram",
+    "text": "Bright 2-bed apartment available in Stillorgan, Dublin. Washer dryer, dishwasher and plenty of storage. €2200 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Reply through the listing.",
+    "area": "Stillorgan, Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2200,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L086",
+    "source": "daft",
+    "text": "Newly decorated 3-bed house close to the Luas, Tallaght, Dublin 24. Walking distance to shops, buses and the park. €2210 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Tallaght, Dublin 24",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2210,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L087",
+    "source": "telegram",
+    "text": "Large double room with ensuite in Sandyford, Dublin 18. Private balcony and allocated parking space. €1020 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 087 186 9475",
+    "area": "Sandyford, Dublin 18",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1020,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L088",
+    "source": "telegram",
+    "text": "Well kept 1-bed apartment to let in Ranelagh, Dublin 6, available from the 1st. Walking distance to shops, buses and the park. €1770 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings87@example.org",
+    "area": "Ranelagh, Dublin 6",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1770,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L089",
+    "source": "daft",
+    "text": "Double room in a friendly house share in Raheny, Dublin 5. Private balcony and allocated parking space. €810 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Reply through the listing.",
+    "area": "Raheny, Dublin 5",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 810,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L090",
+    "source": "daft",
+    "text": "Comfortable 2-bed apartment on a residential road in Tallaght, Dublin 24. Private balcony and allocated parking space. €1830 per month. Contract and inventory provided. Please bring references to the viewing. Call 085 189 7104",
+    "area": "Tallaght, Dublin 24",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1830,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L091",
+    "source": "facebook",
+    "text": "Large double room with ensuite in Rathfarnham, Dublin 16. Gas central heating, double glazing and a fully fitted kitchen. €880 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 087 190 6212",
+    "area": "Rathfarnham, Dublin 16",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 880,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L092",
+    "source": "facebook",
+    "text": "Large double room with ensuite in Donnybrook, Dublin 4. Recently renovated bathroom, good broadband. €970 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Email lettings91@example.org",
+    "area": "Donnybrook, Dublin 4",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 970,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L093",
+    "source": "facebook",
+    "text": "Newly decorated 1-bed apartment close to the Luas, Killiney, Dublin. Washer dryer, dishwasher and plenty of storage. €1940 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Contact the agent on 085 192 1365",
+    "area": "Killiney, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1940,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L094",
+    "source": "other",
+    "text": "Comfortable 2-bed apartment on a residential road in Terenure, Dublin 6W. Walking distance to shops, buses and the park. €2200 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings93@example.org",
+    "area": "Terenure, Dublin 6W",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2200,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L095",
+    "source": "facebook",
+    "text": "Single room available in Dun Laoghaire, Dublin, sharing with two professionals. Gas central heating, double glazing and a fully fitted kitchen. €1040 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Contact the agent on 087 194 8989",
+    "area": "Dun Laoghaire, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1040,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L096",
+    "source": "daft",
+    "text": "Bright 1-bed apartment available in Ballsbridge, Dublin 4. Washer dryer, dishwasher and plenty of storage. €1900 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings95@example.org",
+    "area": "Ballsbridge, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1900,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L097",
+    "source": "daft",
+    "text": "Comfortable 1-bed apartment on a residential road in Blackrock, Dublin. Furnished, with a south facing garden. €2320 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 083 196 8101",
+    "area": "Blackrock, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 2320,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L098",
+    "source": "other",
+    "text": "Spacious 1-bed apartment in a quiet development in Malahide, Dublin. Recently renovated bathroom, good broadband. €2050 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings97@example.org",
+    "area": "Malahide, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 2050,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L099",
+    "source": "whatsapp",
+    "text": "Newly decorated 1-bed apartment close to the Luas, Killiney, Dublin. Private balcony and allocated parking space. €2160 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 087 198 2163",
+    "area": "Killiney, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 2160,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L100",
+    "source": "whatsapp",
+    "text": "Double room in a friendly house share in Sandymount, Dublin 4. Furnished, with a south facing garden. €1030 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Reply through the listing.",
+    "area": "Sandymount, Dublin 4",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1030,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L101",
+    "source": "daft",
+    "text": "Bright 2-bed apartment available in Rathfarnham, Dublin 16. Walking distance to shops, buses and the park. €1880 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 083 200 2484",
+    "area": "Rathfarnham, Dublin 16",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1880,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L102",
+    "source": "facebook",
+    "text": "Bright 1-bed apartment available in Ranelagh, Dublin 6. Washer dryer, dishwasher and plenty of storage. €1770 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 087 201 1190",
+    "area": "Ranelagh, Dublin 6",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1770,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L103",
+    "source": "whatsapp",
+    "text": "Comfortable 3-bed house on a residential road in Swords, Dublin. Walking distance to shops, buses and the park. €2480 per month. Contract and inventory provided. Please bring references to the viewing. Call 085 202 7726",
+    "area": "Swords, Dublin",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2480,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L104",
+    "source": "daft",
+    "text": "Newly decorated 2-bed apartment close to the Luas, Glasnevin, Dublin 9. Walking distance to shops, buses and the park. €2090 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Email lettings103@example.org",
+    "area": "Glasnevin, Dublin 9",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2090,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L105",
+    "source": "whatsapp",
+    "text": "Large double room with ensuite in Dublin. Furnished, with a south facing garden. €890 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 890,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L106",
+    "source": "daft",
+    "text": "Newly decorated 1-bed apartment close to the Luas, Finglas, Dublin 11. Walking distance to shops, buses and the park. €1730 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Email lettings105@example.org",
+    "area": "Finglas, Dublin 11",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1730,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L107",
+    "source": "daft",
+    "text": "Well kept 1-bed apartment to let in Clondalkin, Dublin 22, available from the 1st. Furnished, with a south facing garden. €1290 per month. Contract and inventory provided. Please bring references to the viewing. Call 086 206 8042",
+    "area": "Clondalkin, Dublin 22",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1290,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L108",
+    "source": "facebook",
+    "text": "Well kept 3-bed house to let in Blackrock, Dublin, available from the 1st. Furnished, with a south facing garden. €3220 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Email lettings107@example.org",
+    "area": "Blackrock, Dublin",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 3220,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L109",
+    "source": "other",
+    "text": "Bright 3-bed house available in Malahide, Dublin. Walking distance to shops, buses and the park. €2760 per month. Contract and inventory provided. Please bring references to the viewing. Call 085 208 7720",
+    "area": "Malahide, Dublin",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2760,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L110",
+    "source": "daft",
+    "text": "Single room available in Santry, Dublin 9, sharing with two professionals. Recently renovated bathroom, good broadband. €1030 per month. Contract and inventory provided. Please bring references to the viewing. Call 086 209 6272",
+    "area": "Santry, Dublin 9",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1030,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L111",
+    "source": "telegram",
+    "text": "Large double room with ensuite in Inchicore, Dublin 8. Gas central heating, double glazing and a fully fitted kitchen. €890 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings110@example.org",
+    "area": "Inchicore, Dublin 8",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 890,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L112",
+    "source": "whatsapp",
+    "text": "Well kept 3-bed house to let in Dundrum, Dublin 16, available from the 1st. Furnished, with a south facing garden. €3040 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Call 085 211 4073",
+    "area": "Dundrum, Dublin 16",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 3040,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L113",
+    "source": "other",
+    "text": "Newly decorated 1-bed apartment close to the Luas, Finglas, Dublin 11. Private balcony and allocated parking space. €1680 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 087 212 8659",
+    "area": "Finglas, Dublin 11",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1680,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L114",
+    "source": "other",
+    "text": "Well kept 2-bed apartment to let in Dublin, available from the 1st. Recently renovated bathroom, good broadband. €2480 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2480,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L115",
+    "source": "facebook",
+    "text": "Bright 2-bed apartment available in Raheny, Dublin 5. Gas central heating, double glazing and a fully fitted kitchen. €1830 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Reply through the listing.",
+    "area": "Raheny, Dublin 5",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1830,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L116",
+    "source": "facebook",
+    "text": "Single room available in Sandyford, Dublin 18, sharing with two professionals. Private balcony and allocated parking space. €1110 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Contact the agent on 087 215 3264",
+    "area": "Sandyford, Dublin 18",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1110,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L117",
+    "source": "whatsapp",
+    "text": "Newly decorated 1-bed apartment close to the Luas, Santry, Dublin 9. Gas central heating, double glazing and a fully fitted kitchen. €1670 per month. Contract and inventory provided. Please bring references to the viewing. Contact the agent on 085 216 2210",
+    "area": "Santry, Dublin 9",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1670,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L118",
+    "source": "facebook",
+    "text": "Well kept 3-bed house to let in Dun Laoghaire, Dublin, available from the 1st. Furnished, with a south facing garden. €2940 per month. Contract and inventory provided. Please bring references to the viewing. Reply through the listing.",
+    "area": "Dun Laoghaire, Dublin",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2940,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L119",
+    "source": "daft",
+    "text": "Spacious 1-bed apartment in a quiet development in Donnybrook, Dublin 4. Walking distance to shops, buses and the park. €1790 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Contact the agent on 083 218 6033",
+    "area": "Donnybrook, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1790,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L120",
+    "source": "whatsapp",
+    "text": "Bright 3-bed house available in Finglas, Dublin 11. Furnished, with a south facing garden. €2270 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Contact the agent on 087 219 7645",
+    "area": "Finglas, Dublin 11",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2270,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L121",
+    "source": "telegram",
+    "text": "Comfortable 3-bed house on a residential road in Rathmines, Dublin 6. Gas central heating, double glazing and a fully fitted kitchen. €2490 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Call 086 220 6509",
+    "area": "Rathmines, Dublin 6",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2490,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L122",
+    "source": "other",
+    "text": "Double room in a friendly house share in Glasnevin, Dublin 9. Washer dryer, dishwasher and plenty of storage. €800 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Reply through the listing.",
+    "area": "Glasnevin, Dublin 9",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 800,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L123",
+    "source": "facebook",
+    "text": "Well kept 1-bed apartment to let in Blackrock, Dublin, available from the 1st. Recently renovated bathroom, good broadband. €2320 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Blackrock, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 2320,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L124",
+    "source": "whatsapp",
+    "text": "Large double room with ensuite in Tallaght, Dublin 24. Gas central heating, double glazing and a fully fitted kitchen. €770 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Tallaght, Dublin 24",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 770,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L125",
+    "source": "whatsapp",
+    "text": "Well kept 2-bed apartment to let in Rathfarnham, Dublin 16, available from the 1st. Washer dryer, dishwasher and plenty of storage. €2130 per month. Contract and inventory provided. Please bring references to the viewing. Call 085 224 4171",
+    "area": "Rathfarnham, Dublin 16",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2130,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L126",
+    "source": "other",
+    "text": "Comfortable 2-bed apartment on a residential road in Balbriggan, Dublin. Gas central heating, double glazing and a fully fitted kitchen. €1720 per month. Contract and inventory provided. Please bring references to the viewing. Contact the agent on 087 225 2407",
+    "area": "Balbriggan, Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1720,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L127",
+    "source": "other",
+    "text": "Newly decorated 1-bed apartment close to the Luas, Santry, Dublin 9. Walking distance to shops, buses and the park. €1610 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings126@example.org",
+    "area": "Santry, Dublin 9",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1610,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L128",
+    "source": "whatsapp",
+    "text": "Double room in a friendly house share in Blackrock, Dublin. Recently renovated bathroom, good broadband. €1280 per month. Contract and inventory provided. Please bring references to the viewing. Reply through the listing.",
+    "area": "Blackrock, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1280,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L129",
+    "source": "other",
+    "text": "Spacious 2-bed apartment in a quiet development in Santry, Dublin 9. Washer dryer, dishwasher and plenty of storage. €2280 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Santry, Dublin 9",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2280,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L130",
+    "source": "daft",
+    "text": "Single room available in Santry, Dublin 9, sharing with two professionals. Gas central heating, double glazing and a fully fitted kitchen. €980 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings129@example.org",
+    "area": "Santry, Dublin 9",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 980,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L131",
+    "source": "other",
+    "text": "Comfortable 2-bed apartment on a residential road in Killiney, Dublin. Washer dryer, dishwasher and plenty of storage. €2400 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Email lettings130@example.org",
+    "area": "Killiney, Dublin",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2400,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L132",
+    "source": "telegram",
+    "text": "Well kept 2-bed apartment to let in Drumcondra, Dublin 3, available from the 1st. Private balcony and allocated parking space. €2230 per month. Contract and inventory provided. Please bring references to the viewing. Call 086 231 9905",
+    "area": "Drumcondra, Dublin 3",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2230,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L133",
+    "source": "telegram",
+    "text": "Large double room with ensuite in Leopardstown, Dublin 18. Walking distance to shops, buses and the park. €950 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Reply through the listing.",
+    "area": "Leopardstown, Dublin 18",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 950,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L134",
+    "source": "other",
+    "text": "Comfortable 3-bed house on a residential road in Stillorgan, Dublin. Gas central heating, double glazing and a fully fitted kitchen. €2620 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Call 085 233 4167",
+    "area": "Stillorgan, Dublin",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 2620,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L135",
+    "source": "other",
+    "text": "Bright 1-bed apartment available in Dundrum, Dublin 16. Furnished, with a south facing garden. €2220 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings134@example.org",
+    "area": "Dundrum, Dublin 16",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 2220,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L136",
+    "source": "daft",
+    "text": "Comfortable 1-bed apartment on a residential road in Swords, Dublin. Gas central heating, double glazing and a fully fitted kitchen. €1400 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Contact the agent on 085 235 2706",
+    "area": "Swords, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1400,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L137",
+    "source": "daft",
+    "text": "Large double room with ensuite in Inchicore, Dublin 8. Private balcony and allocated parking space. €780 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings136@example.org",
+    "area": "Inchicore, Dublin 8",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 780,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L138",
+    "source": "telegram",
+    "text": "Well kept 1-bed apartment to let in Sandyford, Dublin 18, available from the 1st. Gas central heating, double glazing and a fully fitted kitchen. €1920 per month. Contract and inventory provided. Please bring references to the viewing. Contact the agent on 085 237 8661",
+    "area": "Sandyford, Dublin 18",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1920,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L139",
+    "source": "other",
+    "text": "Single room available in Stillorgan, Dublin, sharing with two professionals. Furnished, with a south facing garden. €1270 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Reply through the listing.",
+    "area": "Stillorgan, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1270,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L140",
+    "source": "daft",
+    "text": "Single room available in Lucan, Dublin, sharing with two professionals. Private balcony and allocated parking space. €1050 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Reply through the listing.",
+    "area": "Lucan, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1050,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L141",
+    "source": "daft",
+    "text": "Spacious 3-bed house in a quiet development in Killiney, Dublin. Walking distance to shops, buses and the park. €3020 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Contact the agent on 087 240 9616",
+    "area": "Killiney, Dublin",
+    "kind": "whole",
+    "bedrooms": 3,
+    "priceEur": 3020,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L142",
+    "source": "whatsapp",
+    "text": "Well kept 2-bed apartment to let in Sandyford, Dublin 18, available from the 1st. Gas central heating, double glazing and a fully fitted kitchen. €2540 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Email lettings141@example.org",
+    "area": "Sandyford, Dublin 18",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2540,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L143",
+    "source": "telegram",
+    "text": "Large double room with ensuite in Dun Laoghaire, Dublin. Recently renovated bathroom, good broadband. €850 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings142@example.org",
+    "area": "Dun Laoghaire, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 850,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L144",
+    "source": "telegram",
+    "text": "Large double room with ensuite in Blackrock, Dublin. Walking distance to shops, buses and the park. €1110 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Call 085 243 4631",
+    "area": "Blackrock, Dublin",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1110,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L145",
+    "source": "whatsapp",
+    "text": "Large double room with ensuite in Santry, Dublin 9. Private balcony and allocated parking space. €1020 per month. Viewings by appointment this week. Lease of 12 months, one month deposit, references required. Email lettings144@example.org",
+    "area": "Santry, Dublin 9",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 1020,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L146",
+    "source": "daft",
+    "text": "Bright 2-bed apartment available in Donnybrook, Dublin 4. Furnished, with a south facing garden. €2270 per month. Contract and inventory provided. Please bring references to the viewing. Email lettings145@example.org",
+    "area": "Donnybrook, Dublin 4",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2270,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L147",
+    "source": "whatsapp",
+    "text": "Comfortable 2-bed apartment on a residential road in Finglas, Dublin 11. Furnished, with a south facing garden. €2010 per month. Registered with the RTB. Viewing essential before any deposit. HAP considered. Reply through the listing.",
+    "area": "Finglas, Dublin 11",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 2010,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L148",
+    "source": "other",
+    "text": "Large double room with ensuite in Ranelagh, Dublin 6. Furnished, with a south facing garden. €790 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Call 085 247 1019",
+    "area": "Ranelagh, Dublin 6",
+    "kind": "room",
+    "bedrooms": null,
+    "priceEur": 790,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L149",
+    "source": "whatsapp",
+    "text": "Bright 2-bed apartment available in Rathmines, Dublin 6. Gas central heating, double glazing and a fully fitted kitchen. €1890 per month. Contract and inventory provided. Please bring references to the viewing. Reply through the listing.",
+    "area": "Rathmines, Dublin 6",
+    "kind": "whole",
+    "bedrooms": 2,
+    "priceEur": 1890,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  },
+  {
+    "key": "L150",
+    "source": "other",
+    "text": "Comfortable 1-bed apartment on a residential road in Lucan, Dublin. Furnished, with a south facing garden. €1720 per month. Open viewing Saturday 11am to 12pm. Deposit paid by bank transfer after lease signing. Email lettings149@example.org",
+    "area": "Lucan, Dublin",
+    "kind": "whole",
+    "bedrooms": 1,
+    "priceEur": 1720,
+    "photos": [],
+    "seed": true,
+    "status": "legit"
+  }
+]
