@@ -1,5 +1,5 @@
 // Pulls contact identifiers out of listing text and hashes them. Raw values never leave this
-// module: callers get 'kind:<hmac>' strings, hints (last 2 characters of the normalised value)
+// module: callers get 'kind:<hmac>' strings, masked hints (see maskHint)
 // and the text with every identifier replaced by '[phone]', '[email]', '[pay]' or '[iban]'.
 import { createHmac } from 'node:crypto';
 import type { IdentifierHint } from '@/lib/types';
@@ -108,6 +108,25 @@ function takePhones(text: string, found: Found[]): string {
   return out;
 }
 
+/**
+ * A short, readable hint that never contains the raw value: '+353 ** *** 0193' (last 4 digits),
+ * 'j***@e***.com' (first letters and the ending), '@d***ow' (first and last 2 characters),
+ * 'IE** **** 5678' (country and last 4).
+ */
+export function maskHint(kind: Kind, value: string): string {
+  if (kind === 'phone') {
+    const country = value.match(/^\+(353|44|\d{1,3})/)?.[0] ?? '+';
+    return `${country} ** *** ${value.slice(-4)}`;
+  }
+  if (kind === 'email') {
+    const [local, domain = ''] = value.split('@');
+    const dot = domain.lastIndexOf('.');
+    return `${local[0]}***@${domain[0] ?? ''}***${dot === -1 ? '' : domain.slice(dot)}`;
+  }
+  if (kind === 'pay') return `@${value[0]}***${value.length > 4 ? value.slice(-2) : ''}`;
+  return `${value.slice(0, 2)}** **** ${value.slice(-4)}`;
+}
+
 export function extractIdentifiers(text: string): { identifiers: string[]; hints: IdentifierHint[]; redactedText: string } {
   const found: Found[] = [];
   let redacted = take(text, EMAIL_RE, 'email', (m) => m.toLowerCase().trim(), found);
@@ -124,7 +143,7 @@ export function extractIdentifiers(text: string): { identifiers: string[]; hints
     if (seen.has(id)) continue;
     seen.add(id);
     identifiers.push(id);
-    hints.push({ kind, hint: value.slice(-2) });
+    hints.push({ kind, hint: maskHint(kind, value) });
   }
   return { identifiers, hints, redactedText: redacted };
 }
