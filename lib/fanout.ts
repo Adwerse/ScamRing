@@ -4,19 +4,41 @@ import { getRing } from '@/lib/ring';
 import { computeVerdict } from '@/lib/verdict';
 import type { Alert, Check, Report } from '@/lib/types';
 
-/** Safe to retry after a worker restart or concurrent inline delivery. */
-export async function fanOut(confirmedReportId: string, memberIds?: string[]) {
+type Linked = Pick<Report, '_id' | 'area' | 'priceEur' | 'status'>;
+
+/** The confirmed report and every non-rejected report in its ring. */
+async function linkedReports(confirmedReportId: string, memberIds?: string[]): Promise<Linked[]> {
   const db = await getDb();
-  const triggerReportId = new ObjectId(confirmedReportId);
   const ring = memberIds ? null : await getRing(confirmedReportId);
   const ids = [
     ...new Set([confirmedReportId, ...(memberIds ?? ring!.members.map((m) => m._id))]),
   ];
-  const linked = await db.collection<Report>('reports')
+  return db.collection<Report>('reports')
     .find({ _id: { $in: ids.map((id) => new ObjectId(id)) }, status: { $ne: 'rejected' } },
       { projection: { area: 1, priceEur: 1, status: 1 } }).toArray();
+}
+
+/**
+ * Recomputes the verdicts of the confirmed report's ring, so open report pages show the new
+ * evidence. Runs after fanOut: each verdict can take seconds (embedding and summary calls), and
+ * alerts must not wait for them. A failed verdict is logged and skipped.
+ */
+export async function refreshVerdicts(confirmedReportId: string, memberIds?: string[]): Promise<void> {
+  for (const report of await linkedReports(confirmedReportId, memberIds)) {
+    await computeVerdict(report._id.toString()).catch((error) => console.error('refreshVerdicts failed', report._id.toString(), error));
+  }
+}
+
+/**
+ * Alerts every session that checked the confirmed report or a report in its ring. Writes alerts
+ * only, so delivery is not delayed by verdict recomputation; call refreshVerdicts afterwards.
+ * Safe to retry after a worker restart or concurrent inline delivery.
+ */
+export async function fanOut(confirmedReportId: string, memberIds?: string[]) {
+  const db = await getDb();
+  const triggerReportId = new ObjectId(confirmedReportId);
+  const linked = await linkedReports(confirmedReportId, memberIds);
   const byId = new Map(linked.map((report) => [report._id.toString(), report]));
-  for (const report of linked) await computeVerdict(report._id.toString());
   const alerts = db.collection<Alert>('alerts');
   await alerts.createIndex(
     { sessionId: 1, reportId: 1, triggerReportId: 1 },

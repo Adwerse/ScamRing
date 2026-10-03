@@ -2,7 +2,7 @@ import { timingSafeEqual } from 'node:crypto';
 import { ObjectId } from 'mongodb';
 import { z } from 'zod';
 import { getClient, getDb } from '@/lib/db';
-import { fanOut } from '@/lib/fanout';
+import { fanOut, refreshVerdicts } from '@/lib/fanout';
 import type { Report, ReportStatus, ModerationEvent } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -73,6 +73,8 @@ export async function POST(
     if (status === 'confirmed_scam' && process.env.FANOUT_INLINE === '1') {
       try {
         alerts = await fanOut(id);
+        // Respond as soon as alerts exist; verdicts update in the background.
+        void refreshVerdicts(id);
       } catch {
         return Response.json(
           {

@@ -3,7 +3,7 @@ import { config } from 'dotenv';
 config({ path: ['.env.local', '.env'], quiet: true });
 import type { ChangeStream, ChangeStreamInsertDocument, ResumeToken } from 'mongodb';
 import { getClient, getDb } from '../lib/db';
-import { fanOut } from '../lib/fanout';
+import { fanOut, refreshVerdicts } from '../lib/fanout';
 import type { ModerationEvent } from '../lib/types';
 
 const RESUME_KEY = 'worker_resume_token';
@@ -40,6 +40,7 @@ async function main() {
         await fanOut(saved.pending.reportId);
         await checkpoint(saved.pending.token);
         saved.token = saved.pending.token;
+        await refreshVerdicts(saved.pending.reportId);
       }
       stream = database.collection<ModerationEvent>('moderation_events')
         .watch<ModerationEvent, ChangeStreamInsertDocument<ModerationEvent>>(
@@ -63,6 +64,8 @@ async function main() {
             await checkpoint(event._id);
             delivered = true;
             console.log(`confirmation ${event.fullDocument.reportId}: ${created} new alerts`);
+            // Alerts are out; verdicts can take seconds and never block delivery or the checkpoint.
+            await refreshVerdicts(event.fullDocument.reportId.toString());
           } catch {
             if (!stopping) {
               console.error('worker: delivery failed; retrying this event without advancing its checkpoint');
