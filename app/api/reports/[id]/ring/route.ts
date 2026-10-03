@@ -1,8 +1,10 @@
-import { notImplemented } from '@/lib/stub';
+import { NextResponse } from 'next/server';
+import fixture from '@/fixtures/ring.json';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+// STUB: returns fixtures/ring.json
 export async function GET() {
-  return notImplemented('GET /api/reports/[id]/ring');
+  return NextResponse.json(fixture);
 }

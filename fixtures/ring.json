@@ -1,0 +1,162 @@
+{
+  "nodes": [
+    {
+      "id": "6650a0000000000000000001",
+      "type": "report",
+      "area": "Dublin 8",
+      "priceEur": 650,
+      "status": "pending",
+      "hops": 0,
+      "isCurrent": true
+    },
+    {
+      "id": "6650a0000000000000000002",
+      "type": "report",
+      "area": "Dublin 8",
+      "priceEur": 700,
+      "status": "confirmed_scam",
+      "hops": 1,
+      "isCurrent": false
+    },
+    {
+      "id": "6650a0000000000000000003",
+      "type": "report",
+      "area": "Dublin 7",
+      "priceEur": 600,
+      "status": "pending",
+      "hops": 1,
+      "isCurrent": false
+    },
+    {
+      "id": "6650a0000000000000000004",
+      "type": "report",
+      "area": "Dublin 2",
+      "priceEur": 800,
+      "status": "pending",
+      "hops": 1,
+      "isCurrent": false
+    },
+    {
+      "id": "6650a0000000000000000005",
+      "type": "report",
+      "area": "Dublin 6",
+      "priceEur": 950,
+      "status": "legit",
+      "hops": 2,
+      "isCurrent": false
+    },
+    {
+      "id": "6650a0000000000000000006",
+      "type": "report",
+      "area": "Dublin 1",
+      "priceEur": 750,
+      "status": "pending",
+      "hops": 2,
+      "isCurrent": false
+    },
+    {
+      "id": "6650a0000000000000000007",
+      "type": "report",
+      "area": "Dublin 4",
+      "priceEur": 900,
+      "status": "pending",
+      "hops": 2,
+      "isCurrent": false
+    },
+    {
+      "id": "6650a0000000000000000008",
+      "type": "report",
+      "area": "Dublin 3",
+      "priceEur": null,
+      "status": "pending",
+      "hops": 2,
+      "isCurrent": false
+    },
+    {
+      "id": "phone:1786959e166a3d8166c7b9a8bbde9bb25cecdcb23cc3f01ccf4cdccbe5604493",
+      "type": "identifier",
+      "kind": "phone",
+      "hint": "+353 ** *** 4821"
+    },
+    {
+      "id": "pay:43e0e9f86ee5ecd12f53053fb53ce7c569f3b8054f4215d32203497954a7a14d",
+      "type": "identifier",
+      "kind": "pay",
+      "hint": "revolut @j***"
+    },
+    {
+      "id": "email:03404fcf5b6af47a852c9dc0406b5b6b2e8e8bb19bfdea1824ca893a93a0c767",
+      "type": "identifier",
+      "kind": "email",
+      "hint": "j***@example.com"
+    },
+    {
+      "id": "img:c0ffee01",
+      "type": "identifier",
+      "kind": "img",
+      "hint": "/api/photos/6650a0000000000000000065/thumb"
+    }
+  ],
+  "links": [
+    {
+      "source": "6650a0000000000000000001",
+      "target": "phone:1786959e166a3d8166c7b9a8bbde9bb25cecdcb23cc3f01ccf4cdccbe5604493",
+      "kind": "phone"
+    },
+    {
+      "source": "6650a0000000000000000001",
+      "target": "img:c0ffee01",
+      "kind": "img"
+    },
+    {
+      "source": "6650a0000000000000000002",
+      "target": "phone:1786959e166a3d8166c7b9a8bbde9bb25cecdcb23cc3f01ccf4cdccbe5604493",
+      "kind": "phone"
+    },
+    {
+      "source": "6650a0000000000000000002",
+      "target": "pay:43e0e9f86ee5ecd12f53053fb53ce7c569f3b8054f4215d32203497954a7a14d",
+      "kind": "pay"
+    },
+    {
+      "source": "6650a0000000000000000003",
+      "target": "phone:1786959e166a3d8166c7b9a8bbde9bb25cecdcb23cc3f01ccf4cdccbe5604493",
+      "kind": "phone"
+    },
+    {
+      "source": "6650a0000000000000000004",
+      "target": "img:c0ffee01",
+      "kind": "img"
+    },
+    {
+      "source": "6650a0000000000000000004",
+      "target": "email:03404fcf5b6af47a852c9dc0406b5b6b2e8e8bb19bfdea1824ca893a93a0c767",
+      "kind": "email"
+    },
+    {
+      "source": "6650a0000000000000000005",
+      "target": "pay:43e0e9f86ee5ecd12f53053fb53ce7c569f3b8054f4215d32203497954a7a14d",
+      "kind": "pay"
+    },
+    {
+      "source": "6650a0000000000000000006",
+      "target": "pay:43e0e9f86ee5ecd12f53053fb53ce7c569f3b8054f4215d32203497954a7a14d",
+      "kind": "pay"
+    },
+    {
+      "source": "6650a0000000000000000007",
+      "target": "email:03404fcf5b6af47a852c9dc0406b5b6b2e8e8bb19bfdea1824ca893a93a0c767",
+      "kind": "email"
+    },
+    {
+      "source": "6650a0000000000000000008",
+      "target": "email:03404fcf5b6af47a852c9dc0406b5b6b2e8e8bb19bfdea1824ca893a93a0c767",
+      "kind": "email"
+    }
+  ],
+  "stats": {
+    "reports": 8,
+    "confirmed": 1,
+    "maxHops": 2
+  }
+}

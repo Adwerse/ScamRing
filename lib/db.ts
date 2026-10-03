@@ -1,7 +1,5 @@
 import { MongoClient, type Db } from 'mongodb';
 
-const DB_NAME = 'scamring';
-
 const g = globalThis as unknown as { _mongoClient?: Promise<MongoClient> };
 
 export function getClient(): Promise<MongoClient> {
@@ -14,5 +12,5 @@ export function getClient(): Promise<MongoClient> {
 }
 
 export async function getDb(): Promise<Db> {
-  return (await getClient()).db(DB_NAME);
+  return (await getClient()).db(process.env.DB_NAME || 'scamring');
 }

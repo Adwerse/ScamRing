@@ -1,0 +1,38 @@
+{
+  "reportId": "6650a0000000000000000001",
+  "verdict": {
+    "score": 55,
+    "level": "MEDIUM",
+    "signals": [
+      {
+        "code": "ring_link",
+        "points": 30,
+        "title": "Linked to a confirmed scam ring",
+        "evidence": "Shares a phone number with a listing confirmed as a scam (2 hops from 8 linked reports).",
+        "refs": [
+          "6650a0000000000000000002"
+        ]
+      },
+      {
+        "code": "price_low",
+        "points": 15,
+        "title": "Price far below market",
+        "evidence": "€650/month for a 1-bed in Dublin 8; the average is €2,100 (69% lower).",
+        "refs": []
+      },
+      {
+        "code": "script_match",
+        "points": 10,
+        "title": "Matches a known scam script",
+        "evidence": "Asks for a deposit before viewing, as the \"absent landlord\" script does.",
+        "refs": []
+      }
+    ],
+    "summary": "Medium risk: the phone number is shared with a confirmed scam and the price is about 70% under market. Do not pay before viewing in person.",
+    "computedAt": "2026-10-03T11:30:00.000Z"
+  },
+  "ring": {
+    "size": 8,
+    "confirmedCount": 1
+  }
+}

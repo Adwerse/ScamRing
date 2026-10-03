@@ -132,7 +132,7 @@ Raw phone numbers, emails, payment handles and IBANs are **never stored**, logge
 
 ## API
 
-All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. Currently every route is a stub returning HTTP 501 `{ "error": "not_implemented", "route": "<METHOD path>" }`.
+All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. `POST /api/check`, `GET /api/reports/[id]` and `GET /api/reports/[id]/ring` currently return fixtures (see below). The other routes are stubs returning HTTP 501 `{ "error": "not_implemented", "route": "<METHOD path>" }`.
 
 | Route | Purpose |
 | --- | --- |
@@ -144,8 +144,58 @@ All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. Current
 | `GET /api/stream` | Server-sent events: live alerts for the current session (`sr_sid` cookie) |
 | `GET /api/under-the-hood` | Debug/explain data: counts, indexes and pipelines used by the checker |
 
-Request/response schemas are not fixed yet; define them with zod next to each route and update this file when they settle.
 
 ## Session
 
 Middleware sets cookie `sr_sid` (uuid v4, path `/`, 30 days, `SameSite=Lax`) when missing. It is the `sessionId` on `Check` and `Alert`.
+
+## Frozen signatures
+
+### Response contracts (fixtures)
+
+The four JSON files in [fixtures/](fixtures/) are the response contracts. Ids are strings, dates are ISO strings.
+
+| Fixture | Contract |
+| --- | --- |
+| `fixtures/report.json` | `GET /api/reports/[id]`: a `Report` without `identifiers` (only `identifierHints`), with a `Verdict` |
+| `fixtures/check-response.json` | `POST /api/check`: `{ reportId, verdict, ring: { size, confirmedCount } }` |
+| `fixtures/ring.json` | `GET /api/reports/[id]/ring`: `{ nodes, links, stats: { reports, confirmed, maxHops } }`. Report nodes `{ id, type: 'report', area, priceEur, status, hops, isCurrent }`, identifier nodes `{ id, type: 'identifier', kind, hint }` (for `img`, `hint` is a thumbnail URL), links `{ source: reportId, target: identifierId, kind }` |
+| `fixtures/alert.json` | An `Alert` (ids as strings) |
+
+### Functions
+
+```ts
+// lib/ring.ts
+export type RingMember = {
+  _id: string; area: string; priceEur: number | null;
+  status: ReportStatus; hops: number; identifiers: string[];
+};
+export async function getRing(reportId: string):
+  Promise<{ members: RingMember[]; sharedIdentifiers: string[] }>;
+
+// lib/verdict.ts
+export async function computeVerdict(reportId: string): Promise<Verdict>;
+
+// lib/ingest.ts
+export type IngestInput = {
+  source: Source; text: string; area: string; kind: 'room' | 'whole';
+  bedrooms: number | null; priceEur: number | null; photos: Buffer[];
+  seed?: boolean; seedRing?: string; status?: ReportStatus;
+};
+export async function ingestReport(input: IngestInput): Promise<Report>;
+
+// lib/signals/{ringLink,photoReuse,textClone,scriptMatch,priceLow}.ts
+// each file exports one function named after the file:
+export async function <fileName>(report: Report): Promise<Signal | null>;
+
+// lib/signals/index.ts
+export const signals = [ringLink, photoReuse, textClone, scriptMatch, priceLow];
+```
+
+### Rule
+
+Changing a signature or a fixture shape needs an announcement in chat. A updates CONTRACT.md and the stub in the same commit.
+
+## Environment
+
+`DB_NAME` selects the database (default `scamring`, the shared one). Personal sandboxes: `scamring_a`, `scamring_b`, `scamring_c`, `scamring_d`.

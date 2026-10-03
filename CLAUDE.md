@@ -21,3 +21,6 @@ ScamRing is a hackathon project (MongoDB Builder Day Dublin, ~4h of coding).
 - Never change lib/types.ts without updating CONTRACT.md.
 - Prefer aggregation pipelines over application-side joins.
 - Keep functions small and typed.
+- Each signal catches its own errors and returns null.
+- DB_NAME selects the database.
+- Scripts that delete data must refuse DB_NAME=scamring unless run with --shared.
