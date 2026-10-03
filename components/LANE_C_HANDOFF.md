@@ -149,3 +149,137 @@ focused fixture/malformed-response/timeout checks passed. A simulated form
 interaction verified six-photo-to-demo replacement and URL cleanup. Browser
 visual, clipboard and print-preview checks and shared-DB verdict/alert tests
 remain integration checks; this audit did not change shared moderation data.
+
+## Investigative layout
+
+Landing page pairs the first-screen input with a labelled illustrative ring
+trail on desktop; mobile prioritises the input. Metadata and photos use native
+collapsible disclosures. Preset attachments open automatically; hidden invalid
+fields reveal for browser validation. System typography adds no dependencies.
+Verdict and connections are columns above 900 px and stack on smaller screens.
+Build, lint, TypeScript and metadata/form regression checks passed. Chrome
+checks at 1440 and 390 px verified report columns/stacking and no horizontal
+overflow; a fixture-intercepted browser demo submission rendered the verdict.
+Live and Moderate states remain with Lane D. No API shape changed.
+
+## Rent periods and posting references
+
+The form detects euro rent in message text, defaults an unspecified period to
+monthly with a visible notice, and offers weekly/monthly/yearly controls.
+Manual rent or period edits persist across message edits; Use detected rent
+restores automatic extraction. Weekly rent is converted by 52 / 12 and yearly
+by 1 / 12, rounded to cents, before posting priceEur to the frozen monthly API.
+Clearly labelled deposits and bills are excluded from autofill. Conflicting
+prices require confirmation rather than taking the first amount.
+
+An optional original posting URL is appended to the submitted message. No page
+is fetched or scraped, and the message remains required. Daft links infer source
+daft when the source is unspecified; other sites use existing source choices.
+URLs require HTTP(S), no credentials, and the combined message limit remains
+10,000 characters. A dedicated sourceUrl field/import endpoint would need Lane
+A to update the report/ingest/check contracts; none were changed here.
+
+Lane A follow-up: direct API submissions still parse the first euro amount as
+monthly when priceEur is omitted. Move rent-period normalization into backend
+validation if callers outside this form need the same behaviour. This frontend
+supplies the normalized monthly amount explicitly.
+
+Validation: build/lint/TypeScript passed; helper tests cover formats, deposit and
+bill exclusion, ambiguity and period conversion. Form tests cover manual edits,
+link inclusion and validation. A real 390 px Chrome check verified typing a
+weekly message fills rent, displays monthly equivalent and posts 1083.33 for
+250/week; a fixture-intercepted verdict rendered without shared DB writes.
+
+## Cookbook visual pass
+
+Applied the reusable Codex typography/composition/interaction prompts to the
+actual app: subtle page atmosphere and evidence-board texture, clearer form
+hierarchy, loaded demo states, restrained loading indicator and illustration
+reveal, numeric score typography, risk meter and signal count. Report selection
+highlights the matching map node/edges and list entry; keyboard buttons provide
+the same action as clicking a canvas report. Colours and API contracts remain
+unchanged. Motion is limited to no-preference; reduced motion keeps all evidence
+visible. No new font downloads or packages were added.
+
+Build, full lint, TypeScript and CSS token/whitespace checks passed. Chrome
+checks at 1440 and 390 px verified visible input/no overflow, loaded demo state,
+fixture-based submission, keyboard highlighting/toggle, reduced-motion animation
+and transition suppression, and no uncaught browser exceptions. API responses
+were intercepted using fixtures and photo endpoints returned placeholder errors,
+so these checks did not write to the shared database.
+
+## Ireland listing map
+
+`/report/map` adds a read-only geographic overview with suspicion filters, area
+search, neighbourhood selection, paginated report links, refresh, and explicit
+loading/empty/error/stale snapshot states. The street map supports dragging,
+pinch zoom, +/- buttons, double-click, Ctrl/Command + scroll, arrow-key panning
+and keyboard zoom/Home. Ireland, Dublin and Fit reports controls reposition it.
+Cluster buttons zoom into multiple nearby areas and select their report evidence.
+The list can optionally follow the visible map bounds. Counts are shown in full.
+A cluster uses the highest saved verdict level among matching reports. Filtering
+to LOW reveals green markers; green never verifies a property as safe.
+
+The additive C-owned `/api/under-the-hood/map` projects only report ID, area,
+monthly price, review status and stored verdict score/level. It reads at most
+1,001 recent non-rejected reports and returns at most 1,000, with a truncation
+notice. Reports lacking a usable verdict are counted without inventing a score.
+Unknown/unrecognised areas remain in the list without coordinates. No reports
+are ingested, recomputed, moderated or deleted by this feature.
+
+Existing reports have area names, not property coordinates. Recognised Dublin
+neighbourhoods now use distinct approximate centres. Citywest uses its wider
+Dublin 24 routing area; unspecified Dublin reports retain a coarse city centre.
+Nearby centres cluster by screen distance and separate as you zoom. Reports in
+the same area stay grouped without fabricated individual positions. All 169
+seed listings are in Dublin and resolve to 30 centres; this explains the lack
+of reports elsewhere in the original map. New saved reports in supported towns
+such as Cork or Galway appear automatically; seed data was not altered.
+
+Visible street tiles load directly from OpenStreetMap with visible attribution,
+normal browser caching and origin Referer. No tile prefetch/offline download or
+proxy is used. Tile failures retain a bundled Natural Earth outline and markers.
+GeoNames supplies most area centres under CC BY 4.0; additional coordinate facts
+and source links are recorded in `public/demo/map-sources.json`. No map API key,
+packages, geocoder, new indexes, shared types or environment variables are needed.
+
+For exact property locations, ask Lane A for an explicit location contract and
+Lane B for seed/geocoding coverage; do not infer addresses from listing text.
+
+Zoom-map verification: build, lint, TypeScript and whitespace checks pass.
+Seed-area checks locate all 169 reports across 30 centres, with 12 clusters at
+the initial 600px map view. Chrome checks at 1440/390px cover cluster expansion,
+complete counts, dragging, pinch, Ctrl+wheel, keyboard navigation, area focusing,
+map-bound list filtering, unknown areas, a newly added Galway test report, and
+stale/empty/malformed/tile failure states. Browser API and tile responses were
+intercepted; no shared data was changed and no automated tile downloads ran.
+Live database results and real street-tile availability remain unverified here.
+
+## Public navigation
+
+Removed Live and Moderate from the header at the user's request. Both pages
+currently contain heading-only placeholders. Public navigation now focuses on
+checking a listing, the Ireland map and the under-the-hood evidence page.
+Lane D's routes and backend work remain available at their direct URLs so the
+team can finish the moderator confirmation/alert flow independently.
+
+## Mobile flow and evidence clarity
+
+The mobile introduction is shorter, with the message starting around 337px and
+the check button visible within an 844px viewport. Demo selection focuses and
+scrolls to the message and announces that the example is ready for review.
+Submission focuses and scrolls to the verdict heading. Refresh and sharing
+controls follow the risk, evidence and connection list.
+
+Editing the message, metadata, posting link or accepted photo attachments clears
+the previous result. Aborted or superseded requests cannot restore an old result.
+Warning-sign points and the score explanation sit in a native disclosure; the
+explanation distinguishes an evidence score from a probability of fraud.
+Connection distances use “connection steps”, and masked shared details appear
+directly in the list, including on phones. Photo URLs remain hidden from labels.
+
+Build, lint and TypeScript checks pass. Rendered Chrome checks at 390/1440px
+verify first-screen access, demo focus/announcement, verdict focus, result
+invalidation, scoring disclosure, visible masked details, keyboard highlighting,
+overflow and reduced motion. API requests used fixtures; this does not verify
+the shared database or Lane D's moderator/alert flow.

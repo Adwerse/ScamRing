@@ -73,14 +73,19 @@ export function ReportView({ reportId, initial }: { reportId: string; initial?: 
   const verdict = report?.verdict ?? initial?.verdict;
   if (!validId) return <p className="notice error" role="alert">That report link is not valid. Return to the check page to check a listing.</p>;
   return <div className="result-stack">
-    <div className="section-heading"><p className="muted">This report refreshes every 3 seconds while this tab is visible.</p><button type="button" className="button secondary small" disabled={refreshing} onClick={() => void refresh()}>{refreshing ? 'Refreshing…' : 'Refresh report'}</button></div>
-    {verdict && <ReportActions reportId={reportId} />}
     {reportError && <p className="notice error" role="alert">{verdict ? 'The last result is shown; the latest update could not be fetched. ' : ''}{reportError}</p>}
     {loading && !initial && <p className="notice" role="status">Loading this report and its connections…</p>}
+    <div className={`report-evidence-grid ${!ring || !verdict ? 'single-evidence' : ''}`}>
     {verdict && <VerdictCard verdict={verdict} reportId={reportId} />}
-    {!loading && !verdict && !reportError && <p className="notice">This report has not received a verdict yet. Its listing and connections are available below.</p>}
-    {!initial && report && <section className="panel"><p className="eyebrow">Reported listing</p><h2>{report.area || 'Area unspecified'}</h2><div className="listing-meta"><span>{priceLabel(report.priceEur)}</span><span>{report.kind === 'room' ? 'Room' : 'Whole property'}</span><span>{report.source}</span><span>{statusLabel[report.status]}</span></div><p className="listing-text">{report.text}</p></section>}
+    <div className="connection-evidence">
     {ringError && <div className="notice error" role="alert"><p>The connection map could not be updated. {ringError}</p><button className="button secondary small" type="button" onClick={() => void refresh()}>Retry connections</button></div>}
     {ring && <RingGraph data={ring} />}
+    </div></div>
+    {!loading && !verdict && !reportError && <p className="notice">This report has not received a verdict yet. Its listing and connections are available below.</p>}
+    {!initial && report && <section className="panel"><p className="eyebrow">Reported listing</p><h2>{report.area || 'Area unspecified'}</h2><div className="listing-meta"><span>{priceLabel(report.priceEur)}</span><span>{report.kind === 'room' ? 'Room' : 'Whole property'}</span><span>{report.source}</span><span>{statusLabel[report.status]}</span></div><p className="listing-text">{report.text}</p></section>}
+    <div className="report-tools">
+      <div className="section-heading"><p className="muted">This report refreshes every 3 seconds while this tab is visible.</p><button type="button" className="button secondary small" disabled={refreshing} onClick={() => void refresh()}>{refreshing ? 'Refreshing…' : 'Refresh report'}</button></div>
+      {verdict && <ReportActions reportId={reportId} />}
+    </div>
   </div>;
 }

@@ -1,0 +1,56 @@
+{
+  "outline": {
+    "name": "Natural Earth",
+    "dataset": "1:50m admin-0 countries, Ireland geometry extracted unchanged",
+    "url": "https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_50m_admin_0_countries.geojson",
+    "license": "Public domain",
+    "terms": "https://www.naturalearthdata.com/about/terms-of-use/"
+  },
+  "townCentres": {
+    "name": "GeoNames",
+    "sources": [
+      "https://www.geonames.org/IE/largest-cities-in-ireland.html",
+      "https://www.geonames.org/search.html?country=IE",
+      "https://www.geonames.org/search.html?country=IE&q=Baile+%C3%81tha+Cliath",
+      "https://www.geonames.org/advanced-search.html?q=Dublin&startRow=50",
+      "https://www.geonames.org/advanced-search.html?q=Dublin&startRow=150",
+      "https://www.geonames.org/advanced-search.html?q=Dublin&startRow=350",
+      "https://www.geonames.org/postalcode-search.html?country=IE&q="
+    ],
+    "license": "CC BY 4.0",
+    "terms": "https://creativecommons.org/licenses/by/4.0/",
+    "changes": "Selected town and neighbourhood centres rounded to 3-6 decimal places. Dublin neighbourhoods use distinct centres; Citywest uses the wider Dublin 24 routing-area centre. District-only or unspecified Dublin reports may use the coarser Dublin centre. Nearby centres cluster dynamically by screen distance; no fake property coordinates or random offsets."
+  },
+  "additionalCoordinateFacts": [
+    {
+      "area": "Leopardstown",
+      "latitude": 53.2683,
+      "longitude": -6.1997,
+      "source": "Getty Thesaurus of Geographic Names",
+      "url": "https://www.getty.edu/vow/TGNFullDisplay?subjectid=7875460"
+    },
+    {
+      "area": "Stillorgan",
+      "latitude": 53.288806,
+      "longitude": -6.195806,
+      "source": "Wikidata Q26882 coordinate location converted from degrees/minutes/seconds",
+      "url": "https://www.wikidata.org/wiki/Q26882"
+    },
+    {
+      "area": "Killiney",
+      "latitude": 53.2651,
+      "longitude": -6.1137,
+      "source": "Wikipedia Killiney settlement coordinates",
+      "url": "https://en.wikipedia.org/wiki/Killiney"
+    }
+  ],
+  "streetMap": {
+    "name": "OpenStreetMap standard raster tiles",
+    "template": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "attribution": "OpenStreetMap contributors",
+    "license": "OpenStreetMap data under ODbL; see linked copyright and tile service terms",
+    "copyright": "https://www.openstreetmap.org/copyright",
+    "usage": "https://operations.osmfoundation.org/policies/tiles/",
+    "requests": "Native browser images for visible tiles only; normal cache and origin Referer; no proxy, offline pack, bulk download or prefetch. Browser tests intercept tiles and do not fetch tiles automatically."
+  }
+}
