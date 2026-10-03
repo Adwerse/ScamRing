@@ -1,7 +1,9 @@
 // Owner: B
 // Resets the report data and imports seed/listings.json through A's ingestReport, then prints
 // the ring check (getRing compared with the exact expected members) and the verdict calibration table.
-// Usage: npx tsx scripts/import-seed.ts [--shared]
+// Usage: npx tsx scripts/import-seed.ts [--shared] [--no-verdicts]
+// --no-verdicts skips computeVerdict, which on the shared database makes two embedding calls per
+// listing (textClone and scriptMatch vector search) and runs into the embedding rate limit.
 import { config } from 'dotenv';
 config({ path: '.env.local' });
 
@@ -15,6 +17,7 @@ import { MAX_HOPS, reachable, verify, type SeedListing } from './gen-seed';
 
 const SHARED_DB = 'scamring';
 const SHARED_FLAG = '--shared';
+const NO_VERDICTS_FLAG = '--no-verdicts';
 const LISTINGS_FILE = 'seed/listings.json';
 const PHOTOS_DIRECTORY = 'seed/photos';
 const PHOTOS_MODULE = '../lib/photos';
@@ -134,7 +137,8 @@ async function main(): Promise<void> {
   console.log(`Reset ${RESET_COLLECTIONS.join(', ')} in ${database.databaseName}`);
   const byId = await importListings(listings);
   const ringsOk = await printRingCheck(byId, listings);
-  await printCalibration(byId);
+  if (process.argv.includes(NO_VERDICTS_FLAG)) console.log(`Skipped verdicts (${NO_VERDICTS_FLAG})`);
+  else await printCalibration(byId);
   console.log(`Imported ${byId.size} listings into ${database.databaseName}${ringsOk ? '' : ' (ring check not passed)'}`);
   await (await getClient()).close();
 }
