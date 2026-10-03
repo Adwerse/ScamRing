@@ -101,6 +101,18 @@ live data. Unconfigured connections and empty databases have explicit states.
 
 ## Manual acceptance after teammates' endpoints land
 
+Frontend follow-up: text is limited to 10,000 characters, bedrooms to 0–20,
+and rent to a positive amount up to EUR 100,000 to match the check API.
+Area accepts custom text with suggestions. Clear form releases photo previews.
+Report links can be copied (with a manual fallback) and reports printed with
+the evidence list. Reports poll only in visible tabs and avoid overlapping
+refreshes. Read requests time out after 20 seconds and submissions after 60
+seconds; submissions never retry automatically because they may already have
+been saved. Malformed report responses are shown as recoverable errors.
+
+Check copy permissions/fallback, print preview, studio input (0 bedrooms),
+custom area input, form clearing and hiding/restoring the report tab manually.
+
 1. Test all three presets after a clean shared seed reset; expected MEDIUM,
    HIGH and LOW must come from the API.
 2. Confirm a linked report in a second browser and observe a toast and a HIGH
@@ -120,3 +132,20 @@ Suggested chat messages after successful validation and push:
 `[C] pushed check page and demo presets, pull`
 
 `[C] pushed proof page, pull`
+
+## Frontend audit follow-up
+
+Fixed the stale upload count when a demo replaces six selected photos. Blob
+URLs are allocated outside React state updater callbacks and released on clear.
+Demo photo loading now times out and restores the form controls. Wire guards
+reject duplicate graph nodes, missing link targets, invalid counts and malformed
+proof tables. A report map must identify the requested report as current.
+Manual refresh requests are aborted when the report unmounts. Proof refresh
+failures label the retained inspection as previous data; proof copy describes
+the actual shared traversal rather than claiming it still returns fixtures.
+
+Validation: production build, full lint, TypeScript, whitespace checks and
+focused fixture/malformed-response/timeout checks passed. A simulated form
+interaction verified six-photo-to-demo replacement and URL cleanup. Browser
+visual, clipboard and print-preview checks and shared-DB verdict/alert tests
+remain integration checks; this audit did not change shared moderation data.

@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import RingGraph from './RingGraph';
 import { VerdictCard } from './VerdictCard';
-import { errorMessage, isRing, isVerdict, priceLabel, requestJson, statusLabel, type CheckResponse, type ReportResponse, type RingResponse } from './contracts';
+import { ReportActions } from './ReportActions';
+import { errorMessage, isReport, isRing, priceLabel, requestJson, statusLabel, type CheckResponse, type ReportResponse, type RingResponse } from './contracts';
 
 export function ReportView({ reportId, initial }: { reportId: string; initial?: CheckResponse }) {
   const [report, setReport] = useState<ReportResponse>();
@@ -13,9 +14,15 @@ export function ReportView({ reportId, initial }: { reportId: string; initial?: 
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const revision = useRef(0);
+  const inFlight = useRef(false);
+  const requestScope = useRef<AbortController | null>(null);
   const validId = /^[a-f\d]{24}$/i.test(reportId);
   const refresh = useCallback(async (signal?: AbortSignal, quiet = false) => {
+    signal ??= requestScope.current?.signal;
+    if (signal?.aborted) return;
     if (!validId) { setLoading(false); return; }
+    if (inFlight.current) return;
+    inFlight.current = true;
     const currentRevision = ++revision.current;
     if (!quiet) setRefreshing(true);
     const encoded = encodeURIComponent(reportId);
@@ -23,26 +30,36 @@ export function ReportView({ reportId, initial }: { reportId: string; initial?: 
       requestJson<ReportResponse>(`/api/reports/${encoded}`, { signal }),
       requestJson<RingResponse>(`/api/reports/${encoded}/ring`, { signal }),
     ]);
+    inFlight.current = false;
     if (signal?.aborted || revision.current !== currentRevision) return;
     const [reportResult, ringResult] = results;
     if (reportResult.status === 'fulfilled') {
-      if (typeof reportResult.value._id !== 'string' || typeof reportResult.value.text !== 'string' || (reportResult.value.verdict && !isVerdict(reportResult.value.verdict))) setReportError('The report response is incomplete. Please retry.');
+      if (!isReport(reportResult.value) || reportResult.value._id.toLowerCase() !== reportId.toLowerCase()) setReportError('The report response is incomplete. Please retry.');
       else { setReport(previous => JSON.stringify(previous) === JSON.stringify(reportResult.value) ? previous : reportResult.value); setReportError(''); }
     } else setReportError(errorMessage(reportResult.reason));
-    if (ringResult.status === 'fulfilled' && isRing(ringResult.value)) { setRing(previous => JSON.stringify(previous) === JSON.stringify(ringResult.value) ? previous : ringResult.value); setRingError(''); }
+    if (ringResult.status === 'fulfilled' && isRing(ringResult.value) && ringResult.value.nodes.some(node => node.type === 'report' && node.isCurrent && node.id.toLowerCase() === reportId.toLowerCase())) { setRing(previous => JSON.stringify(previous) === JSON.stringify(ringResult.value) ? previous : ringResult.value); setRingError(''); }
     else setRingError(ringResult.status === 'rejected' ? errorMessage(ringResult.reason) : 'The connection map response is incomplete. Please retry.');
     setLoading(false); setRefreshing(false);
   }, [reportId, validId]);
   useEffect(() => {
     const controller = new AbortController();
+    requestScope.current = controller;
     let timer: ReturnType<typeof setTimeout>;
     async function tick() {
+      if (document.hidden || controller.signal.aborted) return;
       await refresh(controller.signal, true);
-      if (!controller.signal.aborted) timer = setTimeout(tick, 3000);
+      clearTimeout(timer);
+      if (!controller.signal.aborted && !document.hidden) timer = setTimeout(tick, 3000);
+    }
+    function resume() {
+      clearTimeout(timer);
+      if (!document.hidden) void tick();
     }
     void tick();
-    // Periodic fallback complements the alert-triggered refresh from the mounted toast.
-    return () => { controller.abort(); clearTimeout(timer); };
+    document.addEventListener('visibilitychange', resume);
+    // Visibility-aware polling complements refreshes triggered by live alerts.
+    // No change streams or per-browser SSE connection are opened here.
+    return () => { controller.abort(); clearTimeout(timer); document.removeEventListener('visibilitychange', resume); };
   }, [refresh]);
   useEffect(() => {
     const controller = new AbortController();
@@ -56,7 +73,8 @@ export function ReportView({ reportId, initial }: { reportId: string; initial?: 
   const verdict = report?.verdict ?? initial?.verdict;
   if (!validId) return <p className="notice error" role="alert">That report link is not valid. Return to the check page to check a listing.</p>;
   return <div className="result-stack">
-    <div className="section-heading"><p className="muted">This report refreshes every 3 seconds while open.</p><button type="button" className="button secondary small" disabled={refreshing} onClick={() => void refresh()}>{refreshing ? 'Refreshing…' : 'Refresh report'}</button></div>
+    <div className="section-heading"><p className="muted">This report refreshes every 3 seconds while this tab is visible.</p><button type="button" className="button secondary small" disabled={refreshing} onClick={() => void refresh()}>{refreshing ? 'Refreshing…' : 'Refresh report'}</button></div>
+    {verdict && <ReportActions reportId={reportId} />}
     {reportError && <p className="notice error" role="alert">{verdict ? 'The last result is shown; the latest update could not be fetched. ' : ''}{reportError}</p>}
     {loading && !initial && <p className="notice" role="status">Loading this report and its connections…</p>}
     {verdict && <VerdictCard verdict={verdict} reportId={reportId} />}

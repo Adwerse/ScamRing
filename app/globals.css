@@ -83,3 +83,24 @@ input::file-selector-button { border: 1px solid var(--control-border); backgroun
 input:focus-visible, select:focus-visible, textarea:focus-visible { border-color: var(--focus); }
 .report-list li:hover, tbody tr:hover { background: var(--background); }
 button:disabled { cursor: not-allowed; }
+
+.field-guidance { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+.character-count { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.clear-form { margin-bottom: 20px; }
+.report-actions { border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+.report-action-buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+.report-actions .field-help { margin: 10px 0 0; }
+.report-actions .field-help:empty { display: none; }
+@media (max-width: 420px) { .field-guidance { flex-direction: column; gap: 0; }.character-count { margin-top: 0; } }
+@media print {
+  :root { --background: white; --surface: white; --foreground: #001E2B; }
+  .site-header, .site-footer, .back-link, .hero, .demo-panel, .check-form, .how-it-works,
+  .report-actions, .result-stack > .section-heading, .graph-wrap, .skip-link { display: none !important; }
+  .site-main { max-width: none; padding: 0; }
+  .result-anchor { margin-top: 0; }
+  .panel { box-shadow: none; border: 1px solid #C1C7C6; margin-bottom: 16px; padding: 20px; }
+  .verdict-top, .signals li, .next-steps, .report-list li { break-inside: avoid; }
+  .score strong { font-size: 36px; }
+  .result-stack { display: block; }
+  a { color: inherit; }
+}
