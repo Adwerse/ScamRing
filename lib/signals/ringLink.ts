@@ -1,12 +1,12 @@
 // Owner: A
 // 'ring_link': the report shares identifiers (directly or through other reports) with a
-// confirmed scam (45 points), or sits in a cluster of 3+ reports (10 points). Uses getRing.
+// confirmed scam (45 points), or sits in a cluster of 3+ reports (20 points). Uses getRing.
 // Catches its own errors and returns null.
 import { getRing, type RingMember } from '@/lib/ring';
 import type { Report, Signal } from '@/lib/types';
 
 const CONFIRMED_POINTS = 45;
-const CLUSTER_POINTS = 10;
+const CLUSTER_POINTS = 20;
 const CLUSTER_MIN_OTHERS = 2;
 const KIND_LABELS: Record<string, string> = {
   img: 'photo',
