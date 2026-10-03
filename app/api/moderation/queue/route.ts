@@ -1,40 +1,42 @@
+// Owner: D (built by B)
+// GET /api/moderation/queue: pending reports for moderators, highest score first.
+import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
-import { getRing } from '@/lib/ring';
 import type { Report } from '@/lib/types';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+const LIMIT = 50;
+
 export async function GET() {
   try {
-    const db = await getDb();
-    const reports = await db
-      .collection<Report>('reports')
-      .find(
-        { status: 'pending' },
-        {
-          projection: { area: 1, priceEur: 1, verdict: 1 },
-        },
-      )
-      .sort({ 'verdict.score': -1, createdAt: -1 })
-      .limit(50)
-      .toArray();
-    return Response.json(
-      await Promise.all(
-        reports.map(async (r) => ({
-          _id: r._id.toString(),
-          area: r.area,
-          priceEur: r.priceEur,
-          level: r.verdict?.level ?? null,
-          signalTitles: r.verdict?.signals.map((s) => s.title) ?? [],
-          ringSize: (await getRing(r._id.toString())).members.length,
-        })),
-      ),
-    );
+  const database = await getDb();
+  const reports = await database
+    .collection<Report>('reports')
+    .aggregate<Report & { score: number }>([
+      { $match: { status: 'pending' } },
+      { $addFields: { score: { $ifNull: ['$verdict.score', -1] } } },
+      { $sort: { score: -1, createdAt: -1 } },
+      { $limit: LIMIT },
+    ])
+    .toArray();
+  return NextResponse.json({
+    reports: reports.map((report) => ({
+      _id: report._id.toString(),
+      source: report.source,
+      text: report.text,
+      area: report.area,
+      kind: report.kind,
+      bedrooms: report.bedrooms,
+      priceEur: report.priceEur,
+      status: report.status,
+      seed: report.seed,
+      ...(report.verdict ? { verdict: report.verdict } : {}),
+      createdAt: report.createdAt,
+    })),
+  });
   } catch {
-    return Response.json(
-      { error: 'Moderation queue unavailable. Check database configuration.' },
-      { status: 503 },
-    );
+    return NextResponse.json({ error: 'Moderation queue unavailable' }, { status: 503 });
   }
 }

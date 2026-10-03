@@ -1,125 +1,69 @@
+// Owner: D (built by B)
+// Prints how the stored seed verdicts fall per ring against the demo targets, which signal fires
+// where, and the thresholds each signal file exports. Reads stored verdicts only: no embedding
+// calls. Owners adjust the constants at the top of their own signal files.
+// Usage: npx tsx scripts/calibrate.ts (after import-seed computed verdicts)
 import { config } from 'dotenv';
-import { resolve } from 'node:path';
-import { existsSync } from 'node:fs';
-import { getClient, getDb } from '@/lib/db';
-import { computeVerdict } from '@/lib/verdict';
-import type { Report } from '@/lib/types';
-import * as textClone from '@/lib/signals/textClone';
-import * as scriptMatch from '@/lib/signals/scriptMatch';
-import * as priceLow from '@/lib/signals/priceLow';
+config({ path: ['.env.local', '.env'], quiet: true });
 
-config({ path: '.env', quiet: true });
+import { getClient, getDb } from '../lib/db';
+import { PHOTO_THRESHOLD } from '../lib/photos';
+import { PRICE_LOW_THRESHOLD } from '../lib/signals/priceLow';
+import { SCRIPT_KEYWORD_MIN_HITS, SCRIPT_THRESHOLD } from '../lib/signals/scriptMatch';
+import { TEXT_CLONE_THRESHOLD } from '../lib/signals/textClone';
+import type { Report, SignalCode, Verdict } from '../lib/types';
 
-function distribution(values: number[]) {
-  const sorted = values.toSorted((a, b) => a - b);
-  const percentile = (p: number) => sorted[Math.floor((sorted.length - 1) * p)] ?? null;
-  return {
-    n: sorted.length,
-    min: sorted[0] ?? null,
-    p50: percentile(0.5),
-    p95: percentile(0.95),
-    max: sorted.at(-1) ?? null,
-  };
+const RINGS: Record<string, string> = { A: 'Courier', B: 'Revolut', C: 'WhatsApp' };
+const LEGIT = 'legit';
+const LEGIT_LOW_TARGET = 0.95;
+const CODES: SignalCode[] = ['ring_link', 'photo_reuse', 'text_clone', 'script_match', 'price_low'];
+
+type Seeded = Pick<Report, 'seedRing' | 'verdict' | 'status'>;
+
+function target(group: string, levels: Record<Verdict['level'], number>, total: number, bConfirmed: boolean): boolean {
+  if (group === LEGIT) return levels.LOW / total >= LEGIT_LOW_TARGET;
+  if (group === 'B' && !bConfirmed) return levels.MEDIUM === total;
+  return levels.LOW === 0;
 }
 
-async function main() {
-  console.log('Exported thresholds (only owners A/B change these):');
-  for (const [name, module] of Object.entries({ textClone, scriptMatch, priceLow })) {
-    console.log(
-      name,
-      Object.fromEntries(Object.entries(module).filter(([key]) => /THRESHOLD/.test(key))),
-    );
-  }
-  const db = await getDb();
-  const reports = await db.collection<Report>('reports').find({ seed: true }).toArray();
-  if (!reports.length) {
-    console.log('NOT READY: no seed reports. Ask B to seed the selected database.');
-    process.exitCode = 1;
-    return;
-  }
-  const table: Record<string, { LOW: number; MEDIUM: number; HIGH: number }> = {};
-  const scores: Record<string, number[]> = {};
-  const vectorPath = resolve('lib/vector.ts');
-  const vector =
-    existsSync(vectorPath) && (process.env.DB_NAME || 'scamring') === 'scamring'
-      ? await import(vectorPath)
-      : null;
-  if (!vector)
-    console.log(
-      'Raw vector scores unavailable: Core helper missing or sandbox has no search indexes.',
-    );
-  for (const report of reports) {
-    const verdict = await computeVerdict(report._id.toString());
-    const group = report.seedRing || 'legit';
-    table[group] ??= { LOW: 0, MEDIUM: 0, HIGH: 0 };
-    table[group][verdict.level]++;
-    if (vector) {
-      for (const [name, collection, index] of [
-        ['textClone', 'reports', 'reports_text_vec'],
-        ['scriptMatch', 'scam_patterns', 'patterns_vec'],
-      ]) {
-        const pipeline = [
-          vector.vectorSearchStage({
-            index,
-            path: 'text',
-            text: report.text,
-            limit: 10,
-            ...(collection === 'reports'
-              ? { filter: { status: { $in: ['pending', 'confirmed_scam'] } } }
-              : {}),
-          }),
-          ...(collection === 'reports' ? [{ $match: { _id: { $ne: report._id } } }] : []),
-          { $project: { _id: 0, score: { $meta: 'vectorSearchScore' } } },
-        ];
-        const hits = await db
-          .collection(collection)
-          .aggregate<{ score: number }>(pipeline)
-          .toArray();
-        const key = `${name}:${report.seedRing ? 'ring' : 'legit'}`;
-        scores[key] ??= [];
-        if (hits.length) scores[key].push(Math.max(...hits.map((h) => h.score)));
-      }
-    }
-  }
-  console.table(table);
-  console.table(
-    Object.fromEntries(
-      Object.entries(scores).map(([key, values]) => [key, distribution(values)]),
-    ),
-  );
-  for (const name of ['textClone', 'scriptMatch']) {
-    const legit = distribution(scores[`${name}:legit`] ?? []);
-    const ring = distribution(scores[`${name}:ring`] ?? []);
-    if (legit.p95 != null && ring.min != null)
-      console.log(
-        `${name}: legitimate p95=${legit.p95}, ring min=${ring.min}; ${ring.min > legit.p95 ? `suggest threshold ${(ring.min + legit.p95) / 2}` : 'scores overlap; ask the signal owner to inspect evidence before tuning'}`,
-      );
-  }
-  const legit = table.legit;
-  const totalLegit = legit ? legit.LOW + legit.MEDIUM + legit.HIGH : 0;
-  const ringGroups = Object.keys(table).filter((key) => key !== 'legit');
-  const ringsPass =
-    ringGroups.length > 0 && ringGroups.every((key) => table[key].LOW === 0);
-  const bPending =
-    reports.some((r) => r.seedRing === 'B') &&
-    !reports.some((r) => r.seedRing === 'B' && r.status === 'confirmed_scam');
-  const bPass = !bPending || (table.B.LOW === 0 && table.B.HIGH === 0);
-  const legitPass = totalLegit > 0 && legit.LOW / totalLegit >= 0.95;
-  console.log(`${ringsPass ? 'PASS' : 'FAIL'} all ring reports at least MEDIUM`);
-  console.log(`${bPass ? 'PASS' : 'FAIL'} ring B MEDIUM while unconfirmed`);
-  console.log(`${legitPass ? 'PASS' : 'FAIL'} at least 95% legitimate reports LOW`);
-  if (!ringsPass || !bPass || !legitPass) process.exitCode = 1;
-}
+async function main(): Promise<void> {
+  const database = await getDb();
+  const reports = await database
+    .collection<Report>('reports')
+    .find({ seed: true }, { projection: { seedRing: 1, verdict: 1, status: 1 } })
+    .toArray() as Seeded[];
+  const missing = reports.filter((report) => !report.verdict).length;
+  if (missing > 0) console.warn(`${missing} seed reports have no stored verdict; run import-seed without --no-verdicts`);
 
-main()
-  .catch(() => {
-    console.error(
-      'FAIL calibration unavailable; check Atlas credentials, seed data and vector helper/indexes.',
-    );
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    try {
-      await (await getClient()).close();
-    } catch {}
+  const groups = Map.groupBy(reports.filter((report) => report.verdict), (report) => report.seedRing ?? LEGIT);
+  const required = ['A', 'B', 'C', LEGIT];
+  const absent = required.filter((group) => !groups.has(group));
+  if (absent.length) console.error(`Missing seed groups: ${absent.join(', ')}`);
+  const bConfirmed = reports.some((report) => report.seedRing === 'B' && report.status === 'confirmed_scam');
+  let passed = missing === 0 && absent.length === 0;
+  const rows = [...groups].sort(([left], [right]) => left.localeCompare(right)).map(([group, members]) => {
+    const levels = { LOW: 0, MEDIUM: 0, HIGH: 0 };
+    for (const member of members) levels[member.verdict!.level] += 1;
+    const ok = target(group, levels, members.length, bConfirmed);
+    passed &&= ok;
+    const fires = Object.fromEntries(CODES.map((code) => [code, members.filter((member) => member.verdict!.signals.some((signal) => signal.code === code)).length]));
+    return { group: RINGS[group] ?? group, n: members.length, ...levels, ...fires, target: ok ? 'met' : 'MISSED' };
   });
+  console.log(`Seed verdicts in ${database.databaseName}`);
+  console.table(rows);
+  console.log('Targets: every ring listing MEDIUM or HIGH, Revolut ring MEDIUM (not HIGH) until confirmed, 95%+ of legit LOW');
+  console.table([
+    { constant: 'PRICE_LOW_THRESHOLD', value: PRICE_LOW_THRESHOLD, file: 'lib/signals/priceLow.ts' },
+    { constant: 'SCRIPT_THRESHOLD', value: SCRIPT_THRESHOLD, file: 'lib/signals/scriptMatch.ts' },
+    { constant: 'SCRIPT_KEYWORD_MIN_HITS', value: SCRIPT_KEYWORD_MIN_HITS, file: 'lib/signals/scriptMatch.ts' },
+    { constant: 'TEXT_CLONE_THRESHOLD', value: TEXT_CLONE_THRESHOLD, file: 'lib/signals/textClone.ts' },
+    { constant: 'PHOTO_THRESHOLD', value: PHOTO_THRESHOLD, file: 'lib/photos.ts' },
+  ]);
+  await (await getClient()).close();
+  process.exit(passed ? 0 : 1);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

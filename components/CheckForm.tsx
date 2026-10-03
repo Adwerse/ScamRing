@@ -7,7 +7,7 @@ import { errorMessage, isVerdict, requestJson, type CheckResponse, type Source }
 
 const areas = ['Rathmines', 'Ranelagh', 'Drumcondra', 'Phibsborough', 'Glasnevin', 'Dublin 8', 'Smithfield', 'Rialto', 'Whitehall', 'Santry', 'Maynooth', 'Athlone', 'Galway City', 'Cork City', 'Limerick City'];
 const presets = [
-  { title: 'Same payment handle', subtitle: 'A new post, a familiar detail', text: 'Room available in Glasnevin for €550 per month. Group viewing Saturday at 2pm. Contact @dublinroomsnow on Revolut to reserve your spot.', area: 'Glasnevin', kind: 'room', price: '550', bedrooms: '', source: 'facebook' },
+  { title: 'Same payment handle', subtitle: 'A new post, a familiar detail', text: 'Room available in Glasnevin for €450 per month. Group viewing Saturday at 2pm. Contact @dublinroomsnow on Revolut to reserve your spot.', area: 'Glasnevin', kind: 'room', price: '450', bedrooms: '', source: 'facebook' },
   { title: 'Reused photos', subtitle: 'A different listing, the same room', text: 'Bright one-bedroom apartment in Rathmines for €1000 per month. Newly available, bills included. Contact +353 85 000 0199 for a viewing.', area: 'Rathmines', kind: 'whole', price: '1000', bedrooms: '1', source: 'whatsapp' },
   { title: 'An ordinary listing', subtitle: 'A viewing, a normal monthly rent', text: 'Double room in Phibsborough, €950 per month plus bills. Sharing with two postgraduate students. Viewing by appointment this week. Lease available to review at the viewing; no payment requested before viewing.', area: 'Phibsborough', kind: 'room', price: '950', bedrooms: '', source: 'daft' },
 ] as const;

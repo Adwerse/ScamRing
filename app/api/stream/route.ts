@@ -91,7 +91,7 @@ export async function GET(request: Request) {
       void (async () => {
         try {
           let event = await changes.tryNext();
-          if (!closed) controller.enqueue(encoder.encode(': connected\n\n'));
+          if (!closed) controller.enqueue(encoder.encode('event: ready\ndata: {}\n\n'));
           while (!closed) {
             if (event && 'fullDocument' in event && event.fullDocument) {
               const d = event.fullDocument;

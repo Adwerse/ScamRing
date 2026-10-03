@@ -57,14 +57,16 @@ test('IBANs: uppercase without spaces, not mistaken for phones', () => {
   assert.deepEqual(ids('IE29AIBK93115212345678'), r.identifiers);
 });
 
-test('hints are the last 2 characters of the normalised value; no raw value leaks', () => {
-  const r = extractIdentifiers('07700900123 and John@Example.com');
+test('hints are masked but readable; no raw value leaks', () => {
+  const r = extractIdentifiers('07700900123 and John@Example.com, pay @johnd99 / IE29 AIBK 9311 5212 3456 78');
   assert.deepEqual(r.hints, [
-    { kind: 'email', hint: 'om' },
-    { kind: 'phone', hint: '23' },
+    { kind: 'email', hint: 'j***@e***.com' },
+    { kind: 'iban', hint: 'IE** **** 5678' },
+    { kind: 'pay', hint: '@j***99' },
+    { kind: 'phone', hint: '+44 ** *** 0123' },
   ]);
   const dump = JSON.stringify(r);
-  for (const raw of ['7700900123', 'example', 'john']) assert.ok(!dump.toLowerCase().includes(raw));
+  for (const raw of ['7700900123', 'example', 'john', 'johnd99', '93115212']) assert.ok(!dump.toLowerCase().includes(raw));
 });
 
 test('duplicates collapse; different numbers differ', () => {

@@ -19,8 +19,8 @@ A listing may look ordinary on its own. Shared contact identifiers, reused photo
 | Verdicts | Five evidence signals, LOW/MEDIUM/HIGH levels, optional model summary | Repository verdict tests passed; full shared-seed calibration pending |
 | Moderation | PIN validation, status and audit event in one transaction, confirmation removes report expiry | Integrated Atlas sandbox checks passed |
 | Realtime | Retry-safe fan-out, worker resume token, session SSE, catch-up and polling fallback | Integrated sandbox delivery, deduplication, pagination and restart checks passed |
-| Moderation and live pages | Queue decisions and public feed containing only area, price, level, status and timestamp | Browser checks passed before the latest frontend handoff |
-| Alert toast | Component and report refresh event implemented | Isolated browser checks passed; C must mount it and connect verdict state |
+| Moderation and live pages | Queue decisions and session-specific alert history | Browser checks passed before the latest frontend handoff |
+| Alert toast | Component and report refresh event implemented | Isolated browser checks passed; Mounted in the layout and connected to client report refresh; shared-data rehearsal pending |
 | Check/report frontend | Form, demo presets, verdict and ring components now present | Current frontend needs the shared-data browser rehearsal |
 | Proof page | Counts, index and query evidence endpoints/components present | Verify against the prepared shared database |
 | Release scripts | Calibration targets and real HTTP smoke checks | Shared calibration and smoke still pending |
@@ -33,13 +33,13 @@ The table reflects the current source, which differs from the initial prompt's f
 
 | Signal | Current points | Evidence |
 | --- | --- | --- |
-| `ring_link` | 45 with a confirmed linked scam; otherwise 10 for a cluster with at least two other reports | Shared phone, email, payment handle, bank identifier or photo cluster and hop count |
+| `ring_link` | 45 with a confirmed linked scam; otherwise 20 for a cluster with at least two other reports | Shared phone, email, payment handle, bank identifier or photo cluster and hop count |
 | `photo_reuse` | 35 | A photo cluster appears in another listing with a different area or materially different price |
 | `text_clone` | 20; 25 when a matching report is confirmed | Vector similarity at least 0.92 for sufficiently long descriptions |
 | `script_match` | 10; 20 for a strong match | Vector thresholds 0.88/0.93, or a keyword fallback using paraphrased scam patterns |
 | `price_low` | 15; 25 below half the reference price | At least 35% below the rent reference; current room reference is 55% of the relevant RTB average |
 
-Signal constants belong to A/B. `scripts/calibrate.ts` prints exported thresholds, score distributions and the seed-ring versus risk-level table without changing those constants. Targets: every ring listing at least MEDIUM, unconfirmed ring B MEDIUM, and at least 95% of legitimate seed listings LOW.
+Signal constants belong to A/B. `scripts/calibrate.ts` reads stored verdicts and prints exported thresholds, signal counts and the seed-ring versus risk-level table without recomputing verdicts or changing those constants. Missing groups or verdicts fail calibration. Targets: every ring listing at least MEDIUM, unconfirmed ring B MEDIUM, and at least 95% of legitimate seed listings LOW.
 
 ## Architecture and MongoDB features
 
@@ -49,7 +49,7 @@ flowchart LR
     Moderator[Moderator browser] -->|PIN and decision| App
     App -->|Reports, photos, checks and verdicts| Atlas[(MongoDB Atlas)]
     App -->|Transaction: status and audit| Atlas
-    Atlas -->|Reports change stream| Worker[Worker]
+    Atlas -->|Moderation audit change stream| Worker[Worker]
     Worker -->|Recompute linked verdicts and upsert alerts| Atlas
     Atlas -->|Session alerts change stream| SSE[SSE API]
     SSE -->|Alert and report refresh| Student
@@ -70,13 +70,13 @@ The initial plan proposed `$median` for room prices. The current price signal us
 
 ## Privacy and limits
 
-Contact identifiers use HMAC-SHA256 with a shared `IDENTIFIER_SECRET`. Stored listing text redacts the recognized contacts, and display hints retain only the kind and last two characters. Photo identifiers refer to clusters rather than HMAC contact values. Report responses and the moderation queue omit the contact identifier array.
+Contact identifiers use HMAC-SHA256 with a shared `IDENTIFIER_SECRET`. Stored listing text redacts the recognized contacts, and display hints retain readable masked contact fragments. Photo identifiers refer to clusters rather than HMAC contact values. Report responses and the moderation queue omit the contact identifier array.
 
 The ring graph uses hashed identifier IDs and masked hints. Hashes still permit linkage and are not anonymous against a compromised secret. Uploaded photos are retained as resized images; photo reuse is a similarity signal, not identity proof.
 
-The `sr_sid` cookie creates an anonymous session for check records and alerts. SSE and polling return alerts for that session. The public live feed omits listing text, contact identifiers and session IDs.
+The `sr_sid` cookie creates an anonymous session for check records and alerts. SSE and polling return alerts for that session. The live page shows only the current session’s alert history.
 
-Only non-seed pending report documents receive a 30-day expiry. Confirmation removes that expiry. MongoDB TTL deletion is asynchronous and does not cascade to photo, check or alert records. The audit collection records moderation actions. The shared PIN, including its browser localStorage persistence, is demo authentication and must be replaced before a public release.
+Only non-seed pending report documents receive a 30-day expiry. Confirmation removes that expiry. MongoDB TTL deletion is asynchronous and does not cascade to photo, check or alert records. The audit collection records moderation actions. The shared PIN is demo authentication and must be replaced before a public release.
 
 ## Run locally
 
@@ -94,13 +94,13 @@ Edit `.env` privately:
 | `MONGODB_URI` | Atlas database-user connection string |
 | `IDENTIFIER_SECRET` | Team's shared, long random HMAC secret |
 | `DB_NAME` | Exact database name: shared `scamring`, or `scamring_a` through `scamring_d` |
-| `MODERATOR_PIN` | Private demo PIN entered at `/moderate`; fallback is `1234` if unset |
+| `MODERATOR_PIN` | Private demo PIN entered at `/moderate`; moderation is disabled if unset |
 | `FANOUT_INLINE` | `0` with the worker; `1` for inline fan-out fallback |
 | `DEMO` | `1` enables the frontend demo presets |
 | `ANTHROPIC_API_KEY` | Optional summary only; the app works without it |
 | `ANTHROPIC_MODEL` | Optional summary model, with the template's default |
 
-Use `.env`. Some A/B scripts still call dotenv on `.env.local`, so the commands below explicitly preload `.env` using Node. Existing process variables, including a `DB_NAME=...` override, take precedence. Remove or reconcile a stale `.env.local` locally because Next.js can load it ahead of `.env`. Keep secrets out of both commits and chat. Ignoring a file does not untrack a previously committed file.
+Use consistent values in `.env.local` and `.env`. Scripts prefer `.env.local` and fall back to `.env`; the commands below explicitly preload `.env` using Node. Existing process variables, including a `DB_NAME=...` override, take precedence. Remove or reconcile a stale `.env.local` locally because Next.js can load it ahead of `.env`. Keep secrets out of both commits and chat. Ignoring a file does not untrack a previously committed file.
 
 ### Prepare a personal sandbox
 
@@ -135,7 +135,7 @@ DB_NAME=scamring node --env-file=.env --import tsx scripts/gen-seed.ts
 DB_NAME=scamring node --env-file=.env --import tsx scripts/import-seed.ts --shared
 ```
 
-Wait for the vector indexes and seed queries to be ready. If the Atlas embedding rate limit prevents full import scoring, B can use `--no-verdicts` and coordinate subsequent calibration with A/D. Reseed after smoke and rehearsals, before the final demo.
+Wait for the vector indexes and seed queries to be ready. If the Atlas embedding rate limit prevents full import scoring, B can use `--no-verdicts`, then arrange paced verdict computation with A/D before running read-only calibration. Reseed after smoke and rehearsals, before the final demo.
 
 ## Checks and demo acceptance
 
@@ -144,7 +144,7 @@ npm run build
 npx tsc --noEmit
 # Database-writing repository tests refuse the shared database.
 DB_NAME=scamring_a node --env-file=.env --import tsx --test tests/*.test.ts
-# D: recomputes stored seed verdicts on the selected database.
+# D: reads stored seed verdicts without embedding calls or database writes.
 DB_NAME=scamring node --env-file=.env --import tsx scripts/calibrate.ts
 # Server, worker and smoke must use the same prepared shared database and PIN.
 DB_NAME=scamring npm run dev:all
@@ -152,11 +152,32 @@ DB_NAME=scamring npm run dev:all
 DB_NAME=scamring BASE_URL=http://localhost:3000 node --env-file=.env --import tsx scripts/smoke.ts --shared
 ```
 
-Smoke creates checks/reports and confirms a linked ring B report. It expects MEDIUM for the ring B check, HIGH for reused ring A photos, LOW for an ordinary listing, and a matching alert plus HIGH verdict within three seconds of confirmation. It exits nonzero if any step fails. B must reseed afterward.
+Smoke creates checks/reports and confirms a linked ring B report. It expects MEDIUM for the ring B check, HIGH for reused ring A photos, LOW for an ordinary listing, and a matching alert within three seconds and HIGH verdict within fifteen seconds of confirmation. It exits nonzero if any step fails. B must reseed afterward.
 
-For the browser acceptance, C mounts the default export `@/components/AlertToast` once in the layout and wires verdict state to `scamring:report-updated` or refetches on `scamring:alert`. Test with two separate sessions: check a ring B listing in one, confirm a linked report in the other, and observe the toast and HIGH verdict within two seconds. Restart the worker and verify offline confirmation recovery without duplicate alerts. If the worker is unreliable, restart the server with `FANOUT_INLINE=1`. After two SSE errors the alert hook falls back to polling every three seconds, so do not describe the fallback as subsecond delivery.
+The named `AlertToast` export is mounted once in the layout. Report state refreshes on matching `scamring:alert` events, with periodic polling as a fallback. For browser acceptance, test with two separate sessions: check a ring B listing in one, confirm a linked report in the other, and observe the toast and HIGH verdict within two seconds. Restart the worker and verify offline confirmation recovery without duplicate alerts. If the worker is unreliable, restart the server with `FANOUT_INLINE=1`. After two SSE errors the alert hook falls back to polling every three seconds, so do not describe the fallback as subsecond delivery.
 
 The detailed Lane D integration tests previously used a temporary local harness, not a committed test file. See [SUBMISSION.md](SUBMISSION.md) for remaining gates, and [the four-slide deck](docs/pitch.html) for presentation mode and speaker notes. [PDF slides](docs/ScamRing-pitch.pdf) are the offline backup.
+
+## Demo data
+
+Rents and scam scripts come from real Irish sources. Contact details in the demo data are synthetic, so no real person's phone or email ends up in a scam ring.
+
+![Data flow: each source, what we did to it, where it is stored, and what reads it.](seed/data-sources.png)
+
+- **Rents:** the RTB Average Monthly Rent Report, CSO table [RIQ02](https://data.cso.ie/table/RIQ02), loaded live for the latest quarter (2025Q4: 3,199 values across 306 locations), with a 10-area offline backup.
+- **Scam scripts:** 10 tactics paraphrased from An Garda Síochána, the CCPC, Daft.ie, AIB, BPFI FraudSMART and Irish press, with names and numbers removed.
+- **Demo listings:** three scam rings (Courier, Revolut, WhatsApp) and 150 legit listings, generated from the real rents and scripts.
+
+![Scam rings: the Courier ring linked through phones, an email and reused photos; the WhatsApp ring linked to it through C4's phone; the Revolut ring sharing one Revolut handle.](seed/rings.png)
+
+| Ring | Tactic | Linked by | Verdict |
+| --- | --- | --- | --- |
+| **Courier** (A), 8 listings | Landlord abroad, keys sent by courier after the deposit | Two phones, an email and reused photos; 2 listings already confirmed as scams | HIGH |
+| **Revolut** (B), 6 listings | Mass viewing, deposit by Revolut tonight | One Revolut handle, no reused photos | MEDIUM, then HIGH when a moderator confirms one live in the demo |
+| **WhatsApp** (C), 5 listings | Sob story, talks only on WhatsApp, wants ID up front | One email, plus one listing sharing a Courier phone | HIGH, through its link to Courier |
+
+The 150 legit listings share nothing with anyone, so they never join a ring.
+
 
 ## Data sources
 

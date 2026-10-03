@@ -1,56 +1,57 @@
 'use client';
-
+// Owner: D (built by B)
+// Live alerts for this browser session: earlier alerts from /api/alerts, new ones from /api/stream.
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useAlerts } from '@/hooks/useAlerts';
 
-type Entry = {
-  area: string;
-  priceEur: number | null;
-  level: string | null;
-  status: string;
-  at: string;
-};
+type LiveAlert = { _id: string; reportId: string; message: string; createdAt: string };
 
 export default function Page() {
-  const [entries, setEntries] = useState<Entry[]>([]);
-  const [connection, setConnection] = useState('Connecting…');
+  const [history, setHistory] = useState<LiveAlert[] | null>(null);
+  const { alerts: fresh, connection } = useAlerts();
+  const alerts = history === null && !fresh.length ? null : [...new Map([...(history ?? []), ...fresh].map((alert) => [alert._id, alert])).values()].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
   useEffect(() => {
-    const source = new EventSource('/api/stream?feed=live');
-    source.onopen = () => setConnection('Live');
-    source.onerror = () => setConnection('Reconnecting to live feed…');
-    source.addEventListener('live', (event) => {
-      try {
-        const entry: Entry = JSON.parse((event as MessageEvent).data);
-        setEntries((current) => [entry, ...current].slice(0, 30));
-      } catch {}
-    });
-    return () => source.close();
+    const abort = new AbortController();
+    void fetch('/api/alerts', { cache: 'no-store', signal: abort.signal })
+      .then(async (response) => {
+        if (!response.ok) throw new Error('Alerts unavailable');
+        return response.json() as Promise<{ alerts: LiveAlert[] }>;
+      })
+      .then((body) => setHistory(body.alerts))
+      .catch(() => { if (!abort.signal.aborted) setHistory([]); });
+    return () => abort.abort();
   }, []);
 
   return (
     <>
-      <h1 className="text-4xl font-bold">ScamRing live</h1>
-      <p role="status" className="my-4 text-neutral-500">
-        {connection}
-      </p>
-      {!entries.length ? (
-        <p className="text-xl">Waiting for new checks and moderation decisions.</p>
-      ) : null}
-      <ul className="space-y-4">
-        {entries.map((entry, i) => (
-          <li key={`${entry.at}-${i}`} className="rounded-xl border p-6 text-2xl">
-            <span className="font-bold">{entry.area}</span> ·{' '}
-            {entry.priceEur == null ? 'Price unknown' : `€${entry.priceEur}`}
-            <p className="mt-2">
-              {entry.status === 'confirmed_scam' ? 'Scam confirmed' : entry.status} ·{' '}
-              {entry.level || 'Scoring…'}
-            </p>
-            <time className="text-sm text-neutral-500">
-              {new Date(entry.at).toLocaleTimeString()}
-            </time>
-          </li>
-        ))}
-      </ul>
+      <div className="page-intro">
+        <p className="eyebrow">Live</p>
+        <h1>Alerts for you</h1>
+        <p>When a moderator confirms a scam, every listing you checked that is linked to it shows up here, as it happens. Keep this page open.</p>
+      </div>
+      <p role="status" className="muted">Connection: {connection}</p>
+      <section className="panel" aria-live="polite" aria-labelledby="alerts-title">
+        <h2 id="alerts-title" className="sr-only">Your alerts</h2>
+        {alerts === null ? (
+          <p className="muted">Loading your alerts…</p>
+        ) : alerts.length === 0 ? (
+          <div className="empty-state"><span>◎</span><p>No alerts yet. Check a listing, and you will be told here if it is linked to a confirmed scam.</p></div>
+        ) : (
+          <ul className="report-list">
+            {alerts.map((alert) => (
+              <li key={alert._id}>
+                <p>{alert.message}</p>
+                <div className="listing-meta">
+                  <span className="muted">{new Date(alert.createdAt).toLocaleTimeString('en-IE', { hour: '2-digit', minute: '2-digit' })}</span>
+                  <Link href={`/report/${alert.reportId}`}>View the listing →</Link>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
     </>
   );
 }

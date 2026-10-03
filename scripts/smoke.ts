@@ -1,176 +1,125 @@
+// Owner: D (built by B)
+// End-to-end smoke test against the running app (BASE_URL, default http://localhost:3000), as one
+// browser session: the three demo checks, then a moderator confirms a Revolut ring listing and the
+// session must get an alert within 3 seconds and see its verdict rise.
+// It changes data (adds checks, confirms a report): reseed the shared database afterwards.
+// Usage: MODERATOR_PIN=… npx tsx scripts/smoke.ts --shared
 import { config } from 'dotenv';
+config({ path: ['.env.local', '.env'], quiet: true });
+
 import { readFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
-import type { Verdict } from '@/lib/types';
 
-config({ path: '.env', quiet: true });
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
+const ALERT_DEADLINE_MS = 3000;
+const VERDICT_DEADLINE_MS = 15000;
+const POLL_MS = 250;
+const REUSED_PHOTO = 'public/demo/reuse.jpg';
 
-const base = process.env.BASE_URL || 'http://localhost:3000';
+type Level = 'LOW' | 'MEDIUM' | 'HIGH';
+type CheckResponse = { reportId: string; verdict: { score: number; level: Level } };
+type RingNode = { id: string; type: 'report' | 'identifier'; status?: string; isCurrent?: boolean };
 
-const sid = crypto.randomUUID();
-
-const cookie = `sr_sid=${sid}`;
-
+let cookie = '';
 let failures = 0;
 
-async function step(name: string, run: () => Promise<void>) {
-  const start = performance.now();
+async function call(path: string, init: RequestInit = {}): Promise<Response> {
+  const response = await fetch(`${BASE_URL}${path}`, { ...init, signal: AbortSignal.timeout(15000), headers: { ...init.headers, ...(cookie ? { cookie } : {}) } });
+  const session = response.headers.get('set-cookie')?.match(/sr_sid=[^;]+/)?.[0];
+  if (session) cookie = session;
+  return response;
+}
+
+async function step<T>(name: string, run: () => Promise<{ ok: boolean; detail: string; value?: T }>): Promise<T | undefined> {
+  const started = Date.now();
   try {
-    await run();
-    console.log(`PASS ${name} (${Math.round(performance.now() - start)}ms)`);
+    const { ok, detail, value } = await run();
+    if (!ok) failures++;
+    console.log(`${ok ? 'PASS' : 'FAIL'}  ${name}  ${Date.now() - started} ms  ${detail}`);
+    return value;
   } catch (error) {
     failures++;
-    console.log(
-      `FAIL ${name} (${Math.round(performance.now() - start)}ms): ${error instanceof Error ? error.message : 'unexpected failure'}`,
-    );
+    console.log(`FAIL  ${name}  ${Date.now() - started} ms  ${(error as Error).message}`);
+    return undefined;
   }
 }
 
-async function api(path: string, init: RequestInit = {}) {
-  const response = await fetch(`${base}${path}`, {
-    ...init,
-    signal: AbortSignal.timeout(15000),
-    headers: { Cookie: cookie, ...init.headers },
-  });
-  const data = await response.json();
-  if (!response.ok)
-    throw new Error(`HTTP ${response.status}: ${data.error || 'request failed'}`);
-  return data;
-}
-
-type CheckResult = { reportId: string; verdict: Verdict };
-
-type Listing = {
-  text: string;
-  source: string;
-  area: string;
-  kind: string;
-  bedrooms: number | null;
-  priceEur: number | null;
-  seedRing?: string;
-  photos: string[];
-};
-
-async function check(
-  input: Pick<Listing, 'text' | 'source' | 'area' | 'kind' | 'bedrooms' | 'priceEur'>,
-  expected: string,
-  photoFile?: string,
-): Promise<CheckResult> {
+async function check(body: Record<string, string>, photo?: Buffer): Promise<CheckResponse> {
   const form = new FormData();
-  for (const [key, value] of Object.entries(input))
-    if (value != null) form.set(key, String(value));
-  if (photoFile)
-    form.append(
-      'photos',
-      new Blob([new Uint8Array(await readFile(resolve(photoFile)))], {
-        type: 'image/jpeg',
-      }),
-      'demo.jpg',
-    );
-  const result: CheckResult = await api('/api/check', { method: 'POST', body: form });
-  if (result.verdict.level !== expected)
-    throw new Error(`expected ${expected}, received ${result.verdict.level}`);
-  return result;
+  for (const [key, value] of Object.entries(body)) form.append(key, value);
+  if (photo) form.append('photos', new Blob([new Uint8Array(photo)], { type: 'image/jpeg' }), 'reuse.jpg');
+  const response = await call('/api/check', { method: 'POST', body: form });
+  if (!response.ok) throw new Error(`/api/check returned ${response.status}`);
+  return (await response.json()) as CheckResponse;
 }
 
-async function main() {
-  if (
-    (process.env.DB_NAME || 'scamring') !== 'scamring' ||
-    !process.argv.includes('--shared')
-  ) {
-    throw new Error(
-      'Smoke changes shared demo data. Set DB_NAME=scamring and pass --shared after coordinating with B. BASE_URL must point to a server using that same database.',
-    );
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function main(): Promise<void> {
+  if ((process.env.DB_NAME || 'scamring') === 'scamring' && !process.argv.includes('--shared'))
+    throw new Error('Smoke changes shared demo data. Coordinate reseeding, then pass --shared. BASE_URL must use the same database.');
+  const pin = process.env.MODERATOR_PIN;
+  if (!pin) {
+    console.error('Set MODERATOR_PIN to the PIN the app is running with.');
+    process.exit(1);
   }
-  console.log(
-    `Smoke against ${base}; confirms a ring B report. Ask B to reseed afterwards.`,
-  );
-  const listings: Listing[] = JSON.parse(
-    await readFile(resolve('seed/listings.json'), 'utf8'),
-  );
-  let ringB: CheckResult | undefined;
-  await step('ring B post is MEDIUM', async () => {
-    const listing = listings.find((item) => item.seedRing === 'B');
-    if (!listing) throw new Error('Ring B seed listing missing');
-    const { text, source, area, kind, bedrooms, priceEur } = listing;
-    ringB = await check({ text, source, area, kind, bedrooms, priceEur }, 'MEDIUM');
+  console.log(`Smoke test against ${BASE_URL}`);
+
+  const handle = await step('Revolut handle post is MEDIUM', async () => {
+    const result = await check({ text: 'Room available in Glasnevin for €450 per month. Group viewing Saturday at 2pm. Contact @dublinroomsnow on Revolut to reserve your spot.', area: 'Glasnevin', kind: 'room', priceEur: '450', source: 'facebook' });
+    return { ok: result.verdict.level === 'MEDIUM', detail: `${result.verdict.level} ${result.verdict.score}`, value: result };
   });
-  await step('ring A photo is HIGH', async () => {
-    const photo = listings.find((item) => item.seedRing === 'A' && item.photos.length)
-      ?.photos[0];
-    if (!photo) throw new Error('Ring A seed photo missing');
-    await check(
-      {
-        text: 'Room available in Glasnevin, €450 monthly. Viewing by appointment.',
-        source: 'other',
-        area: 'Glasnevin',
-        kind: 'room',
-        bedrooms: null,
-        priceEur: 450,
-      },
-      'HIGH',
-      resolve('seed/photos', photo),
-    );
+
+  await step('Reused Courier photo is HIGH', async () => {
+    const result = await check({ text: 'Bright one-bedroom apartment in Rathmines for €1000 per month. Newly available, bills included.', area: 'Rathmines', kind: 'whole', bedrooms: '1', priceEur: '1000', source: 'whatsapp' }, await readFile(REUSED_PHOTO));
+    return { ok: result.verdict.level === 'HIGH', detail: `${result.verdict.level} ${result.verdict.score}` };
   });
-  await step('ordinary listing is LOW', async () => {
-    await check(
-      {
-        text: 'Bright room in a shared home in Glasnevin for €950 per month. Viewing in person this weekend. Meet the housemates and review the lease before deciding. Bills separate; no payment before viewing.',
-        source: 'other',
-        area: 'Glasnevin',
-        kind: 'room',
-        bedrooms: null,
-        priceEur: 950,
-      },
-      'LOW',
-    );
+
+  await step('Ordinary listing is LOW', async () => {
+    const result = await check({ text: 'Double room in Phibsborough, €950 per month plus bills. Sharing with two postgraduate students. Viewing by appointment this week.', area: 'Phibsborough', kind: 'room', priceEur: '950', source: 'daft' });
+    return { ok: result.verdict.level === 'LOW', detail: `${result.verdict.level} ${result.verdict.score}` };
   });
-  await step(
-    'confirmation delivers alert within 3s and verdict becomes HIGH',
-    async () => {
-      if (!ringB) throw new Error('Ring B check failed; live test cannot proceed');
-      const graph = await api(`/api/reports/${ringB.reportId}/ring`);
-      const target = graph.nodes.find(
-        (n: { type: string; id: string; status?: string }) =>
-          n.type === 'report' && n.id !== ringB!.reportId && n.status === 'pending',
-      );
-      if (!target) throw new Error('No pending linked ring B report');
-      const since = new Date().toISOString();
-      const start = performance.now();
-      await api(`/api/moderation/${target.id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-moderator-pin': process.env.MODERATOR_PIN || '1234',
-        },
-        body: JSON.stringify({ action: 'confirm', by: 'smoke' }),
-      });
-      let delivered = false;
-      while (performance.now() - start < 3000) {
-        const alerts: { reportId: string; triggerReportId: string }[] = await api(
-          `/api/alerts?since=${encodeURIComponent(since)}`,
-        );
-        if (
-          alerts.some(
-            (a) => a.reportId === ringB!.reportId && a.triggerReportId === target.id,
-          )
-        ) {
-          delivered = true;
-          break;
-        }
-        await new Promise((resolve) => setTimeout(resolve, 100));
-      }
-      if (!delivered || performance.now() - start > 3000)
-        throw new Error('No matching alert within 3 seconds');
-      const report = await api(`/api/reports/${ringB.reportId}`);
-      if (report.verdict?.level !== 'HIGH')
-        throw new Error('Checked report did not become HIGH');
-    },
-  );
-  if (failures) process.exitCode = 1;
+
+  if (!handle) {
+    console.log('FAIL  live confirmation  skipped: the Revolut handle check failed');
+    process.exit(1);
+  }
+
+  const target = await step('Find a pending Revolut ring listing', async () => {
+    const ring = (await (await call(`/api/reports/${handle.reportId}/ring`)).json()) as { nodes: RingNode[] };
+    const pending = ring.nodes.find((node) => node.type === 'report' && node.id !== handle.reportId && node.status === 'pending');
+    return { ok: Boolean(pending), detail: pending ? pending.id : 'none in the ring', value: pending?.id };
+  });
+  if (!target) process.exit(1);
+
+  const confirmedAt = Date.now();
+  await step('Moderator confirms it', async () => {
+    const response = await call(`/api/moderation/${target}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'confirm', pin }) });
+    return { ok: response.ok, detail: `HTTP ${response.status}` };
+  });
+
+  await step(`Alert reaches this session within ${ALERT_DEADLINE_MS / 1000} s`, async () => {
+    while (Date.now() - confirmedAt < ALERT_DEADLINE_MS) {
+      const { alerts } = (await (await call('/api/alerts')).json()) as { alerts: { triggerReportId: string; reportId: string }[] };
+      if (alerts.some((alert) => alert.triggerReportId === target && alert.reportId === handle.reportId)) return { ok: true, detail: `after ${Date.now() - confirmedAt} ms` };
+      await sleep(POLL_MS);
+    }
+    return { ok: false, detail: 'no alert (is the worker running, or FANOUT_INLINE=1 set?)' };
+  });
+
+  await step('Checked listing becomes HIGH', async () => {
+    while (Date.now() - confirmedAt < VERDICT_DEADLINE_MS) {
+      const report = (await (await call(`/api/reports/${handle.reportId}`)).json()) as { verdict?: { score: number; level: Level } };
+      if (report.verdict && report.verdict.level === 'HIGH') return { ok: true, detail: `${handle.verdict.level} ${handle.verdict.score} → ${report.verdict.level} ${report.verdict.score}` };
+      await sleep(POLL_MS * 4);
+    }
+    return { ok: false, detail: `still ${handle.verdict.score}` };
+  });
+
+  console.log(failures === 0 ? 'ALL PASS' : `${failures} FAILED`);
+  process.exit(failures === 0 ? 0 : 1);
 }
 
 main().catch((error) => {
-  console.error(`FAIL ${error.message}`);
-  process.exitCode = 1;
+  console.error(error);
+  process.exit(1);
 });

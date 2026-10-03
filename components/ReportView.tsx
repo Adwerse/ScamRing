@@ -41,10 +41,18 @@ export function ReportView({ reportId, initial }: { reportId: string; initial?: 
       if (!controller.signal.aborted) timer = setTimeout(tick, 3000);
     }
     void tick();
-    // Poll existing report endpoints until D's alert integration is available.
-    // No change streams or per-browser SSE connection are opened here.
+    // Periodic fallback complements the alert-triggered refresh from the mounted toast.
     return () => { controller.abort(); clearTimeout(timer); };
   }, [refresh]);
+  useEffect(() => {
+    const controller = new AbortController();
+    const onAlert = (event: Event) => {
+      const alert = (event as CustomEvent<{ reportId: string }>).detail;
+      if (alert?.reportId === reportId) void refresh(controller.signal, true);
+    };
+    window.addEventListener('scamring:alert', onAlert);
+    return () => { controller.abort(); window.removeEventListener('scamring:alert', onAlert); };
+  }, [reportId, refresh]);
   const verdict = report?.verdict ?? initial?.verdict;
   if (!validId) return <p className="notice error" role="alert">That report link is not valid. Return to the check page to check a listing.</p>;
   return <div className="result-stack">

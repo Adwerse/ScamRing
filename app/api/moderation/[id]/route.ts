@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 
 const bodySchema = z.object({
   action: z.enum(['confirm', 'reject', 'legit']),
-  by: z.string().trim().min(1).max(100),
+  pin: z.string(),
   reason: z.string().trim().max(1000).optional(),
 });
 
@@ -18,17 +18,19 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  // Demo-grade shared PIN; replace with moderator accounts before public release.
-  const expected = Buffer.from(process.env.MODERATOR_PIN || '1234');
-  const supplied = Buffer.from(request.headers.get('x-moderator-pin') || '');
-  if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected))
-    return Response.json({ error: 'Invalid moderator PIN' }, { status: 403 });
+  const configuredPin = process.env.MODERATOR_PIN;
+  if (!configuredPin)
+    return Response.json({ error: 'moderation_disabled', hint: 'Set MODERATOR_PIN' }, { status: 503 });
   const { id } = await params;
   if (!/^[a-f\d]{24}$/i.test(id))
     return Response.json({ error: 'Invalid report id' }, { status: 400 });
   const body = bodySchema.safeParse(await request.json().catch(() => null));
   if (!body.success)
     return Response.json({ error: 'Invalid moderation action' }, { status: 400 });
+  const expected = Buffer.from(configuredPin);
+  const supplied = Buffer.from(body.data.pin);
+  if (supplied.length !== expected.length || !timingSafeEqual(supplied, expected))
+    return Response.json({ error: 'wrong_pin' }, { status: 401 });
   const statuses: Record<typeof body.data.action, ReportStatus> = {
     confirm: 'confirmed_scam',
     reject: 'rejected',
@@ -55,7 +57,9 @@ export async function POST(
           {
             _id: new ObjectId(),
             reportId: new ObjectId(id),
-            ...body.data,
+            action: body.data.action,
+            by: 'moderator',
+            ...(body.data.reason ? { reason: body.data.reason } : {}),
             at: new Date(),
           },
           { session },
@@ -65,12 +69,14 @@ export async function POST(
       await session.endSession();
     }
     if (!found) return Response.json({ error: 'Report not found' }, { status: 404 });
+    let alerts: number | undefined;
     if (status === 'confirmed_scam' && process.env.FANOUT_INLINE === '1') {
       try {
-        await fanOut(id);
+        alerts = await fanOut(id);
       } catch {
         return Response.json(
           {
+            reportId: id,
             status,
             alertDelivery: 'failed',
             error: 'Decision saved; alert delivery failed. Retry confirmation.',
@@ -79,7 +85,7 @@ export async function POST(
         );
       }
     }
-    return Response.json({ status });
+    return Response.json({ reportId: id, status, ...(alerts === undefined ? {} : { alerts }) });
   } catch {
     return Response.json(
       { error: 'Moderation unavailable. Check database configuration.' },

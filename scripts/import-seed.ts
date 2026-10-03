@@ -18,6 +18,8 @@ import { MAX_HOPS, reachable, verify, type SeedListing } from './gen-seed';
 const SHARED_DB = 'scamring';
 const SHARED_FLAG = '--shared';
 const NO_VERDICTS_FLAG = '--no-verdicts';
+/** Pause between verdicts on the shared database, to stay under the embedding rate limit. */
+const SHARED_VERDICT_PAUSE_MS = 2000;
 const LISTINGS_FILE = 'seed/listings.json';
 const PHOTOS_DIRECTORY = 'seed/photos';
 const PHOTOS_MODULE = '../lib/photos';
@@ -110,6 +112,7 @@ async function printCalibration(byId: Map<string, SeedListing>): Promise<void> {
   for (const [reportId, listing] of byId) {
     const group = listing.seedRing ?? LEGIT;
     const { level } = await computeVerdict(reportId);
+    if ((process.env.DB_NAME || SHARED_DB) === SHARED_DB) await new Promise((resolve) => setTimeout(resolve, SHARED_VERDICT_PAUSE_MS));
     const row = counts.get(group) ?? { LOW: 0, MEDIUM: 0, HIGH: 0 };
     row[level] += 1;
     counts.set(group, row);

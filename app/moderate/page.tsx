@@ -1,65 +1,70 @@
 'use client';
-
+// Owner: D (built by B)
+// Moderation queue: pending reports, highest score first. A moderator enters the PIN once and
+// confirms, clears or rejects each report. Confirming alerts everyone who checked a linked listing.
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 
-type QueueItem = {
+type Action = 'confirm' | 'legit' | 'reject';
+
+type QueuedReport = {
   _id: string;
+  text: string;
   area: string;
+  kind: 'room' | 'whole';
   priceEur: number | null;
-  level: string | null;
-  signalTitles: string[];
-  ringSize: number;
+  seed: boolean;
+  verdict?: { score: number; level: 'LOW' | 'MEDIUM' | 'HIGH' };
 };
 
+const ACTIONS: { action: Action; label: string; style: string }[] = [
+  { action: 'confirm', label: 'Confirm scam', style: 'button primary small' },
+  { action: 'legit', label: 'Mark legitimate', style: 'button secondary small' },
+  { action: 'reject', label: 'Reject report', style: 'button secondary small' },
+];
+
+const DONE: Record<Action, string> = { confirm: 'Confirmed as a scam', legit: 'Marked legitimate', reject: 'Report rejected' };
+
 export default function Page() {
-  const [queue, setQueue] = useState<QueueItem[]>([]);
+  const [reports, setReports] = useState<QueuedReport[] | null>(null);
   const [pin, setPin] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
-  const [notice, setNotice] = useState('');
+  const [notice, setNotice] = useState<{ text: string; error: boolean } | null>(null);
+
   const load = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/moderation/queue', { cache: 'no-store' });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Queue unavailable');
-      setQueue(data);
-      setError('');
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Queue unavailable');
-    } finally {
-      setLoading(false);
-    }
+    const response = await fetch('/api/moderation/queue', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Moderation queue unavailable');
+    const body = (await response.json()) as { reports: QueuedReport[] };
+    setReports(body.reports);
   }, []);
 
   useEffect(() => {
-    try {
-      setPin(localStorage.getItem('scamring:moderator-pin:v1') || '');
-    } catch {}
-    void load();
+    load().catch(() => setNotice({ text: 'Could not load the queue. Refresh to try again.', error: true }));
   }, [load]);
-  async function moderate(id: string, action: string) {
-    setBusy(id);
-    setNotice('');
+
+  async function act(report: QueuedReport, action: Action) {
+    if (!pin) {
+      setNotice({ text: 'Enter the moderator PIN first.', error: true });
+      return;
+    }
+    setBusy(report._id);
+    setNotice(null);
     try {
-      const response = await fetch(`/api/moderation/${id}`, {
+      const response = await fetch(`/api/moderation/${report._id}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-moderator-pin': pin },
-        body: JSON.stringify({ action, by: 'demo-moderator' }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, pin }),
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Decision failed');
-      await load();
-      setNotice(
-        action === 'confirm'
-          ? 'Scam confirmed. Linked alerts are being delivered.'
-          : action === 'legit'
-            ? 'Report marked legitimate.'
-            : 'Report rejected.',
-      );
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Decision failed');
+      const body = (await response.json()) as { error?: string; alerts?: number };
+      if (response.status === 401) setNotice({ text: 'That PIN is not correct.', error: true });
+      else if (!response.ok) setNotice({ text: `The action failed (${body.error ?? response.status}).`, error: true });
+      else {
+        const alerts = body.alerts === undefined ? '' : ` ${body.alerts} ${body.alerts === 1 ? 'alert was' : 'alerts were'} alerted.`;
+        setNotice({ text: `${DONE[action]}: ${report.area}.${alerts}`, error: false });
+        await load();
+      }
+    } catch {
+      setNotice({ text: 'The request could not be completed. Refresh the queue before retrying.', error: true });
     } finally {
       setBusy(null);
     }
@@ -67,105 +72,45 @@ export default function Page() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Moderation queue</h1>
-      <p className="mt-2 text-neutral-500">
-        Review the evidence before confirming a scam.
-      </p>
-      <div className="my-6 flex flex-wrap items-center gap-4">
-        <label>
-          Moderator PIN{' '}
-          <input
-            type="password"
-            autoComplete="off"
-            className="ml-2 w-32 rounded border p-2"
-            value={pin}
-            onChange={(e) => {
-              setPin(e.target.value);
-              try {
-                localStorage.setItem('scamring:moderator-pin:v1', e.target.value);
-              } catch {}
-            }}
-          />
-        </label>
-        <button
-          className="rounded border px-4 py-2"
-          onClick={() => void load()}
-          disabled={loading}
-        >
-          Refresh queue
-        </button>
+      <div className="page-intro">
+        <p className="eyebrow">Moderation</p>
+        <h1>Review reports</h1>
+        <p>Confirming a scam alerts everyone who checked a linked listing and updates their verdicts. A shared detail is evidence of reuse, not proof of guilt, so confirm only what you have verified.</p>
       </div>
-      {error ? (
-        <p role="alert" className="my-4 text-red-700">
-          {error}
-        </p>
-      ) : null}
-      {notice ? (
-        <p role="status" className="my-4 text-green-800">
-          {notice}
-        </p>
-      ) : null}
-      {loading ? (
-        <p role="status">Loading reports…</p>
-      ) : !error && !queue.length ? (
-        <p>No pending reports.</p>
-      ) : null}
-      <p className="my-2 text-sm text-neutral-500 md:hidden">
-        Swipe the table to see the decision buttons.
-      </p>
-      <div className="overflow-x-auto">
-        <table className="min-w-[720px] w-full text-left">
-          <thead>
-            <tr>
-              {['Risk', 'Listing', 'Evidence', 'Ring', 'Decision'].map((label) => (
-                <th key={label} className="border-b p-3">
-                  {label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {queue.map((item) => (
-              <tr key={item._id}>
-                <td className="border-b p-3 font-bold">
-                  <span
-                    className={`rounded-full px-3 py-1 text-sm ${item.level === 'HIGH' ? 'bg-red-100 text-red-800' : item.level === 'MEDIUM' ? 'bg-amber-100 text-amber-900' : item.level === 'LOW' ? 'bg-green-100 text-green-900' : 'bg-neutral-100 text-neutral-700'}`}
-                  >
-                    {item.level || 'Unscored'}
-                  </span>
-                </td>
-                <td className="border-b p-3">
-                  {item.area}
-                  <br />
-                  {item.priceEur == null ? 'Price unknown' : `€${item.priceEur}`}
-                </td>
-                <td className="border-b p-3">
-                  {item.signalTitles.join(', ') || 'No signals yet'}
-                </td>
-                <td className="border-b p-3">{item.ringSize}</td>
-                <td className="border-b p-3">
-                  <div className="flex flex-wrap gap-2">
-                    {(['confirm', 'legit', 'reject'] as const).map((action) => (
-                      <button
-                        key={action}
-                        disabled={busy !== null || !pin}
-                        onClick={() => void moderate(item._id, action)}
-                        className={`rounded px-3 py-2 disabled:opacity-40 ${action === 'confirm' ? 'bg-red-800 text-white' : 'border'}`}
-                      >
-                        {action === 'confirm'
-                          ? 'Confirm scam'
-                          : action === 'legit'
-                            ? 'Legit'
-                            : 'Reject'}
-                      </button>
-                    ))}
-                  </div>
-                </td>
-              </tr>
+      <section className="panel" aria-labelledby="queue-title">
+        <div className="section-heading">
+          <h2 id="queue-title">Pending reports</h2>
+          <label>
+            <span className="muted">Moderator PIN </span>
+            <input id="moderator-pin" type="password" inputMode="numeric" autoComplete="off" value={pin} onChange={(event) => setPin(event.target.value)} />
+          </label>
+        </div>
+        {notice && <p className={notice.error ? 'notice error' : 'notice'} role="status">{notice.text}</p>}
+        {reports === null ? (
+          <p className="muted">Loading the queue…</p>
+        ) : reports.length === 0 ? (
+          <div className="empty-state"><span>✓</span><p>No reports are waiting for review.</p></div>
+        ) : (
+          <ul className="report-list">
+            {reports.map((report) => (
+              <li key={report._id}>
+                <div className="listing-meta">
+                  <Link href={`/report/${report._id}`}>{report.area}</Link>
+                  <span>{report.priceEur === null ? 'No price' : `€${report.priceEur.toLocaleString('en-IE')} / month`}</span>
+                  <span>{report.verdict ? `${report.verdict.level} · ${report.verdict.score}` : 'No verdict yet'}</span>
+                  {report.seed && <span className="chip">Demo data</span>}
+                </div>
+                <p className="muted">{report.text.length > 180 ? `${report.text.slice(0, 180)}…` : report.text}</p>
+                <div className="submit-row">
+                  {ACTIONS.map(({ action, label, style }) => (
+                    <button key={action} type="button" className={style} disabled={busy !== null || !pin} onClick={() => act(report, action)}>{label}</button>
+                  ))}
+                </div>
+              </li>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </ul>
+        )}
+      </section>
     </>
   );
 }

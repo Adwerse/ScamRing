@@ -44,13 +44,15 @@ function band(report: Report): string {
   return BEDROOM_BANDS[report.bedrooms] ?? FOUR_PLUS;
 }
 
-/** Narrowest first: the exact location, its postal district, then its county. */
+/** Narrowest first: the exact location, a location named after it, its postal district, then its county. */
 function scopes(area: string): Scope[] {
   const name = area.trim();
   const district = name.includes(',') ? name.slice(name.lastIndexOf(',') + 1).trim() : name;
   const county = district.replace(/\s+\d+\w?$/, '');
   const candidates: Scope[] = [
     { label: name, location: new RegExp(`^${escape(name)}$`, 'i') },
+    // A bare area name ("Glasnevin") matches its RTB location ("Glasnevin, Dublin 9").
+    { label: name, location: new RegExp(`^${escape(name)},`, 'i') },
     { label: `${district} areas`, location: new RegExp(`, ${escape(district)}$`, 'i') },
     { label: `${county} overall`, location: new RegExp(`^${escape(county)}$`, 'i') },
   ];

@@ -87,14 +87,14 @@ test('same area and a price within 15% is not photo reuse, but still a ring link
   assert.ok(codes(verdict).includes('ring_link'));
 });
 
-test('three reports sharing a phone number: "Part of a cluster of 3 reports", 10 points', async () => {
+test('three reports sharing a phone number: "Part of a cluster of 3 reports", 20 points', async () => {
   const phone = `087 ${100 + (Date.now() % 800)} ${1000 + (Date.now() % 8000)}`;
   await ingest({ text: `Room A, call ${phone}` });
   await ingest({ text: `Room B, call ${phone}` });
   const third = await ingest({ text: `Room C, call ${phone}` });
   const verdict = await computeVerdict(third._id.toString());
   const signal = verdict.signals.find((s) => s.code === 'ring_link');
-  assert.equal(signal?.points, 10);
+  assert.equal(signal?.points, 20);
   assert.equal(signal?.title, 'Part of a cluster of 3 reports');
   assert.equal(signal?.refs.length, 2);
 });

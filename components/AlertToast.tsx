@@ -1,54 +1,41 @@
 'use client';
-
+// Owner: D (built by B)
+// Live alert toasts: listens to /api/stream and shows each alert until dismissed, with a link to
+// the listing it is about. Mounted once in app/layout.tsx.
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { useAlerts } from '@/hooks/useAlerts';
 
-export default function AlertToast() {
-  const { alerts } = useAlerts();
-  const [dismissed, setDismissed] = useState<string | null>(null);
-  const pathname = usePathname();
-  const router = useRouter();
-  const alert = alerts.at(-1);
-  const reportAlert = alerts.findLast((item) => pathname === `/report/${item.reportId}`);
+export function AlertToast() {
+  const { alerts: received } = useAlerts();
+  const [dismissed, setDismissed] = useState<string[]>([]);
+  const alerts = received.filter((alert) => !dismissed.includes(alert._id)).toReversed();
+  const dismiss = (id: string) => setDismissed((current) => [...current.slice(-49), id]);
 
-  useEffect(() => {
-    if (!reportAlert) return;
-    const abort = new AbortController();
-    void fetch(`/api/reports/${reportAlert.reportId}`, {
-      cache: 'no-store',
-      signal: abort.signal,
-    })
-      .then(async (response) => {
-        if (!response.ok) return;
-        const report = await response.json();
-        window.dispatchEvent(
-          new CustomEvent('scamring:report-updated', { detail: report }),
-        );
-        router.refresh();
-      })
-      .catch(() => {});
-    return () => abort.abort();
-  }, [reportAlert, router]);
-
-  if (!alert || alert._id === dismissed) return null;
-
+  if (alerts.length === 0) return null;
   return (
-    <aside
-      role="alert"
-      className="fixed bottom-6 right-6 z-50 max-w-sm rounded-xl bg-red-800 p-5 text-white shadow-xl"
-    >
-      <p className="font-bold">A linked scam was confirmed</p>
-      <p className="mt-2">{alert.message}</p>
-      <div className="mt-4 flex gap-4">
-        <Link className="underline" href={`/report/${alert.reportId}`}>
-          View updated report
-        </Link>
-        <button className="underline" onClick={() => setDismissed(alert._id)}>
-          Dismiss
-        </button>
-      </div>
-    </aside>
+    <div className="alert-toasts" role="region" aria-label="Live alerts" aria-live="assertive">
+      {alerts.map((alert) => (
+        <div className="alert-toast" key={alert._id} role="alert">
+          <p className="alert-toast-label">Scam confirmed</p>
+          <p className="alert-toast-message">{alert.message}</p>
+          <div className="alert-toast-actions">
+            <Link href={`/report/${alert.reportId}`} onClick={() => dismiss(alert._id)}>View the listing →</Link>
+            <button type="button" onClick={() => dismiss(alert._id)} aria-label="Dismiss alert">Dismiss</button>
+          </div>
+        </div>
+      ))}
+      <style jsx>{`
+        .alert-toasts { position: fixed; right: 20px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 50; display: grid; gap: 12px; width: min(380px, calc(100vw - 40px)); }
+        .alert-toast { background: var(--surface); border: 1px solid var(--subtle-red-border); border-left: 4px solid var(--risk-high); border-radius: 8px; padding: 16px 18px; box-shadow: 0 8px 24px rgba(0, 30, 43, .16); }
+        .alert-toast-label { margin: 0 0 6px; font-size: 11px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; color: var(--risk-high); }
+        .alert-toast-message { margin: 0 0 12px; font-size: 15px; color: var(--foreground); }
+        .alert-toast-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px; }
+        .alert-toast-actions button { background: none; border: 0; color: var(--muted); font: inherit; cursor: pointer; padding: 4px; }
+        .alert-toast-actions button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+        @media (prefers-reduced-motion: no-preference) { .alert-toast { animation: alert-in .25s ease-out; } }
+        @keyframes alert-in { from { transform: translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
+      `}</style>
+    </div>
   );
 }

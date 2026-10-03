@@ -44,7 +44,7 @@ export function useAlerts() {
             cache: 'no-store',
           });
           if (!response.ok) throw new Error('Alerts unavailable');
-          const items: LiveAlert[] = await response.json();
+          const { alerts: items }: { alerts: LiveAlert[] } = await response.json();
           if (stopped) return;
           items.forEach(accept);
           const last = items.at(-1);
@@ -79,6 +79,9 @@ export function useAlerts() {
         if (!stopped) setConnection('reconnecting');
       });
     };
+    source.addEventListener('ready', () => {
+      void catchUp().catch(() => { if (!stopped) setConnection('reconnecting'); });
+    });
     source.addEventListener('alert', (event) => {
       errors = 0;
       try {

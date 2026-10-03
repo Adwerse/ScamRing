@@ -21,7 +21,7 @@ The description describes implemented prototype capabilities. Complete the integ
 ## Before submission
 
 - [ ] Fill in the team names and video link here and in the slides.
-- [ ] C mounts AlertToast in the layout and connects the active verdict to alert updates.
+- [x] AlertToast is mounted in the layout and report state refreshes on matching alerts.
 - [ ] A verifies the shared vector indexes are queryable.
 - [ ] B prepares and imports the shared seed with the shared identifier secret and photo files.
 - [ ] D runs calibration: every ring at least MEDIUM, unconfirmed ring B MEDIUM, at least 95% of legitimate seed listings LOW.
