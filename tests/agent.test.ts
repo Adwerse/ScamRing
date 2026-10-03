@@ -80,7 +80,7 @@ test('confirm_scam is blocked when the status is not pending', () => {
   assert.match(e.reasons.confirm_scam[0], /not pending/);
 });
 
-test('confirm_scam needs one area at least twice over, and 2 signal types or photo_reuse', () => {
+test('confirm_scam needs at least 2 distinct areas, and 2 signal types or photo_reuse', () => {
   assert.equal(evaluate(ring(6, ['pay:p1'], ['Dublin 8'])).eligible.confirm_scam, false);
   const one = ring(6, ['pay:p1']);
   assert.equal(evaluateReport({ ...one.report, verdict: { score: 30, signals: signals('ring_link') } }, { members: one.members }).eligible.confirm_scam, false);

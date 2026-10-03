@@ -1,5 +1,7 @@
 # Lane C implementation and remaining integration
 
+> Historical hand-off note: it describes lane C's state when the frontend was handed over. Since then the toast has been mounted and listens to server-sent events, the check endpoint is fully implemented, and all seed photos are committed. FRONTEND_SPEC.md was never committed. For the current state, see README.md and CONTRACT.md.
+
 The latest team split overrides FRONTEND_SPEC.md: work on main, use A's frozen
 fixtures, and C owns the proof endpoint and page. No shared backend files,
 dependencies, contracts, D's toast, moderation or live pages were edited.

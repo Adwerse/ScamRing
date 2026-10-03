@@ -2,7 +2,7 @@
 
 ## Description (120 words)
 
-ScamRing helps students assess suspicious rental listings before paying a deposit. Users paste a listing or upload photos and receive an explained risk verdict. MongoDB links reports through hashed contact identifiers, reused photos and similar descriptions. Five signals combine those connections with known scam scripts and Irish rent references. Moderators record decisions and audit events in one transaction. A worker watches confirmations, recomputes linked verdicts and creates session alerts. Server-sent events deliver these session alerts, with polling as a fallback. The prototype uses MongoDB Atlas, Next.js and synthetic demo listings. Contact details are redacted and pending reports expire. We aim to help students recognise repeated scam activity and give student union moderators evidence they can review before a student pays.
+ScamRing helps students assess suspicious rental listings before paying a deposit. Users paste a listing or upload photos and receive an explained risk verdict. MongoDB links reports through hashed contact identifiers and reused photos. Five signals combine those connections with copied wording, known scam scripts and Irish rent references. Moderators record decisions and audit events in one transaction. A worker watches confirmations, creates session alerts and then recomputes linked verdicts. Server-sent events deliver these session alerts, with polling as a fallback. The prototype uses MongoDB Atlas, Next.js and synthetic demo listings. Contact details are redacted and pending reports expire. We aim to help students recognise repeated scam activity and give student union moderators evidence they can review before a student pays.
 
 ## Links and team
 

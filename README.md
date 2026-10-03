@@ -26,8 +26,9 @@ A listing may look ordinary on its own. Shared contact identifiers, reused photo
 | Check/report frontend | Form, demo presets, verdict and ring components now present | Current frontend needs the shared-data browser rehearsal |
 | Proof page | Counts, index and query evidence endpoints/components present | Verify against the prepared shared database |
 | Release scripts | Calibration targets and real HTTP smoke checks | Shared calibration and smoke still pending |
+| AI moderator (optional) | `POST /api/moderation/agent` and `scripts/moderator-agent.ts`: a model reads data through the read-only MongoDB MCP server, a rule guardrail checks every decision, and decisions go through the normal moderation route | `tests/agent.test.ts`; needs the TensorX variables below |
 
-The 24 repository tests, build, TypeScript and Lane D lint checks passed in the last verification. The full two-browser MEDIUM-to-HIGH demo is an acceptance gate, not a completed claim.
+The 49 repository tests (`npm test`, 6 files), build, TypeScript and lint passed in the last verification. The full two-browser MEDIUM-to-HIGH demo is an acceptance gate, not a completed claim.
 
 ## App screenshots
 
@@ -47,7 +48,7 @@ The table reflects the current source, which differs from the initial prompt's f
 | `photo_reuse` | 35 | A photo cluster appears in another listing with a different area or materially different price |
 | `text_clone` | 20; 25 when a matching report is confirmed | At least 60% overlap of unique 3-word phrases in the shorter text; both texts need at least 10 phrases |
 | `script_match` | 10; 20 for a strong match | Vector thresholds 0.88/0.93, or a keyword fallback using paraphrased scam patterns |
-| `price_low` | 15; 25 below half the reference price | At least 35% below the rent reference; current room reference is 55% of the relevant RTB average |
+| `price_low` | 15; 25 below half the reference price | At least 35% below the rent reference; a room is compared with 55% of the RTB one-bed average for its area |
 
 Signal constants belong to A/B. `scripts/calibrate.ts` reads stored verdicts and prints exported thresholds, signal counts and the seed-ring versus risk-level table without recomputing verdicts or changing those constants. Missing groups or verdicts fail calibration. Targets: every ring listing at least MEDIUM, at least 95% of legitimate seed listings LOW.
 
@@ -119,8 +120,12 @@ Edit `.env` privately:
 | `DEMO` | `1` enables the frontend demo presets |
 | `ANTHROPIC_API_KEY` | Optional summary only; the app works without it |
 | `ANTHROPIC_MODEL` | Optional summary model, with the template's default |
+| `TENSORX_API_KEY`, `TENSORX_BASE_URL`, `TENSORX_MODEL` | Optional: the AI moderator's model; without them it uses its rule-based fallback |
+| `MDB_MCP_CONNECTION_STRING` | Optional: read-only connection string for the AI moderator's MongoDB MCP server |
+| `APP_BASE_URL` | Optional: where the AI moderator sends moderation calls; defaults to the request's origin, or `http://localhost:3000` from the CLI |
+| `BASE_URL` | `scripts/smoke.ts` target; defaults to `http://localhost:3000` |
 
-Use consistent values in `.env.local` and `.env`. Scripts prefer `.env.local` and fall back to `.env`; the commands below explicitly preload `.env` using Node. Existing process variables, including a `DB_NAME=...` override, take precedence. Remove or reconcile a stale `.env.local` locally because Next.js can load it ahead of `.env`. Keep secrets out of both commits and chat. Ignoring a file does not untrack a previously committed file.
+Use consistent values in `.env.local` and `.env`. Most scripts and the tests read `.env.local` only; the worker, `calibrate.ts` and `smoke.ts` also fall back to `.env`. The commands below explicitly preload `.env` using Node. Existing process variables, including a `DB_NAME=...` override, take precedence. Remove or reconcile a stale `.env.local` locally because Next.js can load it ahead of `.env`. Keep secrets out of both commits and chat. Ignoring a file does not untrack a previously committed file.
 
 ### Prepare a personal sandbox
 
@@ -137,7 +142,7 @@ DB_NAME=scamring_d node --env-file=.env --import tsx scripts/import-seed.ts
 DB_NAME=scamring_d npm run dev:all
 ```
 
-The photo preparation command downloads missing source photos, preserves valid ones and creates the transformed demo image. Shared vector indexes have priority on the free Atlas cluster; ask A before creating additional sandbox search indexes. Full clone similarity and score calibration require queryable vector indexes. Script matching has a keyword fallback if vector search is unavailable. For a sandbox import without computing every verdict, append `--no-verdicts`; those verdicts then still need computation before a scored demo.
+The photo preparation command downloads missing source photos, preserves valid ones and creates the transformed demo image. Shared vector indexes have priority on the free Atlas cluster; ask A before creating additional sandbox search indexes. Text-clone detection needs no vector index. Script matching uses vector search where the index exists and falls back to keywords otherwise. For an import without computing every verdict, append `--no-verdicts`; before a scored demo, rerun the import without it (it resets and re-imports).
 
 Open http://localhost:3000 for checks, `/report/<id>` for a report and its ring, `/moderate` for decisions, `/live` for the feed and `/under-the-hood` for database evidence. Enter the configured PIN in `/moderate`.
 
@@ -155,7 +160,7 @@ DB_NAME=scamring node --env-file=.env --import tsx scripts/gen-seed.ts
 DB_NAME=scamring node --env-file=.env --import tsx scripts/import-seed.ts --shared
 ```
 
-Wait for the vector indexes and seed queries to be ready. If the Atlas embedding rate limit prevents full import scoring, B can use `--no-verdicts`, then arrange paced verdict computation with A/D before running read-only calibration. Reseed after smoke and rehearsals, before the final demo.
+Wait for the vector indexes and seed queries to be ready. If the Atlas embedding rate limit prevents full import scoring, B can use `--no-verdicts`, then rerun the import without it once the limit clears (it paces verdicts on the shared database) before running read-only calibration. Reseed after smoke and rehearsals, before the final demo.
 
 ## Checks and demo acceptance
 
@@ -176,13 +181,13 @@ Smoke creates checks/reports and confirms a linked ring B report. It expects MED
 
 The named `AlertToast` export is mounted once in the layout. Report state refreshes on matching `scamring:alert` events, with periodic polling as a fallback. For browser acceptance, test with two separate sessions: check a ring B listing in one, confirm a linked report in the other, and observe the toast and HIGH verdict within two seconds. Restart the worker and verify offline confirmation recovery without duplicate alerts. If the worker is unreliable, restart the server with `FANOUT_INLINE=1`. After two SSE errors the alert hook falls back to polling every three seconds, so do not describe the fallback as subsecond delivery.
 
-The detailed Lane D integration tests previously used a temporary local harness, not a committed test file. See [SUBMISSION.md](SUBMISSION.md) for remaining gates, and [the four-slide deck](docs/pitch.html) for presentation mode and speaker notes. [PDF slides](docs/ScamRing-pitch.pdf) are the offline backup.
+Moderation is covered by `tests/moderation.test.ts` and alert fan-out by `tests/fanout.test.ts`. See [SUBMISSION.md](SUBMISSION.md) for remaining gates, and [the four-slide deck](docs/pitch.html) for presentation mode and speaker notes. [PDF slides](docs/ScamRing-pitch.pdf) are the offline backup.
 
 ## Demo data
 
 Rents and scam scripts come from real Irish sources. Contact details in the demo data are synthetic, so no real person's phone or email ends up in a scam ring.
 
-![Data flow: each source, what we did to it, where it is stored, and what reads it.](seed/data-sources.png)
+![Data flow: each source, what we did to it, where it is stored, and what reads it.](seed/sources-flow.png)
 
 - **Rents:** the RTB Average Monthly Rent Report, CSO table [RIQ02](https://data.cso.ie/table/RIQ02), loaded live for the latest quarter (2025Q4: 3,199 values across 306 locations), with a 10-area offline backup.
 - **Scam scripts:** 10 tactics paraphrased from An Garda Síochána, the CCPC, Daft.ie, AIB, BPFI FraudSMART and Irish press, with names and numbers removed.
@@ -204,7 +209,7 @@ The 150 legit listings share nothing with anyone, so they never join a ring.
 - Rent references: [CSO table RIQ02](https://data.cso.ie/table/RIQ02), RTB average monthly rents. The loader selects the latest available quarter or uses the documented bundled fallback.
 - Scam scripts: ten paraphrased warnings in [seed/patterns.json](seed/patterns.json), with provenance in [seed/patterns-sources.md](seed/patterns-sources.md).
 - Photos: fixed Unsplash sources and the license link in [public/demo/photo-sources.json](public/demo/photo-sources.json). See the [Unsplash license](https://unsplash.com/license).
-- Listings: deterministic synthetic fixtures, currently 150 legitimate listings and rings of 8, 6 and 5. Contacts use UK drama-range phone numbers, example.com/example.org emails and demo payment handles. They are test data, not allegations about real advertisers.
+- Listings: deterministic synthetic fixtures, currently 150 legitimate listings and rings of 8, 6 and 5. Contacts use Ofcom drama-range phone numbers (07700 900xxx, never assigned), example.com, example.net and example.org emails, and an invented payment handle. They are test data, not allegations about real advertisers.
 
 ## Known limitations and next steps
 

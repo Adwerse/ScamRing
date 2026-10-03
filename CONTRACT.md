@@ -129,7 +129,7 @@ Raw phone numbers, emails, payment handles and IBANs are **never stored**, logge
 | `checks` | `Check`: which session checked which report |
 | `alerts` | `Alert`: live alerts for sessions that checked a linked listing |
 | `moderation_events` | `ModerationEvent`: audit log of moderator actions |
-| `meta` | Key/value bookkeeping (e.g. worker resume tokens, seed version) |
+| `meta` | Key/value bookkeeping: the worker's change-stream resume token and pending delivery |
 
 ### Indexes (created by `npm run setup-db`, idempotent, on the database named by `DB_NAME`)
 
@@ -139,6 +139,7 @@ Raw phone numbers, emails, payment handles and IBANs are **never stored**, logge
 - `alerts`: `{ sessionId: 1, createdAt: -1 }`
 - `rent_baseline`: `{ location: 1, bedrooms: 1, propertyType: 1, quarter: -1 }`
 - `moderation_events`: `{ reportId: 1, at: -1 }`
+- `alerts`: unique `{ sessionId: 1, reportId: 1, triggerReportId: 1 }`, created by `lib/fanout.ts` on the first fan-out (not by setup-db)
 
 Vector search indexes (Automated Embedding, model `voyage-4`) exist **only in the shared database `scamring`**; sandboxes skip them. M0 allows 3 search indexes in total, so these are the only two:
 
@@ -151,7 +152,7 @@ Definitions live in [scripts/setup-db.ts](scripts/setup-db.ts). Query them only 
 
 ## API
 
-All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. `POST /api/check` and `GET /api/reports/[id]` are implemented and match their fixtures. `GET /api/reports/[id]/ring` still returns its fixture. The other routes are stubs returning HTTP 501 `{ "error": "not_implemented", "route": "<METHOD path>" }`.
+All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. Every route below is implemented; responses keep the shapes of the fixtures.
 
 | Route | Purpose |
 | --- | --- |
@@ -159,8 +160,9 @@ All routes run on `runtime = 'nodejs'` with `dynamic = 'force-dynamic'`. `POST /
 | `GET /api/reports/[id]` | The report as in `fixtures/report.json`: no `identifiers` (only `identifierHints`), no `seedRing`/`expiresAt`, with its `verdict`. 404 for an unknown or malformed id |
 | `GET /api/reports/[id]/ring` | Graph (nodes/links) of reports linked to this one via shared identifiers, photo clusters |
 | `GET /api/moderation/queue` | `{ reports }`: up to 50 pending reports for moderators, highest verdict score first, no identifiers |
-| `POST /api/moderation/[id]` | Body `{ action: 'confirm' \| 'reject' \| 'legit', pin, reason? }`. Commits the report status and a `ModerationEvent` together in a transaction; on confirm the worker (or the route, with `FANOUT_INLINE=1`) alerts every session that checked a report in the ring and recomputes the ring's verdicts. 200 `{ reportId, status, alerts? }`, 401 wrong PIN, 503 when `MODERATOR_PIN` is unset |
-| `GET /api/stream` | Server-sent events: an `alert` event (an `Alert`, ids as strings) for each alert created for the current session (`sr_sid` cookie) after the stream opened |
+| `POST /api/moderation/[id]` | Body `{ action: 'confirm' \| 'reject' \| 'legit', pin, reason? }`. Commits the report status and a `ModerationEvent` together in a transaction; on confirm the worker (or the route, with `FANOUT_INLINE=1`) alerts every session that checked a report in the ring and then recomputes the ring's verdicts. 200 `{ reportId, status, alerts? }`; 400 malformed id or body; 401 wrong PIN; 404 unknown report; 503 when `MODERATOR_PIN` is unset, the database is unavailable, or inline fan-out fails after the decision was saved (`alertDelivery: 'failed'`) |
+| `GET /api/stream` | Server-sent events for the current session (`sr_sid` cookie; 401 without it): `ready` once the change stream is open, then an `alert` event (an `Alert`) for each new alert. `?feed=live` instead sends a `live` event for every report insert, status change or verdict change |
+| `POST /api/moderation/agent` | AI moderator: header `x-moderator-pin`, body `{ reportId? }` (defaults to the top of the queue). Reviews one pending report and acts through `POST /api/moderation/[id]`. 401 wrong PIN, 400 bad body, 409 while another run is in progress, 503 when moderation is disabled |
 | `GET /api/alerts` | `{ alerts }`: the current session's alerts, newest first, at most 50. With `since=<ISO timestamp>` and optional `after=<alert ObjectId>`, returns up to 100 in ascending timestamp/id order for catch-up; clients paginate until fewer than 100 are returned |
 | `GET /api/photos/[id]`, `GET /api/photos/[id]/thumb` | The photo's JPEG from `photos_blob` (both paths serve the same image) |
 | `GET /api/under-the-hood` | Debug/explain data: counts, indexes and pipelines used by the checker |
@@ -187,6 +189,9 @@ Middleware sets cookie `sr_sid` (uuid v4, path `/`, 30 days, `SameSite=Lax`) whe
 | `ring_link` | 45 | Another ring member is `confirmed_scam`. Title "Linked to a confirmed scam"; `refs` are the confirmed members |
 | `ring_link` | 20 | No confirmed member, but 2+ other members. Title "Part of a cluster of N reports" (N includes this report); `refs` are the other members |
 | `photo_reuse` | 35 | An `img:` identifier is shared with a non-rejected report in a different area, or at a price more than 15% different (`|a-b| / max(a,b)`, `PRICE_DIFF` in the file) |
+| `text_clone` | 20 / 25 | At least 60% of the listing's 3-word phrases also appear in a pending or confirmed report; 25 if one is confirmed. No embeddings |
+| `script_match` | 10 / 20 | Closest known scam script by vector search (score 0.88+, 20 from 0.93), or 2+ of a pattern's keywords (20 from 4) when vector search is unavailable |
+| `price_low` | 15 / 25 | Price at least 35% below the RTB average for the area and bedrooms (rooms: 55% of the one-bed average); 25 when more than 50% below |
 
 Constants live at the top of each signal file.
 
@@ -267,7 +272,7 @@ Behaviour worth knowing:
 
 ### Rule
 
-Changing a signature or a fixture shape needs an announcement in chat. A updates CONTRACT.md and the stub in the same commit.
+Changing a signature or a fixture shape needs an announcement in chat, and CONTRACT.md is updated in the same commit.
 
 ## Environment
 
