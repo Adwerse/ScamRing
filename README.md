@@ -76,6 +76,16 @@ flowchart LR
 | Unique compound index | Deduplicate delivery across retries and concurrent inline/worker processing | `lib/fanout.ts`, alerts keyed by session/report/trigger |
 | TTL index | Expire non-seed pending reports after 30 days | `scripts/setup-db.ts`, `reports.expiresAt` |
 
+### In the Atlas console
+
+| The cluster: M0 free tier, Ireland, two search indexes | Vector indexes with Automated Embedding, both queryable |
+| --- | --- |
+| ![The ScamRing cluster in MongoDB Atlas: M0 free tier, AWS Ireland, replica set with 3 nodes, 2 search indexes.](docs/screenshots/atlas-cluster.png) | ![Search and Vector Search: reports_text_vec over 171 reports and patterns_vec over 10 scam patterns, both READY and queryable; 2 of the 3 indexes M0 allows.](docs/screenshots/atlas-vector-search.png) |
+
+| A report as stored: contacts only as hashes | Indexes on reports, with `identifiers_1` used by every ring lookup |
+| --- | --- |
+| ![A report in Data Explorer: identifiers stored as email and phone HMAC hashes plus a photo cluster id, never the raw values.](docs/screenshots/atlas-report-document.png) | ![Indexes on the reports collection: identifiers_1 used 883 times, compound indexes and the expiresAt TTL index, all READY.](docs/screenshots/atlas-indexes.png) |
+
 The initial plan proposed `$median` for room prices. The current price signal uses RTB averages with a room factor instead, so this README does not claim a median-based signal. Traversal starts with the first matching reports, so `maxDepth: 2` can expose up to three report hops; see CONTRACT.md.
 
 ## Privacy and limits
