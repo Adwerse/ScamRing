@@ -18,8 +18,8 @@ const RENTS_COLLECTION = 'rent_baseline';
 const PATTERNS_FILE = 'seed/patterns.json';
 const RANDOM_SEED = 20261003;
 const LEGIT_COUNT = 150;
-/** Hops getRing follows (fixtures/ring.json: maxHops 2); the ring checks use the same depth. */
-export const MAX_HOPS = 2;
+/** Hops getRing reaches ($graphLookup maxDepth 2 plus the first hop, see CONTRACT.md); the ring checks use the same depth. */
+export const MAX_HOPS = 3;
 const ALL_TYPES = 'All property types';
 const BEDROOM_BANDS: Record<number, string> = { 1: 'One bed', 2: 'Two bed', 3: 'Three bed' };
 /** A room in a shared house rents for roughly this share of a one-bed; priceLow uses the same factor. */
